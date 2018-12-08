@@ -20,6 +20,8 @@
               <label for="exampleInputEmail1">Latitude:</label>
               <input class="form-control" placeholder="4879090877" name="latitude" type="number" required>
             </div>
+          <!--  <input type="time" id="appt" name="appt"
+            min="9:00" max="18:00" required>-->
             <div class="form-group">
               <label for="exampleSelect1">Categoria</label>
               <select name="categoria" class="form-control" id="exampleSelect1" required>
@@ -30,6 +32,26 @@
                 <option value="Fast-Food">Fast-Food</option>
               </select>
             </div>
+            <div class="form-inline">
+              <div class="form-group">
+                <label for="email">Abertura:</label>
+                <input type="time" class="form-control" id="email">
+              </div>
+
+              <div class="form-group">
+                <label for="pwd">Fecho:</label>
+                <input type="time" class="form-control" id="pwd">
+              </div>
+
+            </div>
+            <br>
+            <div class="form-group">
+                <div class="input-group-prepend">
+              <input type="checkbox" aria-label="Checkbox for following text input">
+              <input value="Monday" class="form-control" aria-label="Text input with checkbox" disabled>
+              </div>
+            </div>
+
             <div class="form-group"> <label for="exampleTextarea">Descrição</label>
             <textarea class="form-control" name="descricao" rows="3" required></textarea>
             </div>

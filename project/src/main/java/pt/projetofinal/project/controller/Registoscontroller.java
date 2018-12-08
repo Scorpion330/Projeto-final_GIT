@@ -52,7 +52,7 @@ public class Registoscontroller {
 		String imagem,
 		categor;
 		
-		//Funcoes.sendEmailReset("hencarnacao@sapo.pt"); // email do objeto
+		//Funcoes.sendEmailReset("tiago.quaresma.t0101129@edu.atec.pt"); // email do objeto
 		System.out.println(String.valueOf(files.length)+"   "+files[0].getSize());
 		if(files[0].getSize()>0) {
 		StringBuilder fileNames = new StringBuilder();

@@ -18,7 +18,7 @@ try {
 						
 	email.setFrom("findelechef@gmail.com");
 	email.setSubject("Confirmação da alteração da passsword");
-	email.setMsg("mensagens");
+	email.setMsg("Quaresma és burro !");
 	email.addTo(usermail);
 	email.send();
 					
