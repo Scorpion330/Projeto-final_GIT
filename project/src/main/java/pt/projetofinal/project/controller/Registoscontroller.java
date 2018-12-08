@@ -1,5 +1,9 @@
 package pt.projetofinal.project.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
@@ -9,12 +13,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import pt.projetofinal.project.model.Login;
+import pt.projetofinal.project.model.Restaurante;
 import pt.projetofinal.project.service.Loginrepository;
 
 @Controller
 public class Registoscontroller {
+	
+	public static String uploadDirectory = System.getProperty("user.dir")+"/src/main/resources/static/uploads";
 	
 	@Autowired
 	Loginrepository service;
@@ -34,17 +43,38 @@ public class Registoscontroller {
 	}
 	
 	@PostMapping("/registar")
-	public String add(Login ll,HttpSession request) { //receber o modelo inteiro
+	public String add(Login ll,HttpSession request,@RequestParam(value="files",defaultValue="null") MultipartFile[] files) { //receber o modelo inteiro
 		
 		Login l = (Login)request.getAttribute("user"); 
 		
 		if(l==null) {return "redirect:/login";}
-		Funcoes.sendEmailReset("pedroalex.vicente52@gmail.com"); // email do objeto
-		service.save(ll);
 		
+		String imagem,
+		categor;
+		
+		//Funcoes.sendEmailReset("hencarnacao@sapo.pt"); // email do objeto
+		System.out.println(String.valueOf(files.length)+"   "+files[0].getSize());
+		if(files[0].getSize()>0) {
+		StringBuilder fileNames = new StringBuilder();
+		for(MultipartFile file : files) {
+			Path fileNameAndPath = Paths.get(uploadDirectory,file.getOriginalFilename());
+			fileNames.append(file.getOriginalFilename()+" ");
+			try {
+				Files.write(fileNameAndPath,file.getBytes());
+			}catch (IOException e) {
+				e.printStackTrace();
+			}			
+		}
+		
+		imagem="/uploads/"+fileNames; //para o adicionar normal
+		ll.setFoto(imagem);
+
+		service.save(ll);
+	}
 		if(ll.getTipo().equals("1")) {
 			return "redirect:/painel?fragment=painel_admin";
 		}
+	
 	
 		return "redirect:/painel?fragment=painel_admin";
 	}
@@ -58,7 +88,7 @@ public class Registoscontroller {
 		if(l==null) {return "redirect:/login";}
 		
 		
-		
+		System.out.println(l.getFoto());
 		m.addAttribute("utilizadores",service.findAll());
 		
 		m.addAttribute("fragment",fragment);

@@ -9,7 +9,7 @@ public static String sendEmailReset(String usermail) {
 		
 	
 	Email email = new SimpleEmail();
-	email.setHostName("smtp.googlemail.com");
+	email.setHostName("smtp.gmail.com");
 	email.setSmtpPort(465);
 	email.setAuthentication("findelechef@gmail.com", "tpsi1117b");
 	email.setSSL(true);

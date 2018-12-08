@@ -156,7 +156,7 @@ public class Restaurantecontroller {
 	}
 
 	@GetMapping("/listagem")
-	public String lista_rest(Model m,Restaurante r, String fragment,String categoria,HttpSession request) {
+	public String lista_rest(Model m,Restaurante r, String fragment,HttpSession request) {
 		
 		
 		Login l = (Login)request.getAttribute("user"); //o objeto vai ser igual aos atributos do user que vem do httpsession request (chamar)
@@ -165,7 +165,7 @@ public class Restaurantecontroller {
 		
 		double val = 0.0;
 		
-		Restaurante estrela = new Restaurante();
+		//Restaurante estrela = new Restaurante();
 		
 		ArrayList<Restaurante> arrestaurante = new ArrayList<>();
 		for(Restaurante rr: service.findAll()) {
@@ -185,31 +185,12 @@ public class Restaurantecontroller {
 
 		}
 		
+		
+	
 		m.addAttribute("restaurantes",service.findAll());
 		
 		m.addAttribute("fragment",fragment);
-		
-		//procurar por categoria(vêm do redirect do /procurar_categoria)
-		ArrayList<Restaurante> arrest = new ArrayList<>();
-		
-		for(Restaurante rr: service.findAll()) {
-			if(rr.getCategoria().compareTo(categoria)!=0) {
-				System.out.println("teste"+arrest);
-				m.addAttribute("restaurantes",arrest);
-			}else if(rr.getCategoria().equals(categoria)){
-				arrest.add(rr);
-				System.out.println("ola");
-				m.addAttribute("restaurantes",arrest);
-			
-			}
-		}
-		
-		
 
-		//request.getAttribute("id");
-		
-		/*String idd = (request.getAttribute("user")).toString();
-		System.out.println("Me id: "+idd);*/
 		
 		return "main.html";
 	}
@@ -287,7 +268,7 @@ public class Restaurantecontroller {
 		
 		//M.ADDATTRIBUTE NAO FUNCIONA COM O REDIRECT (PERDE OS VALORES PELO CAMINHO)
 		
-		return "redirect:/listagem?fragment=listar_rest&categoria="+categoria;
+		return "redirect:/filtra_categor?fragment=listar_rest&categoria="+categoria;
 	}
 	
 	//procurar por nome de restaurante
@@ -311,6 +292,37 @@ public class Restaurantecontroller {
 		}
 		//return "redirect:/listagem_utilizadores?fragment=listagem_users&search="+search;
 	
+		return "main.html";
+	}
+	
+	@GetMapping("/filtra_categor")
+	public String filta(Model m,String categoria,String fragment,HttpSession request) {
+		
+		Login l = (Login)request.getAttribute("user"); 
+		
+		if(l==null) {return "redirect:/login";}
+		
+		String todos = "Todos Restaurantes";
+		
+		//procurar por categoria(vêm do redirect do /procurar_categoria)
+		ArrayList<Restaurante> arrest = new ArrayList<>();
+		
+		for(Restaurante rr: service.findAll()) {
+			if(rr.getCategoria().compareTo(categoria)!=0) {
+				m.addAttribute("restaurantes",arrest);
+			}else if(rr.getCategoria().equals(categoria)){
+				arrest.add(rr);
+				m.addAttribute("restaurantes",arrest);
+			
+			}
+			
+			if(categoria.equals(todos)){
+				m.addAttribute("restaurantes",service.findAll());
+			}
+		}
+		
+		m.addAttribute("fragment",fragment);
+		
 		return "main.html";
 	}
 	

@@ -15,6 +15,6 @@ public class ProjectApplication {
 	public static void main(String[] args) {
 		new File(Restaurantecontroller.uploadDirectory).mkdir();
 		SpringApplication.run(ProjectApplication.class, args);
-		System.out.println("Servidor on TESTE GIT !");
+		System.out.println("Servidor on !");
 	}
 }

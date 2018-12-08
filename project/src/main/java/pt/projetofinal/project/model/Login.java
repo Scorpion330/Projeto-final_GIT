@@ -12,16 +12,16 @@ public class Login {
 	
 	String username,
 	password,nome,contacto, email,
-	id_restaurante,tipo;
+	id_restaurante,tipo,foto;
 
 	ArrayList<String> arrestaurante = new ArrayList<>(); //guardar os restaurentes que uma pessoa já deu rating(para nao voltar a votar no mesmo)
-	
+
 	public Login() {
 		super();
 	}
 
 	public Login(String id, String username, String password, String nome, String contacto, String email,
-			String id_restaurante, String tipo, ArrayList<String> arrestaurante) {
+			String id_restaurante, String tipo, String foto, ArrayList<String> arrestaurante) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -31,6 +31,7 @@ public class Login {
 		this.email = email;
 		this.id_restaurante = id_restaurante;
 		this.tipo = tipo;
+		this.foto = foto;
 		this.arrestaurante = arrestaurante;
 	}
 
@@ -98,6 +99,14 @@ public class Login {
 		this.tipo = tipo;
 	}
 
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+
 	public ArrayList<String> getArrestaurante() {
 		return arrestaurante;
 	}
@@ -105,6 +114,5 @@ public class Login {
 	public void setArrestaurante(ArrayList<String> arrestaurante) {
 		this.arrestaurante = arrestaurante;
 	}
-
 	
 }
