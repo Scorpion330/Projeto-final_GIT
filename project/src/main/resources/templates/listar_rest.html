@@ -1,0 +1,145 @@
+<div th:fragment="listar_rest_frag">
+
+  <div class="section__content section__content--p30">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="table-responsive table--no-card m-b-30">
+            <table
+              class="table table-borderless table-striped table-earning">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Longitude</th>
+                  <th>Latitude</th>
+                  <th>Categoria</th>
+                  <th>Descrição</th>
+                  <th>Rating</th>
+                  <th style="text-align:center;">Ações</th>
+                </tr>
+              </thead>
+              <tbody th:each="parametros : ${restaurantes}">
+                <tr>
+                  <td th:text="${parametros.nome}"></td>
+                  <td th:text="${parametros.longitude}"></td>
+                  <td th:text="${parametros.latitude}"></td>
+                  <td th:text="${parametros.categoria}"></td>
+                  <td th:text="${parametros.descricao}"></td>
+
+                  <td>
+                  <div th:switch="${parametros.rating}">
+                    <p th:case="'1.0'">
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                    </p>
+                    <p th:case="'1.5'">
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star-half-o checked"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                    </p>
+                    <p th:case="'2.0'">
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                    </p>
+                    <p th:case="'2.5'">
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star-half-o checked"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                    </p>
+                    <p th:case="'3.0'">
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                    </p>
+                    <p th:case="'3.5'">
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star-half-o checked"></span>
+                      <span class="fa fa-star"></span>
+                    </p>
+                    <p th:case="'4.0'">
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star"></span>
+                    </p>
+                    <p th:case="'4.5'">
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star-half-o checked"></span>
+                    </p>
+                    <p th:case="'5.0'">
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                    </p>
+                  </div>
+                  </td>
+
+                  <td>
+
+                  <table style="width:80%;">
+                    <tr>
+
+
+                      <td style="width:40%; text-align:center; vertical-align:middle;">
+                      <form action="/editar?fragment=editar_rest" method="post">
+                      <input class="form-control" name="id" type="hidden" th:value="${parametros.id}"> <!-- Mandar o id para o editar -->
+                      <div class="fa-hover col-lg-3 col-md-6">
+                      <button type="submit">
+
+                      <i class="fa fa-pencil" style="font-size:25px;"></i>
+
+                      </button>
+                      </div>
+                      </form>
+
+                      </td>
+
+
+                  <td style="width:40%; text-align:center; vertical-align:middle;">
+                  <form action="/delete_rest" method="get">
+                  <input class="form-control" name="id" type="hidden" th:value="${parametros.id}">
+                    <div class="fa-hover col-lg-3 col-md-6">
+                      <button type="submit">
+
+                    <i class="fa fa-trash-o" style="font-size:25px;"></i>
+
+                    </button>
+                    </div>
+                  </form>
+                </td>
+
+              </tr>
+            </table>
+
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>

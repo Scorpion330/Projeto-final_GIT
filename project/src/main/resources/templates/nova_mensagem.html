@@ -1,0 +1,33 @@
+<div th:fragment="nova_mensagem_frag">
+
+  <div class="section__content section__content--p30">
+    <div class="container-fluid">
+      <div class="card">
+        <div class="card-header">Enviar Mensagem</div>
+
+        <div class="card-body">
+          <form action="/enviar_mensagem" method="post">
+
+            <div class="form-group">
+              <label>Nome:</label>
+              <input class="form-control"  name="nome" type="text" disabled>
+            </div>
+            <div class="form-group">
+              <label>Email:</label>
+
+              <input class="form-control" name="email" type="email" disabled>
+
+            </div>
+            <div class="form-group"> <label>Mensagem</label>
+            <textarea class="form-control" name="mensagem" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,58 @@
+<div th:fragment="editar_rest_frag">
+
+  <div class="section__content section__content--p30">
+    <div class="container-fluid">
+      <div class="card">
+        <div class="card-header">Editar Restaurante</div>
+
+        <div class="card-body">
+          <form th:each="parametros : ${restaurante}" action="/resgistar_restaurante" method="post" enctype="multipart/form-data">
+            <input class="form-control" name="id" type="hidden" th:value="${parametros.id}"> <!-- gravar neste id -->
+            <div class="form-group">
+              <label for="exampleInputEmail1">Nome:</label>
+              <input class="form-control" placeholder="Nome" name="nome" type="text" th:value="${parametros.nome}">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Longitude:</label>
+              <input class="form-control" placeholder="-045677897" name="longitude" type="number" th:value="${parametros.longitude}">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Latitude:</label>
+              <input class="form-control" placeholder="4879090877" name="latitude" type="number" th:value="${parametros.latitude}">
+            </div>
+            <div class="form-group">
+              <label for="exampleSelect1">Categoria</label>
+              <select name="categoria" class="form-control" id="exampleSelect1">
+                <option value="">[[${parametros.categoria}]]</option>
+                <option value="Comida Portuguesa">Comida Portuguesa</option>
+                <option value="Chinês">Chinês</option>
+                <option value="Sushi">Sushi</option>
+                <option value="Fast-Food">Fast-Food</option>
+              </select>
+            </div>
+
+            <div class="form-group"> <label for="exampleTextarea">Descrição</label>
+            <textarea class="form-control" name="descricao" rows="3" th:inline="text">[[${parametros.descricao}]]</textarea>
+            </div>
+
+            <div class="form-group">
+            <label for="exampleTextarea">Foto Atual</label>
+            <img class="form-control" th:src="${parametros.picture}" style="width:250px;">
+            </div>
+
+            <div class="form-group">
+            <label for="exampleInputFile">Alterar Foto...</label>
+            <input class="form-control-file" aria-describedby="fileHelp" type="file" name="files" multiple>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
