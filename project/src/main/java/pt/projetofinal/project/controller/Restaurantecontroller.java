@@ -69,7 +69,7 @@ public class Restaurantecontroller {
 	}*/
 	
 	@PostMapping("/resgistar_restaurante") 
-	public String addrestaurante(Model m, Restaurante r/*, String id,String nome,String longitude, String latitude, String descricao*/,HttpSession request,String categoria,String fragment,@RequestParam(value="files",defaultValue="null") MultipartFile[] files) {
+	public String addrestaurante(Model m, Restaurante r/*, String id,String nome,String longitude, String latitude, String descricao*/,HttpSession request,String categoria,String fragment,String dia_semana,@RequestParam(value="files",defaultValue="null") MultipartFile[] files) {
 		String imagem,
 		categor;
 		
@@ -122,6 +122,9 @@ public class Restaurantecontroller {
 			
 			imagem="/uploads/"+fileNames; //para o adicionar normal
 			r.setPicture(imagem);
+			
+			//r.setArDias_Semana()
+			
 			service.save(r);
 	
 		}else {

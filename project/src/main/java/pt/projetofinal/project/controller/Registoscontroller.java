@@ -70,6 +70,10 @@ public class Registoscontroller {
 		ll.setFoto(imagem);
 
 		service.save(ll);
+	}else {
+		imagem="/uploads/default.png";
+		ll.setFoto(imagem);
+		service.save(ll);
 	}
 		if(ll.getTipo().equals("1")) {
 			return "redirect:/painel?fragment=painel_admin";
