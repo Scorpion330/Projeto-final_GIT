@@ -191,7 +191,7 @@
                         </li>
 
                         <li>
-                            <a href="/nova_mensagem?fragment=mensagens">
+                            <a href="/caixa_entrada?fragment=lista_mensagens">
                                 <i class="far fa-check-square"></i>Caixa de Entrada</a>
                         </li>
 
@@ -324,8 +324,27 @@
                                             </div>
                                             <div class="account-dropdown__body">
                                                 <div class="account-dropdown__item">
-                                                    <a href="#">
-                                                        <i class="zmdi zmdi-account"></i>Account</a>
+
+                                                   <a th:href="@{/minha_conta?fragment=conta&id={type}(type=${session.user.id})}">
+
+                                                      <i class="zmdi zmdi-account" ></i>Minha Conta
+                                                  </a>
+
+
+                                                  <!--  <form action="/minha_conta?fragment=conta" method="post">
+                                                    <input class="form-control" name="id" type="hidden" th:value="${session.user.id}">
+                                                      <div class="fa-hover col-lg-3 col-md-6">
+                                                        <button type="submit">
+                                                          http://localhost:8080/minha_conta?id=session.user.id
+                                                          <a href="#">
+
+                                                              <i class="zmdi zmdi-account"></i>Minha Conta
+                                                          </a>
+
+                                                      </button>
+                                                      </div>
+                                                    </form> -->
+
                                                 </div>
                                                 <div class="account-dropdown__item">
                                                     <a href="#">
@@ -382,6 +401,14 @@
 
                 <div th:case="mensagens">
                   <span th:include="nova_mensagem::nova_mensagem_frag"> </span>
+                </div>
+
+                <div th:case="lista_mensagens">
+                  <span th:include="listar_mensagens::listar_mens_frag"> </span>
+                </div>
+
+                <div th:case="conta">
+                  <span th:include="editar_conta::editar_conta_frag"> </span>
                 </div>
 
               </div>

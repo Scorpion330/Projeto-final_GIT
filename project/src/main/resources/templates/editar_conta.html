@@ -1,13 +1,14 @@
-<div th:fragment="editar_utilizadores_frag">
+<div th:fragment="editar_conta_frag">
 
   <div class="section__content section__content--p30">
     <div class="container-fluid">
       <div class="card">
-        <div class="card-header">Editar Utilizadores</div>
+        <div class="card-header">Minha Conta</div>
 
         <div class="card-body">
-          <form th:each="parametros : ${utilizador}" action="/registar" method="post">
+          <form th:each="parametros : ${conta}" action="/registar" method="post" enctype="multipart/form-data">
             <input class="form-control" name="id" type="hidden" th:value="${parametros.id}"> <!-- gravar neste id -->
+            <input class="form-control" name="tipo" type="hidden" th:value="${parametros.tipo}">
             <div class="form-group">
               <label>Nome:</label>
               <input class="form-control" placeholder="Nome" name="nome" type="text" th:value="${parametros.nome}">
@@ -24,26 +25,20 @@
               <label>Username:</label>
               <input class="form-control" placeholder="" name="username" type="text" th:value="${parametros.username}">
             </div>
-
             <div class="form-group">
               <label>Password:</label>
               <input class="form-control" placeholder="" name="password" type="text" th:value="${parametros.password}">
             </div>
 
             <div class="form-group">
-              <label>Tipo</label>
-              <select name="categoria" class="form-control">
-                <option value="">[[${parametros.tipo}]]</option>
-                <option value="0">Administrador</option>
-                <option value="1">Dono</option>
-              </select>
+            <label for="exampleTextarea">Foto Atual</label>
+            <img class="form-control" th:src="${parametros.foto}" style="width:250px;">
             </div>
 
             <div class="form-group">
-              <label>ID_restaurante:</label>
-              <input class="form-control" placeholder="" name="id_restaurante" type="number" th:value="${parametros.id_restaurante}">
+            <label for="exampleInputFile">Alterar Foto...</label>
+            <input class="form-control-file" aria-describedby="fileHelp" type="file" name="files" multiple>
             </div>
-
 
             <button type="submit" class="btn btn-primary">Salvar</button>
           </form>

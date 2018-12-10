@@ -14639,3 +14639,9 @@ section {
 .checked {
     color: orange;
 }
+
+@media print {
+  a[href]:after{
+    content: none !important;
+  }
+}

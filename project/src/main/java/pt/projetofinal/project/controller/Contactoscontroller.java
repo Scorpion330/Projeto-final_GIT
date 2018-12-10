@@ -76,10 +76,11 @@ public class Contactoscontroller {
 	}
 	
 	@GetMapping("/caixa_entrada")
-	public String lista_mensagens(Model m) {
+	public String lista_mensagens(Model m,String fragment) {
 		m.addAttribute("mensagem",service.findAll());
+		m.addAttribute("fragment",fragment);
 		
-		return "listar_mensagens.html";
+		return "main.html";
 	}
 
 }

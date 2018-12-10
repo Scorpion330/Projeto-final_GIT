@@ -49,8 +49,7 @@ public class Registoscontroller {
 		
 		if(l==null) {return "redirect:/login";}
 		
-		String imagem,
-		categor;
+		String imagem;
 		
 		//Funcoes.sendEmailReset("tiago.quaresma.t0101129@edu.atec.pt"); // email do objeto
 		System.out.println(String.valueOf(files.length)+"   "+files[0].getSize());
@@ -70,17 +69,31 @@ public class Registoscontroller {
 		ll.setFoto(imagem);
 
 		service.save(ll);
-	}else {
-		imagem="/uploads/default.png";
-		ll.setFoto(imagem);
-		service.save(ll);
-	}
+		
 		if(ll.getTipo().equals("1")) {
+			//System.out.println("OLA SOU UM DONO");
+		return "redirect:/introduzir_restaurante?fragment=introduzir_rest";
+		}else {
 			return "redirect:/painel?fragment=painel_admin";
 		}
-	
-	
-		return "redirect:/painel?fragment=painel_admin";
+		
+	}else { //ENTRA AQUI SE NAO METER FOTO
+		imagem="/uploads/default.png";
+		ll.setFoto(imagem);
+		
+		service.save(ll);
+		
+			if(ll.getTipo().equals("1")) {
+			
+			return "redirect:/introduzir_restaurante?fragment=introduzir_rest";
+			}else {
+			return "redirect:/painel?fragment=painel_admin";
+		}
+	}
+		/*if(ll.getTipo().equals("1")) {
+			return "redirect:/painel?fragment=painel_admin";
+		}*/
+		
 	}
 	
 	
@@ -91,9 +104,15 @@ public class Registoscontroller {
 		
 		if(l==null) {return "redirect:/login";}
 		
+		ArrayList<Login> artipo = new ArrayList<>();
+		//System.out.println(l.getFoto());
+		for(Login ll: service.findAll()) {
+			if(ll.getTipo().compareTo("3")!=0) {
+				artipo.add(ll);
+			}
+		}
 		
-		System.out.println(l.getFoto());
-		m.addAttribute("utilizadores",service.findAll());
+		m.addAttribute("utilizadores",artipo);
 		
 		m.addAttribute("fragment",fragment);
 
@@ -126,7 +145,7 @@ public class Registoscontroller {
 				m.addAttribute("fragment",fragment);
 			}
 		}
-		
+		m.addAttribute("fragment",fragment);
 		
 		return "main.html";
 	}
@@ -162,7 +181,7 @@ public class Registoscontroller {
 			
 			if(ll.getTipo().equals("3")) {
 				usersapp.add(ll);
-				System.out.println("aquiii");
+				//System.out.println("aquiii");
 			}
 		}
 
@@ -187,6 +206,23 @@ public class Registoscontroller {
 				
 			}
 		}
+		
+		return "main.html";
+	}
+	
+	@GetMapping("/minha_conta")
+	public String conta(Login l,Model m,String fragment,String id) {
+		System.out.println("id"+id);
+		for(Login ll: service.findAll()) {
+			if(ll.getId().equals(id)) {
+				//System.out.println("hweeeeeeeeeeeeeeeee");
+				m.addAttribute("conta",ll); 
+				m.addAttribute("fragment",fragment);
+			}
+			
+		}
+		
+		
 		
 		return "main.html";
 	}

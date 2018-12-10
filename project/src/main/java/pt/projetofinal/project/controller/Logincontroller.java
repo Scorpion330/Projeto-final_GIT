@@ -99,7 +99,7 @@ public class Logincontroller {
 			System.out.println("Introuduza dados");
 			//return para site com dados invalidos
 		}
-		return "form.html"; //DAR RETURN PARA ERRO
+		return "error.html"; //DAR RETURN PARA ERRO
 	}
 	
 		//Login u=(Login).session.geta
