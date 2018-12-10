@@ -638,51 +638,40 @@ public class Registoscontroller {
 		String tip;
 		int conte=0;
 		int contu=0;
-		
+	
 		for(Login lo: service.findAll()) {
 			if(lo.getId().equals(id)) {
-				System.out.println("nome desse gajo "+lo.getUsername());
+				//System.out.println("nome desse gajo "+lo.getUsername());
 				
+				if(lo.getEmail().compareTo(email)==0) { //SE O EMAIL AINDA SE MANTIVER (FOR IGUAL)
+					
+					System.out.println("lo username "+lo.getEmail());
+					System.out.println("usernmae que meti "+email);
+					
 					if(lo.getUsername().compareTo(username)==0) {
-						System.out.println("lo username "+lo.getUsername());
-						System.out.println("username "+username);
-						for(Login lu:service.findAll()) {
-							if(lu.getEmail().compareTo(email)==0) {
-								contu=1;
-								System.out.println("Email 2 já existe");
-							}
-								
-						}
-					}else if(lo.getEmail().compareTo(email)==0) {
-						for(Login lu:service.findAll()) {
-							if(lu.getUsername().compareTo(username)==0) {
-								conte=1;
-								System.out.println("usernmae 2 já existe");
-								return "main.html";
-							}else {
-								tip=lo.getTipo();
-								lo.setTipo(tip);
-								service.save(ll);
-							}
-						}
-				
-					}
-					if(contu==1) {
-						return "main.html";
-					}else {
+						System.out.println("OI");
 						tip=lo.getTipo();
 						lo.setTipo(tip);
 						service.save(ll);
+					}else if(lo.getUsername().compareTo(username)!=0) {
+						for(Login lu: service.findAll()) {
+							if(lu.getUsername().compareTo(username)==0) {	
+								contu=1;	
+							}
+						}
 					}
-					if(conte==1) {
-						return "main.html";
-					}else {
-						tip=lo.getTipo();
-						lo.setTipo(tip);
-						service.save(ll);
-					}
-				}
+
 			}
+				if(contu==1) {
+					System.out.println("username ja existe");
+				}else {
+						tip=lo.getTipo();
+						lo.setTipo(tip);
+						service.save(ll);
+				}
+				
+			}
+		}
 
 	
 		m.addAttribute("fragment",fragment);
