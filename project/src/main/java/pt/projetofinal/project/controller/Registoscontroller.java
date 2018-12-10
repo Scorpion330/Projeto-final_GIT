@@ -627,6 +627,69 @@ public class Registoscontroller {
 		return "main.html";
 	}
 
+	//Editar dos users
+	@PostMapping("/editar_uti")
+	public String editar_uti(Model m,Login ll,String fragment,String id,String tipo,String username,String email,HttpSession request) {
+		
+		Login l=(Login)request.getAttribute("user");
+		 
+		if(l==null) {return "redirect:/login";}
+		
+		String tip;
+		int conte=0;
+		int contu=0;
+		
+		for(Login lo: service.findAll()) {
+			if(lo.getId().equals(id)) {
+				System.out.println("nome desse gajo "+lo.getUsername());
+				
+					if(lo.getUsername().compareTo(username)==0) {
+						System.out.println("lo username "+lo.getUsername());
+						System.out.println("username "+username);
+						for(Login lu:service.findAll()) {
+							if(lu.getEmail().compareTo(email)==0) {
+								contu=1;
+								System.out.println("Email 2 já existe");
+							}
+								
+						}
+					}else if(lo.getEmail().compareTo(email)==0) {
+						for(Login lu:service.findAll()) {
+							if(lu.getUsername().compareTo(username)==0) {
+								conte=1;
+								System.out.println("usernmae 2 já existe");
+								return "main.html";
+							}else {
+								tip=lo.getTipo();
+								lo.setTipo(tip);
+								service.save(ll);
+							}
+						}
+				
+					}
+					if(contu==1) {
+						return "main.html";
+					}else {
+						tip=lo.getTipo();
+						lo.setTipo(tip);
+						service.save(ll);
+					}
+					if(conte==1) {
+						return "main.html";
+					}else {
+						tip=lo.getTipo();
+						lo.setTipo(tip);
+						service.save(ll);
+					}
+				}
+			}
 
+	
+		m.addAttribute("fragment",fragment);
+		
+		
+		
+		return "main.html";
+	}
 
 }

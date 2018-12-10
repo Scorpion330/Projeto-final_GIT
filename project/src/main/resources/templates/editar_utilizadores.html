@@ -6,11 +6,11 @@
         <div class="card-header">Editar Utilizadores</div>
 
         <div class="card-body">
-          <form th:each="parametros : ${utilizador}" action="/registar" method="post">
+          <form th:each="parametros : ${utilizador}" action="/editar_uti?fragment=painel_admin" method="post">
             <input class="form-control" name="id" type="hidden" th:value="${parametros.id}"> <!-- gravar neste id -->
             <div class="form-group">
               <label>Nome:</label>
-              <input class="form-control" placeholder="Nome" name="nome" type="text" th:value="${parametros.nome}">
+              <input class="form-control" placeholder="" name="nome" type="text" th:value="${parametros.nome}">
             </div>
             <div class="form-group">
               <label for="exampleInputEmail1">Email:</label>
@@ -32,17 +32,17 @@
 
             <div class="form-group">
               <label>Tipo</label>
-              <select name="categoria" class="form-control">
-                <option value="">[[${parametros.tipo}]]</option>
+              <select name="tipo" class="form-control">
+                <option>[[${parametros.tipo}]]</option>
                 <option value="0">Administrador</option>
                 <option value="1">Dono</option>
               </select>
             </div>
 
-            <div class="form-group">
+        <!--    <div class="form-group">
               <label>ID_restaurante:</label>
               <input class="form-control" placeholder="" name="id_restaurante" type="number" th:value="${parametros.id_restaurante}">
-            </div>
+            </div> -->
 
 
             <button type="submit" class="btn btn-primary">Salvar</button>
