@@ -101,8 +101,7 @@ public class Restaurantecontroller {
 				
 				System.out.println(categoria);
 				if(categoria.isEmpty()) {
-					System.out.println(
-							"estou aqui");
+					//System.out.println("estou aqui");
 					categor=rr.getCategoria();
 					r.setCategoria(categor);
 				}
