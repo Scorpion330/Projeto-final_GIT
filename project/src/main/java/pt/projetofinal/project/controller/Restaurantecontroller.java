@@ -69,13 +69,15 @@ public class Restaurantecontroller {
 	}*/
 	
 	@PostMapping("/resgistar_restaurante") 
-	public String addrestaurante(Model m, Restaurante r/*, String id,String nome,String longitude, String latitude, String descricao*/,HttpSession request,String categoria,String fragment,String dia_semana,@RequestParam(value="files",defaultValue="null") MultipartFile[] files) {
+	public String addrestaurante(Model m, Restaurante r/*, String id,String nome,String longitude, String latitude, String descricao*/,HttpSession request,String categoria,String fragment,String dias,@RequestParam(value="files",defaultValue="null") MultipartFile[] files) {
 		String imagem,
 		categor;
 		
 		Login l = (Login)request.getAttribute("user"); //o objeto vai ser igual aos atributos do user que vem do httpsession request (chamar)
 		
 		if(l==null) {return "redirect:/login";}
+		
+		ArrayList<String> dia_sem = new ArrayList<>();
 		
 		m.addAttribute("fragment",fragment);
 		
@@ -122,7 +124,12 @@ public class Restaurantecontroller {
 			imagem="/uploads/"+fileNames; //para o adicionar normal
 			r.setPicture(imagem);
 			
-			//r.setArDias_Semana()
+			
+			
+			
+			//r.setArDias_Semana(Monday);
+			dia_sem.add(dias);
+			r.setArDias_Semana(dia_sem);
 			
 			service.save(r);
 	

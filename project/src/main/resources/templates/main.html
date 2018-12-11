@@ -18,6 +18,7 @@
     <link href="vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">   <!--TRASH-O retirar se der shit ( no delete da lista rest)-->
     <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <!-- Bootstrap CSS-->
     <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
@@ -37,6 +38,19 @@
 </head>
 
 <body class="animsition">
+  <script>
+      $(document).ready(function(){
+        $("#Monday").click(function(){
+          if($("#dia1").val() == "Monday"){
+            $("#dia1").val("0")
+          }else {
+              $("#dia1").val("Monday");
+          }
+            /*alert($("#tipo").val());*/
+            /*console.log();*/
+        });
+      });
+  </script>
     <div class="page-wrapper">
         <!-- HEADER MOBILE-->
         <header class="header-mobile d-block d-lg-none">
