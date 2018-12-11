@@ -57,6 +57,12 @@ public class Logincontroller {
 			System.out.println("Nao introduziu dados");
 			//dar return de pagina de erro
 		}else {
+			for(Login ll: service.findAll()) {
+				if(ll.getUsername().equals(username) || ll.getEmail().equals(email)) {
+					System.out.println("Username ou email já existe");
+				}
+			}
+			
 			service.save(l);
 			m.addAttribute("registo", l);	//usado para listas.
 		}

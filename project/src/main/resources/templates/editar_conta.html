@@ -6,7 +6,7 @@
         <div class="card-header">Minha Conta</div>
 
         <div class="card-body">
-          <form th:each="parametros : ${conta}" action="/registar" method="post" enctype="multipart/form-data">
+          <form th:each="parametros : ${conta}" action="/edit_conta" method="post" enctype="multipart/form-data">
             <input class="form-control" name="id" type="hidden" th:value="${parametros.id}"> <!-- gravar neste id -->
             <input class="form-control" name="tipo" type="hidden" th:value="${parametros.tipo}">
             <div class="form-group">
