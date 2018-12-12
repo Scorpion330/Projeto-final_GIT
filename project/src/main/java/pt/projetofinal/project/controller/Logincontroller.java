@@ -27,6 +27,7 @@ public class Logincontroller {
 	//PÁGINA DE ERRO GERAL PARA TUDO
 	@GetMapping("/error")
 	public String erro() {
+		
 		return "error.html";
 	}
 
