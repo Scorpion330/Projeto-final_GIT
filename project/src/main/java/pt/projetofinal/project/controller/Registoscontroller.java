@@ -356,8 +356,8 @@ public class Registoscontroller {
 									service.save(l);
 									return "redirect:/painel?fragment=painel_admin";
 								}
-								else if (!lo.getUsername().equals(email) && l.getId().compareTo(lo.getId())==0) {
-									
+								else if (!lo.getUsername().equals(username) && l.getId().compareTo(lo.getId())==0) {
+									System.out.println("USERNAME DIF E ID = ID");
 									if(files[0].getSize()>0) {
 										StringBuilder fileNames = new StringBuilder();
 										for(MultipartFile file : files) {
@@ -412,8 +412,8 @@ public class Registoscontroller {
 									service.save(l);
 									return "redirect:/painel?fragment=painel_admin";
 								}
-								else if (!lo.getUsername().equals(username) && l.getId().compareTo(lo.getId())==0) {
-									
+								else if (!lo.getEmail().equals(email) && l.getId().compareTo(lo.getId())==0) {
+									System.out.println("COMPARAR O ID");
 									if(files[0].getSize()>0) {
 										StringBuilder fileNames = new StringBuilder();
 										for(MultipartFile file : files) {
@@ -439,33 +439,68 @@ public class Registoscontroller {
 								}
 							}
 							
-							if(lo.getUsername().compareToIgnoreCase(l.getUsername())!=0 && lo.getEmail().compareTo(l.getEmail())!=0) {
+							if(lo.getUsername().compareToIgnoreCase(username)!=0 && lo.getEmail().compareTo(email)!=0) {
 								
+								int ola=0;
 								System.out.println("lo username dif "+lo.getUsername() + " l user " + l.getUsername());
 								
-								if(files[0].getSize()>0) {
-									StringBuilder fileNames = new StringBuilder();
-									for(MultipartFile file : files) {
-										Path fileNameAndPath = Paths.get(uploadDirectory,file.getOriginalFilename());
-										fileNames.append(file.getOriginalFilename()+" ");
-										try {
-											Files.write(fileNameAndPath,file.getBytes());
-										}catch (IOException e) {
-											e.printStackTrace();
-										}			
+								for(Login novo: service.findAll()) {
+									
+									//System.out.println("novo for");
+									//System.out.println("novo user "+novo.getUsername());
+									
+									
+									if(novo.getUsername().compareToIgnoreCase(username)==0) {
+										System.out.println("novo user bad");
+										ola=1;
+										//return "main.html";
 									}
-									img="/uploads/"+fileNames; 
-									l.setFoto(img);
-									service.save(l);
-									System.out.println("img nova "+img);
-									return "redirect:/painel?fragment=painel_admin";
+									else if(novo.getEmail().compareToIgnoreCase(email)==0) {
+										ola=1;
+										System.out.println("novo email bad");
+										//return "main.html";
+									}
+									
+								
+									
 								}
 								
-								img=lo.getFoto();
-								l.setFoto(img);
+								if(ola==1) {
+									System.out.println("deu merda");
+									ola=0;
+									return "main.html";
+								}
+								else {
+									
+									
+									if(files[0].getSize()>0) {
+										StringBuilder fileNames = new StringBuilder();
+										for(MultipartFile file : files) {
+											Path fileNameAndPath = Paths.get(uploadDirectory,file.getOriginalFilename());
+											fileNames.append(file.getOriginalFilename()+" ");
+											try {
+												Files.write(fileNameAndPath,file.getBytes());
+											}catch (IOException e) {
+												e.printStackTrace();
+											}			
+										}
+										img="/uploads/"+fileNames; 
+										l.setFoto(img);
+										service.save(l);
+										System.out.println("img nova "+img);
+										return "redirect:/painel?fragment=painel_admin";
+									}else {
+										
+										img=lo.getFoto();
+										l.setFoto(img);
 
-								service.save(l);
-								return "redirect:/painel?fragment=painel_admin";
+										service.save(l);
+										return "redirect:/painel?fragment=painel_admin";
+										
+									}
+									
+								}
+							
 							}	
 					}
 				}

@@ -167,7 +167,7 @@
         <!--<span th:include="lateral::slide"> </span>-->
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
-                <a href="#">
+                <a href="http://localhost:8080/inicio?fragment=painel_admin">
                     <img src="images/icon/logo.png" alt="Cool Admin" />
                 </a>
             </div>
@@ -176,8 +176,8 @@
                     <ul class="list-unstyled navbar__list">
                         <li class="active has-sub">
                             <a class="js-arrow" href="#">
-                                <i class="fas fa-tachometer-alt"></i>Restaurante</a>
-                            <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                <i class="fas fa-utensils"></i>Restaurantes</a>
+                                <ul class="list-unstyled navbar__sub-list js-sub-list">
                                 <li>
                                     <a href="/introduzir_restaurante?fragment=introduzir_rest">Introduzir Restaurante</a>
                                 </li>
@@ -188,7 +188,7 @@
                         </li>
                         <li class="active has-sub">
                             <a class="js-arrow" href="#">
-                                <i class="fas fa-tachometer-alt"></i>Gestão de Utilizadores</a>
+                                <i class="fa fa-users"></i>Gestão de Utilizadores</a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
                                 <li>
                                     <a href="/introduzir?fragment=introduzir_user">Introduzir</a>
@@ -201,27 +201,20 @@
 
                         <li>
                             <a href="/lista_users_app?fragment=listagem_users">
-                                <i class="far fa-check-square"></i>Usuários da Aplicação</a>
+                                <i class="fas fa-user"></i>Usuários da Aplicação</a>
+
                         </li>
 
                         <li>
                             <a href="/caixa_entrada?fragment=lista_mensagens">
-                                <i class="far fa-check-square"></i>Caixa de Entrada</a>
+                                <i class="fa fa-envelope"></i>Caixa de Entrada</a>
                         </li>
 
                         <li>
-                            <a href="form.html">
-                                <i class="far fa-check-square"></i>Forms</a>
+                            <a href="/local_rest?fragment=maps"> <!--fazer MAPING -->
+                                <i class="fas fa-map-marker-alt"></i>Localização</a>
                         </li>
-                        <li>
-                            <a href="#">
-                                <i class="fas fa-calendar-alt"></i>Calendar</a>
-                        </li>
-                        <li>
-                            <a href="map.html">
-                                <i class="fas fa-map-marker-alt"></i>Maps</a>
-                        </li>
-                        <li class="has-sub">
+                      <!--  <li class="has-sub">
                             <a class="js-arrow" href="#">
                                 <i class="fas fa-copy"></i>Pages</a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
@@ -235,8 +228,8 @@
                                     <a href="forget-pass.html">Forget Password</a>
                                 </li>
                             </ul>
-                        </li>
-                        <li class="has-sub">
+                        </li> -->
+                        <!-- <li class="has-sub">
                             <a class="js-arrow" href="#">
                                 <i class="fas fa-desktop"></i>UI Elements</a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
@@ -274,7 +267,7 @@
                                     <a href="typo.html">Typography</a>
                                 </li>
                             </ul>
-                        </li>
+                        </li>-->
                     </ul>
                 </nav>
             </div>
@@ -424,6 +417,12 @@
                 <div th:case="conta">
                   <span th:include="editar_conta::editar_conta_frag"> </span>
                 </div>
+
+                <div th:case="maps">
+                  <span th:include="maps::maps_frag"> </span>
+                </div>
+
+
 
               </div>
 

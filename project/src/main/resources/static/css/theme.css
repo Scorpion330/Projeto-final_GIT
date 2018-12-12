@@ -14639,9 +14639,24 @@ section {
 .checked {
     color: orange;
 }
-
-@media print {
-  a[href]:after{
-    content: none !important;
-  }
+/*
+.map {
+  height: 100%
+  width: 100%;
+  border: 3px solid #73AD21;
+  padding: 20%;
+}*/
+.mostra_mapa{
+  width: 90%;
+  margin:auto;
+  text-align: center;
+}
+.mostra_mapa h2{
+/*  color:black;*/
+  margin-bottom: 4%;
+}
+.mostra_mapa iframe{
+  width: 100%;
+  height: auto;
+  min-height: 800px;
 }
