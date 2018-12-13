@@ -14,7 +14,7 @@ public class Restaurante {
 	String nome,longitude,
 	latitude,descricao,
 	categoria,picture,
-	rating,nome_chef,
+	rating,nome_chef,id_dono,
 	horario_abrir,
 	horario_fechar;
 	int rating1 = 0;
@@ -28,12 +28,11 @@ public class Restaurante {
 	public Restaurante() {
 		super();
 	}
-	
 
 	public Restaurante(String id, String nome, String longitude, String latitude, String descricao, String categoria,
-			String picture, String rating, String nome_chef, String horario_abrir, String horario_fechar, int rating1,
-			int rating2, int rating3, int rating4, int rating5, ArrayList<String> arServico,
-			ArrayList<String> arDias_Semana) {
+			String picture, String rating, String nome_chef, String id_dono, String horario_abrir,
+			String horario_fechar, int rating1, int rating2, int rating3, int rating4, int rating5,
+			ArrayList<String> arServico, ArrayList<String> arDias_Semana) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -44,6 +43,7 @@ public class Restaurante {
 		this.picture = picture;
 		this.rating = rating;
 		this.nome_chef = nome_chef;
+		this.id_dono = id_dono;
 		this.horario_abrir = horario_abrir;
 		this.horario_fechar = horario_fechar;
 		this.rating1 = rating1;
@@ -54,8 +54,6 @@ public class Restaurante {
 		this.arServico = arServico;
 		this.arDias_Semana = arDias_Semana;
 	}
-	
-	
 
 	public String getId() {
 		return id;
@@ -129,6 +127,14 @@ public class Restaurante {
 		this.nome_chef = nome_chef;
 	}
 
+	public String getId_dono() {
+		return id_dono;
+	}
+
+	public void setId_dono(String id_dono) {
+		this.id_dono = id_dono;
+	}
+
 	public String getHorario_abrir() {
 		return horario_abrir;
 	}
@@ -199,10 +205,7 @@ public class Restaurante {
 
 	public void setArDias_Semana(ArrayList<String> arDias_Semana) {
 		this.arDias_Semana = arDias_Semana;
+		
 	}
-
 	
-	
-	
-
 }

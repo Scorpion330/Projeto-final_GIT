@@ -27,7 +27,7 @@ public class Logincontroller {
 	//PÁGINA DE ERRO GERAL PARA TUDO
 	@GetMapping("/error")
 	public String erro() {
-		
+						
 		return "error.html";
 	}
 
@@ -141,6 +141,13 @@ public class Logincontroller {
 		session.invalidate();
 		
 		return "redirect:/login";	
+	}
+	
+	@GetMapping("/erro_session")
+	public String session() {
+		
+		
+		return "login.html";
 	}
 	
 	

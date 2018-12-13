@@ -49,6 +49,61 @@
             /*alert($("#tipo").val());*/
             /*console.log();*/
         });
+        $("#Tuesday").click(function(){
+          if($("#dia2").val() == "Tuesday"){
+            $("#dia2").val("0")
+          }else {
+              $("#dia2").val("Tuesday");
+          }
+            /*alert($("#tipo").val());*/
+            /*console.log();*/
+        });
+        $("#Wednesday").click(function(){
+          if($("#dia3").val() == "Wednesday"){
+            $("#dia3").val("0")
+          }else {
+              $("#dia3").val("Wednesday");
+          }
+            /*alert($("#tipo").val());*/
+            /*console.log();*/
+        });
+        $("#Thursday").click(function(){
+          if($("#dia4").val() == "Thursday"){
+            $("#dia4").val("0")
+          }else {
+              $("#dia4").val("Thursday");
+          }
+            /*alert($("#tipo").val());*/
+            /*console.log();*/
+        });
+        $("#Friday").click(function(){
+          if($("#dia5").val() == "Friday"){
+            $("#dia5").val("0")
+          }else {
+              $("#dia5").val("Friday");
+          }
+            /*alert($("#tipo").val());*/
+            /*console.log();*/
+        });
+        $("#Saturday").click(function(){
+          if($("#dia6").val() == "Saturday"){
+            $("#dia6").val("0")
+          }else {
+              $("#dia6").val("Saturday");
+          }
+            /*alert($("#tipo").val());*/
+            /*console.log();*/
+        });
+        $("#Sunday").click(function(){
+          if($("#dia7").val() == "Sunday"){
+            $("#dia7").val("0")
+          }else {
+              $("#dia7").val("Sunday");
+          }
+            /*alert($("#tipo").val());*/
+            /*console.log();*/
+        });
+
       });
   </script>
     <div class="page-wrapper">
@@ -421,7 +476,6 @@
                 <div th:case="maps">
                   <span th:include="maps::maps_frag"> </span>
                 </div>
-
 
 
               </div>

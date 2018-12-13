@@ -9,8 +9,12 @@
           <form action="/resgistar_restaurante" method="post"  enctype="multipart/form-data">
 
             <div class="form-group">
-              <label for="exampleInputEmail1">Nome:</label>
+              <label for="exampleInputEmail1">Nome do restaurante:</label>
               <input class="form-control" placeholder="Nome" name="nome" type="text" required>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email do dono:</label>
+              <input class="form-control" placeholder="Email do dono" name="email_dono" type="email" required>
             </div>
             <div class="form-group">
               <label for="exampleInputEmail1">Longitude:</label>
@@ -20,7 +24,13 @@
               <label for="exampleInputEmail1">Latitude:</label>
               <input class="form-control" placeholder="4879090877" name="latitude" type="number" required>
             </div>
-            <input type="hidden" name="dia1" value="Monday" id="tipo">
+            <input type="hidden" name="dia1" value="0" id="dia1">
+            <input type="hidden" name="dia2" value="0" id="dia2">
+            <input type="hidden" name="dia3" value="0" id="dia3">
+            <input type="hidden" name="dia4" value="0" id="dia4">
+            <input type="hidden" name="dia5" value="0" id="dia5">
+            <input type="hidden" name="dia6" value="0" id="dia6">
+            <input type="hidden" name="dia7" value="0" id="dia7">
           <!--  <input type="time" id="appt" name="appt"
             min="9:00" max="18:00" required>-->
             <div class="form-group">
@@ -56,42 +66,42 @@
 
             <div class="form-group">
               <div class="input-group-prepend">
-                <input type="checkbox" id="Tuesday" aria-label="Checkbox for following text input">
+                <input type="checkbox" id="Tuesday" value="Tuesday" aria-label="Checkbox for following text input">
                 <input value="Tuesday" name="dias" class="form-control" aria-label="Text input with checkbox" disabled>
               </div>
             </div>
 
             <div class="form-group">
               <div class="input-group-prepend">
-                <input type="checkbox" id="Wednesday" aria-label="Checkbox for following text input">
+                <input type="checkbox" id="Wednesday"  value="Wednesday" aria-label="Checkbox for following text input">
                 <input value="Wednesday" name="dias" class="form-control" aria-label="Text input with checkbox" disabled>
               </div>
             </div>
 
             <div class="form-group">
               <div class="input-group-prepend">
-                <input type="checkbox" id="Thursday" aria-label="Checkbox for following text input">
+                <input type="checkbox" id="Thursday" value="Thursday" aria-label="Checkbox for following text input">
                 <input value="Thursday" name="Thursday" class="form-control" aria-label="Text input with checkbox" disabled>
               </div>
             </div>
 
             <div class="form-group">
               <div class="input-group-prepend">
-                <input type="checkbox" id="Friday" aria-label="Checkbox for following text input">
+                <input type="checkbox" id="Friday"  value="Friday" aria-label="Checkbox for following text input">
                 <input value="Friday" name="Friday" class="form-control" aria-label="Text input with checkbox" disabled>
               </div>
             </div>
 
             <div class="form-group">
               <div class="input-group-prepend">
-                <input type="checkbox" id="Saturday" aria-label="Checkbox for following text input">
+                <input type="checkbox" id="Saturday" value="Saturday"  aria-label="Checkbox for following text input">
                 <input value="Saturday" name="Saturday" class="form-control" aria-label="Text input with checkbox" disabled>
               </div>
             </div>
 
             <div class="form-group">
               <div class="input-group-prepend">
-                <input type="checkbox" id="Sunday" aria-label="Checkbox for following text input">
+                <input type="checkbox" id="Sunday" value="Sunday" aria-label="Checkbox for following text input">
                 <input value="Sunday" name="Sunday" class="form-control" aria-label="Text input with checkbox" disabled>
               </div>
             </div>

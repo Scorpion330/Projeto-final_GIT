@@ -6,16 +6,25 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import pt.projetofinal.project.files.FileHandler;
+import pt.projetofinal.project.files.FileHandler.UploadFileResponse;
 import pt.projetofinal.project.model.Login;
 import pt.projetofinal.project.model.Restaurante;
 import pt.projetofinal.project.service.Loginrepository;
@@ -29,6 +38,37 @@ public class Registoscontroller {
 	Loginrepository service;
 	@Autowired
 	Restaurantecontroller rc;
+	
+	
+	@Autowired
+	FileHandler filehandler;
+
+
+@GetMapping("/downloadFile/{fileName:.+}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
+        // Load file as Resource
+        Resource resource = filehandler.getFileByName(fileName);
+        
+        
+
+        // Try to determine file's content type
+        String contentType = null;
+        try {
+            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+        } catch (IOException ex) {
+           // logger.info("Could not determine file type.");
+        }
+
+        // Fallback to the default content type if type could not be determined
+        if(contentType == null) {
+            contentType = "application/octet-stream";
+        }
+
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.ACCEPT, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
+    }
+	
 	
 	
 	@GetMapping("/introduzir")
@@ -46,28 +86,25 @@ public class Registoscontroller {
 	public String add(Login ll,String email,String username,String id,HttpSession request,@RequestParam(value="files",defaultValue="null") MultipartFile[] files) { //receber o modelo inteiro
 		
 		Login l = (Login)request.getAttribute("user"); 
+		UploadFileResponse response = null;
+		
 		
 		if(l==null) {return "redirect:/login";}
+		
+		
 		
 		String imagem;
 		
 		//Funcoes.sendEmailReset("hencarnacao@sapo.pt"); // email do objeto
 		System.out.println(String.valueOf(files.length)+"   "+files[0].getSize());
 		if(files[0].getSize()>0) {
-		StringBuilder fileNames = new StringBuilder();
-		for(MultipartFile file : files) {
-			Path fileNameAndPath = Paths.get(uploadDirectory,file.getOriginalFilename());
-			fileNames.append(file.getOriginalFilename()+" ");
-			try {
-				Files.write(fileNameAndPath,file.getBytes());
-			}catch (IOException e) {
-				e.printStackTrace();
-			}			
-		}
+			
 		
-		imagem="/uploads/"+fileNames; //para o adicionar normal
-		ll.setFoto(imagem);
-		
+			response = filehandler.saveFile(files[0]);
+			
+			//System.out.println("nome da foto "+response.getFileName());
+			ll.setFoto(response.getFileDownloadUri());
+			
 		
 		for(Login ver: service.findAll()) {
 			
@@ -93,6 +130,12 @@ public class Registoscontroller {
 	}else { //ENTRA AQUI SE NAO METER FOTO
 		imagem="/uploads/default.png";
 		ll.setFoto(imagem);
+		
+		
+		
+		//Resource resource = filehandler.getFileByName(response.getFileName());
+		
+		//imagem=response.getFileName();
 		
 		for(Login ver: service.findAll()) {
 			if(ver.getUsername().compareToIgnoreCase(username)==0) {
@@ -255,6 +298,8 @@ public class Registoscontroller {
 		
 		String img;
 		
+		UploadFileResponse response = null;
+		
 		for(Login lo: service.findAll()) {
 			if(lo.getId().equals(id)) {
 				System.out.println("1 if ID");
@@ -264,18 +309,17 @@ public class Registoscontroller {
 					if(lo.getEmail().equals(email)) {
 						
 						if(files[0].getSize()>0) {
-							StringBuilder fileNames = new StringBuilder();
-							for(MultipartFile file : files) {
-								Path fileNameAndPath = Paths.get(uploadDirectory,file.getOriginalFilename());
-								fileNames.append(file.getOriginalFilename()+" ");
-								try {
-									Files.write(fileNameAndPath,file.getBytes());
-								}catch (IOException e) {
-									e.printStackTrace();
-								}			
-							}
-							img="/uploads/"+fileNames; 
+							response = filehandler.saveFile(files[0]);
+							
+							l.setFoto(response.getFileDownloadUri());
+							
+							/*img="/uploads/"+fileNames; 
+							l.setFoto(img);*/
+							
+							img=response.getFileDownloadUri();
 							l.setFoto(img);
+							
+							
 							service.save(l);
 							System.out.println("img nova "+img);
 							return "redirect:/painel?fragment=painel_admin";
@@ -295,18 +339,17 @@ public class Registoscontroller {
 						System.out.println("ola nome igual2");
 						
 						if(files[0].getSize()>0) {
-							StringBuilder fileNames = new StringBuilder();
-							for(MultipartFile file : files) {
-								Path fileNameAndPath = Paths.get(uploadDirectory,file.getOriginalFilename());
-								fileNames.append(file.getOriginalFilename()+" ");
-								try {
-									Files.write(fileNameAndPath,file.getBytes());
-								}catch (IOException e) {
-									e.printStackTrace();
-								}			
-							}
-							img="/uploads/"+fileNames; 
+							
+							response = filehandler.saveFile(files[0]);
+							
+							l.setFoto(response.getFileDownloadUri());
+							
+							/*img="/uploads/"+fileNames; 
+							l.setFoto(img);*/
+							
+							img=response.getFileDownloadUri();
 							l.setFoto(img);
+							
 							service.save(l);
 							System.out.println("img nova "+img);
 							return "redirect:/painel?fragment=painel_admin";
@@ -314,6 +357,7 @@ public class Registoscontroller {
 						
 						img=lo.getFoto();
 						l.setFoto(img);
+						
 						service.save(l);
 						return "redirect:/painel?fragment=painel_admin";
 					}
@@ -333,44 +377,81 @@ public class Registoscontroller {
 									System.out.println("primeiro else");
 									
 									if(files[0].getSize()>0) {
-										StringBuilder fileNames = new StringBuilder();
-										for(MultipartFile file : files) {
-											Path fileNameAndPath = Paths.get(uploadDirectory,file.getOriginalFilename());
-											fileNames.append(file.getOriginalFilename()+" ");
-											try {
-												Files.write(fileNameAndPath,file.getBytes());
-											}catch (IOException e) {
-												e.printStackTrace();
-											}			
-										}
-										img="/uploads/"+fileNames; 
+										
+										response = filehandler.saveFile(files[0]);
+										
+										l.setFoto(response.getFileDownloadUri());
+										
+										img=response.getFileDownloadUri();
 										l.setFoto(img);
+										
 										service.save(l);
 										System.out.println("img nova "+img);
 										return "redirect:/painel?fragment=painel_admin";
 									}
 									
-									
+									System.out.println("foi parar aqui ?");
 									img=lo.getFoto();
 									l.setFoto(img);
 									service.save(l);
 									return "redirect:/painel?fragment=painel_admin";
 								}
+								else if(!lo.getEmail().equals(email)) {
+									System.out.println("heyyyyyyyyyyyyyyyyy");
+									int cont=0;
+									for(Login po: service.findAll()) {
+									
+										if(po.getEmail().equals(email)) {
+											cont=1;
+											
+										}
+									}
+									if(cont==0) {
+										
+										if(files[0].getSize()>0) {
+											
+											response = filehandler.saveFile(files[0]);
+											
+											l.setFoto(response.getFileDownloadUri());
+											
+									
+											
+											service.save(l);
+											//System.out.println("img nova "+img);
+											return "redirect:/painel?fragment=painel_admin";
+										}else {
+	
+											
+											img=lo.getFoto();
+											l.setFoto(img);
+											service.save(l);
+											//System.out.println("img nova "+img);
+											return "redirect:/painel?fragment=painel_admin";
+										}
+										
+								
+										
+									}else if(cont==1){
+										
+										
+										return "main.html";
+									}
+								}
+									
+																
+								
 								else if (!lo.getUsername().equals(username) && l.getId().compareTo(lo.getId())==0) {
 									System.out.println("USERNAME DIF E ID = ID");
 									if(files[0].getSize()>0) {
-										StringBuilder fileNames = new StringBuilder();
-										for(MultipartFile file : files) {
-											Path fileNameAndPath = Paths.get(uploadDirectory,file.getOriginalFilename());
-											fileNames.append(file.getOriginalFilename()+" ");
-											try {
-												Files.write(fileNameAndPath,file.getBytes());
-											}catch (IOException e) {
-												e.printStackTrace();
-											}			
-										}
-										img="/uploads/"+fileNames; 
+										
+										response = filehandler.saveFile(files[0]);
+										
+										l.setFoto(response.getFileDownloadUri());
+										
+										
+										img=response.getFileDownloadUri();
 										l.setFoto(img);
+										
 										service.save(l);
 										System.out.println("img nova "+img);
 										return "redirect:/painel?fragment=painel_admin";
@@ -390,18 +471,14 @@ public class Registoscontroller {
 									
 									
 									if(files[0].getSize()>0) {
-										StringBuilder fileNames = new StringBuilder();
-										for(MultipartFile file : files) {
-											Path fileNameAndPath = Paths.get(uploadDirectory,file.getOriginalFilename());
-											fileNames.append(file.getOriginalFilename()+" ");
-											try {
-												Files.write(fileNameAndPath,file.getBytes());
-											}catch (IOException e) {
-												e.printStackTrace();
-											}			
-										}
-										img="/uploads/"+fileNames; 
+										
+										response = filehandler.saveFile(files[0]);
+										
+										l.setFoto(response.getFileDownloadUri());
+										
+										img=response.getFileDownloadUri();
 										l.setFoto(img);
+										
 										service.save(l);
 										System.out.println("img nova "+img);
 										return "redirect:/painel?fragment=painel_admin";
@@ -411,22 +488,67 @@ public class Registoscontroller {
 									l.setFoto(img);
 									service.save(l);
 									return "redirect:/painel?fragment=painel_admin";
+								}else if(!lo.getUsername().equals(username)) {
+									System.out.println("hey 2");
+									int cont=0;
+									for(Login po: service.findAll()) {
+									
+										if(po.getUsername().equals(username)) {
+											cont=1;
+											
+										}
+									}
+									if(cont==0) {
+										
+										if(files[0].getSize()>0) {
+											
+											response = filehandler.saveFile(files[0]);
+											
+											l.setFoto(response.getFileDownloadUri());
+											
+									
+											
+											service.save(l);
+											//System.out.println("img nova "+img);
+											return "redirect:/painel?fragment=painel_admin";
+										}else {
+	
+											
+											img=lo.getFoto();
+											l.setFoto(img);
+											service.save(l);
+											//System.out.println("img nova "+img);
+											return "redirect:/painel?fragment=painel_admin";
+										}
+										
+								
+										
+									}else if(cont==1){
+										
+										
+										return "main.html";
+									}
 								}
+								
+								
+								
+								
+								
+								
+								
+								
+								
 								else if (!lo.getEmail().equals(email) && l.getId().compareTo(lo.getId())==0) {
 									System.out.println("COMPARAR O ID");
 									if(files[0].getSize()>0) {
-										StringBuilder fileNames = new StringBuilder();
-										for(MultipartFile file : files) {
-											Path fileNameAndPath = Paths.get(uploadDirectory,file.getOriginalFilename());
-											fileNames.append(file.getOriginalFilename()+" ");
-											try {
-												Files.write(fileNameAndPath,file.getBytes());
-											}catch (IOException e) {
-												e.printStackTrace();
-											}			
-										}
-										img="/uploads/"+fileNames; 
+										
+										response = filehandler.saveFile(files[0]);
+										
+										l.setFoto(response.getFileDownloadUri());
+										
+										img=response.getFileDownloadUri();
 										l.setFoto(img);
+										
 										service.save(l);
 										System.out.println("img nova "+img);
 										return "redirect:/painel?fragment=painel_admin";
@@ -474,18 +596,14 @@ public class Registoscontroller {
 									
 									
 									if(files[0].getSize()>0) {
-										StringBuilder fileNames = new StringBuilder();
-										for(MultipartFile file : files) {
-											Path fileNameAndPath = Paths.get(uploadDirectory,file.getOriginalFilename());
-											fileNames.append(file.getOriginalFilename()+" ");
-											try {
-												Files.write(fileNameAndPath,file.getBytes());
-											}catch (IOException e) {
-												e.printStackTrace();
-											}			
-										}
-										img="/uploads/"+fileNames; 
+										
+										response = filehandler.saveFile(files[0]);
+										
+										l.setFoto(response.getFileDownloadUri());
+										
+										img=response.getFileDownloadUri();
 										l.setFoto(img);
+										
 										service.save(l);
 										System.out.println("img nova "+img);
 										return "redirect:/painel?fragment=painel_admin";

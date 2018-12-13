@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import pt.projetofinal.project.files.FileHandler;
+import pt.projetofinal.project.files.FileHandler.UploadFileResponse;
 import pt.projetofinal.project.model.Login;
 import pt.projetofinal.project.model.Restaurante;
 import pt.projetofinal.project.service.Loginrepository;
@@ -36,6 +38,11 @@ public class Restaurantecontroller {
 	Restauranterepository service;
 	@Autowired
 	Loginrepository service_login;
+	
+
+	@Autowired
+	FileHandler filehandler;
+
 
 	//Manda para o painel do admin
 	@GetMapping("/painel")
@@ -69,7 +76,7 @@ public class Restaurantecontroller {
 	}*/
 	
 	@PostMapping("/resgistar_restaurante") 
-	public String addrestaurante(Model m, Restaurante r/*, String id,String nome,String longitude, String latitude, String descricao*/,HttpSession request,String categoria,String fragment,String dia1,@RequestParam(value="files",defaultValue="null") MultipartFile[] files) {
+	public String addrestaurante(Model m, Restaurante r/*, String id,String nome,String longitude, String latitude, String descricao*/,HttpSession request,String categoria,String fragment,String email_dono,String dia1,String dia2,String dia3,String dia4,String dia5,String dia6,String dia7,@RequestParam(value="files",defaultValue="null") MultipartFile[] files) {
 		String imagem,
 		categor,rat;
 		
@@ -77,30 +84,25 @@ public class Restaurantecontroller {
 		
 		if(l==null) {return "redirect:/login";}
 		
+		UploadFileResponse response = null;
+		
+		
 		ArrayList<String> dia_sem = new ArrayList<>();
 		
 		m.addAttribute("fragment",fragment);
 		
 		System.out.println(String.valueOf(files.length)+"   "+files[0].getSize());
 		if(files[0].getSize()>0) {
-		StringBuilder fileNames = new StringBuilder();
-		for(MultipartFile file : files) {
-			Path fileNameAndPath = Paths.get(uploadDirectory,file.getOriginalFilename());
-			fileNames.append(file.getOriginalFilename()+" ");
-			try {
-				Files.write(fileNameAndPath,file.getBytes());
-			}catch (IOException e) {
-				e.printStackTrace();
-			}			
-		}
-		//m.addAttribute("msg","Sucesso "+fileNames.toString());
-		//return "uploadstatusview";
+			
+			response = filehandler.saveFile(files[0]);
+			
+			r.setPicture(response.getFileDownloadUri());
 
 			
-		for(Restaurante rr:service.findAll()) {
+		for(Restaurante rr:service.findAll()) {//para o editar
 			if(rr.getId().equals(r.getId())) {
 				
-				
+				System.out.println("id ?"+r.getId());
 				System.out.println(categoria);
 				if(categoria.isEmpty()) {
 					//System.out.println("estou aqui");
@@ -112,24 +114,45 @@ public class Restaurantecontroller {
 					System.out.println("categor:" +rr.getCategoria());
 					r.setCategoria(categoria);
 				}
-	
 				
+								
 				imagem=rr.getPicture();
-				r.setPicture(imagem);
+				r.setPicture(imagem);				
 				service.save(r);
 			
 			}
 		}
 			
-			imagem="/uploads/"+fileNames; //para o adicionar normal
+			/*imagem="/uploads/"+fileNames; //para o adicionar normal
+			r.setPicture(imagem);*/
+		
+			imagem=response.getFileDownloadUri();
 			r.setPicture(imagem);
+			System.out.println("ifsdsdsdggsd "+imagem);
 			
 			
+			for(Login ll: service_login.findAll()) {
+				//System.out.println("supp");
+				if(ll.getEmail().equals(email_dono)) {
+					System.out.println("Nome do Dono "+ll.getNome());
+					r.setId_dono(ll.getId());
+				}
+				
+			}
 			
-			
-			//r.setArDias_Semana(Monday);
 			dia_sem.add(dia1);
+			dia_sem.add(dia2);
+			dia_sem.add(dia3);
+			dia_sem.add(dia4);
+			dia_sem.add(dia5);
+			dia_sem.add(dia6);
+			dia_sem.add(dia7);
+			//r.getArDias_Semana().add(dia1);
 			r.setArDias_Semana(dia_sem);
+			
+			
+			
+			
 			r.setRating("0.0");
 			
 			service.save(r);
@@ -152,13 +175,29 @@ public class Restaurantecontroller {
 					}
 				
 					
-					
-					imagem=rr.getPicture();
+	
+					/*imagem=rr.getPicture();
+					r.setPicture(imagem);*/
+					imagem = rr.getPicture();
 					r.setPicture(imagem);
+					
+					//PODE SER NECESSARIO
+					/*String fn = ll.getFoto().substring(ll.getFoto().indexOf("File/")+5, ll.getFoto().length());
+					System.out.println(fn);*/
 					
 					rat=rr.getRating();
 					r.setRating(rat);
 					//r.setRating("0");
+					
+				/*	for(Login ll: service_login.findAll()) {
+						System.out.println("supp");
+						if(ll.getEmail().equals(email_dono)) {
+							System.out.println("Nome do Dono "+ll.getNome());
+							r.setId_dono(ll.getId());
+						}
+						
+					}*/
+					
 					service.save(r);
 				
 				}
@@ -352,6 +391,16 @@ public class Restaurantecontroller {
 		return "main.html";
 	}
 	
+	@GetMapping("/ver_id")
+	public String ver(Model m,String fragment, String email_dono, HttpSession request) {
+		
+
+
+		
+		
+		
+		return "main.html";
+	}
 	
 
 }
