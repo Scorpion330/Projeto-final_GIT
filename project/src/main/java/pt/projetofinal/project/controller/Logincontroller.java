@@ -78,17 +78,24 @@ public class Logincontroller {
 		
 		for(Login l: service.findAll()) {
 			
+			System.out.println("nome : "+l.getNome());
+			System.out.println("username :"+l.getUsername());
 
 			if(l.getUsername().equals(username) && l.getPassword().equals(password)) {
 				System.out.println(l.getTipo()+"tipo");
+				
 				if(l.getTipo().equals("0")) {
 					session.setAttribute("user", l);
 					return "redirect:/inicio?fragment=painel_admin";
-				}else{
-					System.out.println(l.getTipo()+"tipo else");
+				}else if (l.getTipo().compareTo("1")==0) {
 					session.setAttribute("user", l);
-					System.out.println("ola");
-					return "redirect:/listagem?fragment=listar_rest";
+					System.out.println("estou aqui : )");
+					return "redirect:/profileowner?fragment=profileowner";
+				}
+				
+				else if(l.getTipo().compareTo("2")==0) {
+					session.setAttribute("user", l);
+					return "redirect:/profileemp?fragment=empprofile";
 				}
 				
 				
@@ -151,7 +158,25 @@ public class Logincontroller {
 		return "login.html";
 	}
 	
+	@GetMapping(value="/profileowner")
+	public String profileown(Model m,String fragment, HttpSession session) {
+		
+		Login u = (Login)session.getAttribute("user");
+		
+		if(u==null || u.getTipo().compareTo("1")!=0) {return "redirect:/login";}
+		m.addAttribute("fragment",fragment);
+		return "mainownerprofile.html";
+	}
 	
+	@GetMapping(value="/profileemp")
+	public String profileempl(Model m,String fragment, HttpSession session) {
+		
+		Login u = (Login)session.getAttribute("user");
+		
+		if(u==null || u.getTipo().compareTo("2")!=0) {return "redirect:/login";}
+		m.addAttribute("fragment",fragment);
+		return "mainempprofile.html";
+	}
 	
 	
 }

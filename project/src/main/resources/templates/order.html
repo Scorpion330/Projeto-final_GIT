@@ -1,0 +1,87 @@
+<script type="text/javascript">
+  $(function() {
+  var maxlength=150;
+  $('remaining').text(maxlength);
+  $("#descricao").keydown(function (event) {
+    LimitLeters($(this));
+  });
+  $("#descricao").keyup(function (event) {
+    LimitLeters($(this));
+  });
+  function LimitLeters(descricao){
+    if (descricao.val().length>maxlength) {
+      descricao.val(descricao.val().substring(0,maxlength));
+    }
+    else {
+      var nRemaining = maxlength - descricao.val().length;
+      $('.remaining').text(nRemaining);
+    }
+  }
+
+  });
+
+</script>
+
+<div th:fragment="order_frag">
+<div class="section__content section__content--p30">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header">Listar Pedido</div>
+
+      <div class="card-body">
+      <form action="/ordermessage" method="post">
+        <tbody th:each="ayyy : ${pedidos}">
+          <input class="form-control" name="id" type="hidden" th:value="${ayyy.id}">
+        <div class="ordertop">
+          <div class="orderstate">
+            <td th:text="${ayyy.tipo}"></td>
+          </div>
+          <div class="orderdate" style="float:right">
+              <td th:text="${ayyy.data}"></td>
+          </div>
+        </div>
+        </tbody>
+        <div class="orderlistcontainer">
+          <table
+            class="table table-borderless table-striped table-earning">
+          <thead>
+            <tr>
+              <th>Prato</th>
+              <th>Quantidade</th>
+            </tr>
+          </thead>
+          <tbody th:each="parametros : ${menupedido}">
+            <tr>
+              <td th:text="${parametros.nome}"></td>
+              <td th:text="${parametros.quantidade}"></td>
+            </tr>
+
+          </tbody>
+        </div>
+
+            <!--    <tbody th:each="parametros : ${menupedido}">
+              <tr>
+                <td th:text="${parametros.nome}"></td> -->
+          </table>
+
+
+      <div class="textareaorder">
+        <label for="exampleTextarea">Mensagem</label>
+        <textarea class="form-control" name="descricao" id="descricao" rows="5" onkeyup="count(this,'totalletter',20)"></textarea>
+        <br>Restante: <b><span text="150" class="remaining"></span></b>
+      </div>
+      <div class="buttonsorder">
+        <div class="acceptorder">
+          <button type="submit" class="btn btn-success" name="buttonorder" value="0">Aceitar Pedido</button>
+        </div>
+        <div class="denyorder">
+          <button type="submit" class="btn btn-danger" name="buttonorder" value="1">Negar Pedido</button>
+        </div>
+      </div>
+        </form>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
