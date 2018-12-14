@@ -1,6 +1,7 @@
 package pt.projetofinal.project.controller;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.nio.file.Files;
@@ -86,6 +87,7 @@ public class Restaurantecontroller {
 		
 		UploadFileResponse response = null;
 		
+		ArrayList<String> temp = new ArrayList<>();
 		
 		ArrayList<String> dia_sem = new ArrayList<>();
 		
@@ -117,9 +119,30 @@ public class Restaurantecontroller {
 				
 								
 				imagem=rr.getPicture();
-				r.setPicture(imagem);				
+				r.setPicture(imagem);
+				
+				temp.add(dia1);
+				temp.add(dia2);
+				temp.add(dia3);
+				temp.add(dia4);
+				temp.add(dia5);
+				temp.add(dia6);
+				temp.add(dia7);
+				//r.getArDias_Semana().add(dia1);
+				r.setArDias_Semana(temp);
+		
+				/*for(String dias : rr.getArDias_Semana()) {
+					temp.add(dias);
+					System.out.println("dias"+dias);
+					System.out.println("array"+temp);
+					
+				}
+				System.out.println("array"+temp);
+				r.setArDias_Semana(temp);
+				System.out.println("ooo "+ r.getArDias_Semana());*/
+				
 				service.save(r);
-			
+				//System.out.println("dep save "+ r.getArDias_Semana());
 			}
 		}
 			

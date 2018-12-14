@@ -92,7 +92,6 @@ public class Logincontroller {
 				}
 				
 				
-				
 				//session.setAttribute("id", l.getId());
 				
 			/*	if(l.getTipo().equals("3")) {
@@ -101,12 +100,14 @@ public class Logincontroller {
 				}		*/
 				
 			}
+			
+			
+			
+			
 		}	
-		if(username.isEmpty() || password.isEmpty()) { //nunca vem aqui porque esta como required no html
-			System.out.println("Introuduza dados");
-			//return para site com dados invalidos
-		}
-		return "error.html"; //DAR RETURN PARA ERRO
+
+		//return "error.html"; //DAR RETURN PARA ERRO
+		return "redirect:/login?err=fail";
 	}
 	
 		//Login u=(Login).session.geta

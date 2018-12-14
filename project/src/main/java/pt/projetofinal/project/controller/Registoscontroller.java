@@ -636,7 +636,7 @@ public class Registoscontroller {
 		if(l==null) {return "redirect:/login";}
 		
 		String tip;
-		int conte=0;
+	/*	int conte=0;
 		int contu=0;
 	
 		for(Login lo: service.findAll()) {
@@ -661,17 +661,83 @@ public class Registoscontroller {
 						}
 					}
 
-			}
-				if(contu==1) {
-					System.out.println("username ja existe");
-				}else {
+				}
+				
+				
+				
+				
+				else if(lo.getUsername().compareTo(username)==0) {//o email vai ser diferente logo entra aqui
+					System.out.println("o email vai ser diferente logo entra aqui");
+					if(lo.getEmail().compareTo(email)==0) {//alteras te o email ? se nao alterou pode guardar
+						System.out.println("OI 2");
 						tip=lo.getTipo();
 						lo.setTipo(tip);
 						service.save(ll);
+					}else if(lo.getEmail().compareTo(email)!=0) {//se alterar
+						System.out.println("alterei o email");
+						for(Login li: service.findAll()) {
+							if(li.getEmail().compareTo(email)==0) {
+								System.out.println("quantas vezes");
+								conte=1;
+							}
+						}
+					}
+					
+				}
+				
+				
+				if(contu==1) {
+					System.out.println("username ja existe");
+					return "redirect:/painel?fragment=painel_admin";
+				}else if(conte==1) {
+					System.out.println("email já existe");
+					return "redirect:/painel?fragment=painel_admin";
+				}else{
+					System.out.println("entrei ?");
+					tip=lo.getTipo();
+					lo.setTipo(tip);
+					service.save(ll);
 				}
 				
 			}
-		}
+			
+		}*/
+		
+		
+				for(Login lu: service.findAll()) {
+					if(lu.getEmail().compareTo(email)==0 && lu.getUsername().compareTo(username)==0) {
+						if(lu.getId().compareTo(id)!=0) {
+							System.out.println("ID "+id);
+							System.out.println("outro ID "+lu.getId());
+							return "redirect:/painel?fragment=painel_admin";
+						}
+					}else if(lu.getEmail().compareTo(email)==0) {
+						if(lu.getId().compareTo(id)!=0) {
+							System.out.println("ID "+id);
+							System.out.println("outro ID "+lu.getId());
+							return "redirect:/painel?fragment=painel_admin";
+						}		
+					}else if(lu.getUsername().compareTo(username)==0) {
+							if(lu.getId().compareTo(id)!=0) {
+								System.out.println("ID "+id);
+								System.out.println("outro ID "+lu.getId());
+								return "redirect:/painel?fragment=painel_admin";
+							}						
+					}else if(lu.getId().compareTo(id)==0) {
+							tip=lu.getTipo();
+							lu.setTipo(tip);
+					}
+						
+				}
+				
+				/*else {
+					tip=lu.getTipo();
+					lu.setTipo(tip);
+					service.save(ll);
+				}	*/
+			
+				service.save(ll);
+		
 
 	
 		m.addAttribute("fragment",fragment);
