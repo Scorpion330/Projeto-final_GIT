@@ -28,6 +28,7 @@ import pt.projetofinal.project.files.FileHandler.UploadFileResponse;
 import pt.projetofinal.project.model.Login;
 import pt.projetofinal.project.model.Restaurante;
 import pt.projetofinal.project.service.Loginrepository;
+import pt.projetofinal.project.service.Restauranterepository;
 
 @Controller
 public class Registoscontroller {
@@ -39,6 +40,8 @@ public class Registoscontroller {
 	@Autowired
 	Restaurantecontroller rc;
 	
+	@Autowired
+	Restauranterepository svres;
 	
 	@Autowired
 	FileHandler filehandler;
@@ -746,5 +749,107 @@ public class Registoscontroller {
 		
 		return "main.html";
 	}
+	
+	@GetMapping(value="/addemp")
+	public String addemp(Model m, String fragment, HttpSession session) {
+		
+		ArrayList<Restaurante> res = new ArrayList<>();
+		
+		Login u = (Login)session.getAttribute("user");
+		
+		System.out.println("qual e o u porra "+ u.getNome());
+		
+		if(u==null || u.getTipo().compareTo("1")!=0) {return "redirect:/login";}
+		
+		for(Restaurante re: svres.findAll()) {
+			
+			if(re.getId_dono().compareTo(u.getId())==0) {
+				
+				res.add(re);
+				
+			}
+			
+		}
+		
+		m.addAttribute("listrestaurantes",res);
+		
+		m.addAttribute("fragment",fragment);
+		
+		return "mainownerprofile.html";
+	}
+	
+	@PostMapping(value="/addemployee")
+	public String adde(Login em, String username2, HttpSession session) {
+		
+		Login u = (Login)session.getAttribute("user");
+		
+		em.setTipo("2");
+		em.setId_restaurante(u.getId_restaurante());
+		em.setArrestaurante(null);
+		service.save(em); //new Login(em.getId(),em.getUsername(),em.getPassword(),em.getNome(),em.getContacto(),em.getEmail(),username2,"2",null)
+				
+		
+		//return "profileowner.html";
+		return "redirect:/profileowner?fragment=profileowner";
+	}
+	
+	@GetMapping(value="/listaremp")
+	public String listemp(Model m, String fragment, HttpSession session) {
+		ArrayList<Login> emp = new ArrayList<>();
+		
+		Login u = (Login)session.getAttribute("user"); 
+		
+		for(Login e: service.findAll()) {
+		
+			if(e.getId_restaurante().compareTo(u.getId_restaurante())==0 && e.getTipo().compareTo("2")==0) {
+				
+				emp.add(e);
+			}
+			
+		}
+		
+		m.addAttribute("fragment",fragment);
+		m.addAttribute("pessoa",emp);	
+		return "mainownerprofile.html";
+	}
+	
+	@PostMapping("/editar_empregados")
+    public String editaremp(Model m,Login l, String id, String nome, String fragment) {
+
+        for(Login ll: service.findAll()) {
+            if(ll.getId().equals(id)) {
+            	System.out.println("Hecker voice I'm in");
+                m.addAttribute("utilizador",ll); //receber no th os dados deste objeto que tiver o mesmo id
+                
+            }
+        }
+        
+        m.addAttribute("fragment",fragment);
+        return "mainownerprofile.html";
+    }
+	
+	@PostMapping(value="/editutil")
+    public String editu(Login l, String idrestaurante) {
+    	
+    	service.save(l);
+    	return "redirect:/listaremp?fragment=listar_emp&idrestaurante="+idrestaurante;
+    }
+	
+	@GetMapping(value="/delemp")
+    public String delpeople(String id, String idrestaurante) {
+    	
+    	for(Login h: service.findAll()) {
+    		
+    		if(h.getId().compareTo(id)==0) {
+    			
+    			service.delete(h);
+    			
+    		}
+    		
+    	}
+    	
+    	//return "redirect:/listaremp?idrestaurante="+idrestaurante;
+    	return "redirect:/listaremp?fragment=listar_emp&idrestaurante="+idrestaurante;
+    }
 
 }

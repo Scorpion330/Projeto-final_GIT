@@ -18,16 +18,29 @@
           </div>
 
           <div class="form-group">
-            <label for="exampleSelect1">Categoria</label>
-            <select name="categoria" class="form-control" id="exampleSelect1">
-              <option value=""><div th:each="${parametros.categoria}">
-                <option  >[[${parametros.categoria}]]</option>
-              </div></option>
-
+            <label>Tipo</label>
+            <select name="categoria" class="form-control">
+              <option>[[${parametros.categoria}]]</option>
+              <option value="entrada">Entrada</option>
+              <option value="prato principal">Prato Principal</option>
+              <option value="bebida">Bebida</option>
+              <option value="sobremessa">Sobremessa</option>
             </select>
           </div>
 
-          
+          <div class="form-group">
+            <label>Restaurante</label>
+            <select name="id_restaurante" class="form-control">
+              <span th:each="restaurantlist : ${listrestaurantes}">
+                <span th:if="${parametros['id_restaurante'] == restaurantlist['id']}">
+                    <option th:value="${restaurantlist.id}">[[${restaurantlist.nome}]]</option>
+                </span></span>
+                <span th:each="restaurantlist : ${listrestaurantes}">
+                  <span th:if="${parametros['id_restaurante'] != restaurantlist['id']}">
+                <option th:value="${restaurantlist.id}" >[[${restaurantlist.nome}]]</option></span>
+                </span>
+            </select>
+          </div>
 
           <div class="form-group"> <label for="exampleTextarea">Ingridientes</label>
           <textarea class="form-control" name="ingridiente" rows="3" th:inline="text">[[${parametros.ingridiente}]]</textarea>
