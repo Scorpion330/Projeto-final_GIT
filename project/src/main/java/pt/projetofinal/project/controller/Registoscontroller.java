@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -795,18 +796,31 @@ public class Registoscontroller {
 	
 	@GetMapping(value="/listaremp")
 	public String listemp(Model m, String fragment, HttpSession session) {
-		ArrayList<Login> emp = new ArrayList<>();
+		ArrayList<Login> emp = new ArrayList<Login>();
 		
 		Login u = (Login)session.getAttribute("user"); 
 		
-		for(Login e: service.findAll()) {
+		System.out.println("hecked up");
 		
-			if(e.getId_restaurante().compareTo(u.getId_restaurante())==0 && e.getTipo().compareTo("2")==0) {
+		
+		for(Restaurante re: svres.findAll()) {
+			
+			for(Login e: service.findAll()) {
 				
-				emp.add(e);
+				if (re.getId_dono().compareTo(u.getId())==0) {
+					
+					if(re.getId().compareTo(e.getId_restaurante())==0 && e.getTipo().compareTo("2")==0) {
+						
+						emp.add(e);
+					}
+					
+				}
+				
 			}
 			
 		}
+		
+		
 		
 		m.addAttribute("fragment",fragment);
 		m.addAttribute("pessoa",emp);	
@@ -814,7 +828,11 @@ public class Registoscontroller {
 	}
 	
 	@PostMapping("/editar_empregados")
-    public String editaremp(Model m,Login l, String id, String nome, String fragment) {
+    public String editaremp(Model m,Login l, String id, String nome, String fragment, HttpSession session) {
+		
+		Login u = (Login)session.getAttribute("user");
+		
+		ArrayList<Restaurante> arres = new ArrayList<>();
 
         for(Login ll: service.findAll()) {
             if(ll.getId().equals(id)) {
@@ -824,15 +842,27 @@ public class Registoscontroller {
             }
         }
         
+        for(Restaurante re: svres.findAll()) {
+        	
+        	if(re.getId_dono().compareTo(u.getId())==0) {
+        		
+        		arres.add(re);
+        	}
+        }
+        
+        m.addAttribute("listrestaurantes",arres);
         m.addAttribute("fragment",fragment);
         return "mainownerprofile.html";
     }
 	
 	@PostMapping(value="/editutil")
-    public String editu(Login l, String idrestaurante) {
+    public String editu(Login l, String idrestaurante, String id_restaurantes) {
     	
+		System.out.println("wth is going with this id "+l.getId_restaurante());
+		System.out.println("id vindo i think "+id_restaurantes);
+		l.setId_restaurante(id_restaurantes);
     	service.save(l);
-    	return "redirect:/listaremp?fragment=listar_emp&idrestaurante="+idrestaurante;
+    	return "redirect:/listaremp?fragment=listar_emp";
     }
 	
 	@GetMapping(value="/delemp")

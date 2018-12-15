@@ -21,10 +21,18 @@
             <label>Tipo</label>
             <select name="categoria" class="form-control">
               <option>[[${parametros.categoria}]]</option>
-              <option value="entrada">Entrada</option>
-              <option value="prato principal">Prato Principal</option>
-              <option value="bebida">Bebida</option>
-              <option value="sobremessa">Sobremessa</option>
+              <span th:if="${parametros['categoria']} != 'entrada'">
+                  <option value="entrada">Entrada</option>
+              </span>
+              <span th:if="${parametros['categoria']} != 'prato principal'">
+                  <option value="prato principal">Prato Principal</option>
+              </span>
+              <span th:if="${parametros['categoria']} != 'bebida'">
+                  <option value="bebida">Bebida</option>
+              </span>
+              <span th:if="${parametros['categoria']} != 'sobremessa'">
+                  <option value="sobremessa">Sobremessa</option>
+              </span>
             </select>
           </div>
 
