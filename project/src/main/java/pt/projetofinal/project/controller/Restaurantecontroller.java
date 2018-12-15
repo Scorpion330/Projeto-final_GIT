@@ -155,7 +155,7 @@ public class Restaurantecontroller {
 			
 			
 			for(Login ll: service_login.findAll()) {
-				//System.out.println("supp");
+				System.out.println("supp");
 				if(ll.getEmail().equals(email_dono)) {
 					System.out.println("Nome do Dono "+ll.getNome());
 					r.setId_dono(ll.getId());
