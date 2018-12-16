@@ -1,4 +1,4 @@
-<div th:fragment="editar_utilizadores_frag">
+<div th:fragment="editar_empregado_frag">
 <div class="section__content section__content--p30">
   <div class="container-fluid">
     <div class="card">
@@ -30,6 +30,20 @@
           <div class="form-group">
             <label>Password:</label>
             <input class="form-control" placeholder="" name="password" type="text" th:value="${parametros.password}">
+          </div>
+
+          <div class="form-group">
+            <label>Restaurante</label>
+            <select name="id_restaurantes" class="form-control">
+              <span th:each="restaurantlist : ${listrestaurantes}">
+                <span th:if="${parametros['id_restaurante'] == restaurantlist['id']}">
+                    <option th:value="${restaurantlist.id}">[[${restaurantlist.nome}]]</option>
+                </span></span>
+                <span th:each="restaurantlist : ${listrestaurantes}">
+                  <span th:if="${parametros['id_restaurante'] != restaurantlist['id']}">
+                <option th:value="${restaurantlist.id}" >[[${restaurantlist.nome}]]</option></span>
+                </span>
+            </select>
           </div>
 
           <button type="submit" class="btn btn-primary">Salvar</button>

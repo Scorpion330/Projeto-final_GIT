@@ -91,11 +91,16 @@ public class Pedidocontroller {
         
         Login u = (Login)session.getAttribute("user");
         
+        //System.out.println("que u é este "+u.getTipo());
+        
         if(u==null || u.getTipo().compareTo("2")!=0) {return "redirect:/login";}
         
-        System.out.println("type: "+ordertype);
+        //System.out.println("type: "+ordertype);
         for(Pedido p: svpedido.findAll()) {
             
+        	System.out.println("id restaurante pedido "+p.getId_restaurante_pedido()+" u id restaurante "+u.getId_restaurante());
+        	
+        	
             if(p.getId_restaurante_pedido().compareTo(u.getId_restaurante())==0) {
             	String orderdate = (p.getData().substring(0,10));
                 System.out.println("Order date "+orderdate);
@@ -103,9 +108,9 @@ public class Pedidocontroller {
                 for(Login q: svusuário.findAll()) {
                 	
                 	if(p.getEstado().compareTo("Enviado")==0) {
-                		
+                		System.out.println("Estado passado");
                 		if(ordertype.compareTo("1")==0) {
-                            
+                            System.out.println("Ultrapasso o ordertype");
                             if(q.getId().compareTo(p.getId_cliente())==0 && p.getTipo().compareTo("reservar")!=0) {
                                 System.out.println("Hacker voice I'm in");
                                 

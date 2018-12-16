@@ -177,7 +177,7 @@
                                 <i class="fas fa-tachometer-alt"></i>Gestão de Empregados</a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
                                 <li>
-                                    <a href="/addemp?fragment=introduzir_pessoas">Introduzir</a>
+                                    <a href="/addemp?fragment=introduzir_empregados">Introduzir</a>
                                 </li>
                                 <li>
                                 <!--    <a href="/listaremp?fragment=listar_emp">Listagem</a>   href="../school/create-division.html"
@@ -306,23 +306,23 @@
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
-                                        <!--    <img th:src="${session.user.foto}" alt="John Doe" /> -->
+                                      <!--     <img th:src="${session.user.foto}" alt="John Doe" /> -->
                                         </div>
                                         <div class="content">
-                                        <!--      <a class="js-acc-btn" href="#" th:text="${session.user.nome}"></a>-->
+                                            <a class="js-acc-btn" href="#" th:text="${session.user.nome}"></a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
-                                            <!--                <img th:src="${session.user.foto}"/>-->
+                                                          <img th:src="${session.user.foto}"/>
                                                     </a>
                                                 </div>
                                                 <div class="content">
                                                     <h5 class="name">
-                                            <!--              <span th:text="${session.user.nome}"></span>-->
+                                                        <span th:text="${session.user.nome}"></span>
                                                     </h5>
-                                            <!--            <span class="email" th:text="${session.user.email}"></span>-->
+                                                        <span class="email" th:text="${session.user.email}"></span>
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__body">
@@ -337,7 +337,7 @@
                                             </div>
                                             <div class="account-dropdown__footer">
 
-                                                <!--    <a href="http://localhost:8080/logout"> -->
+                                                 <a href="http://localhost:8080/logout">
                                                     <i class="zmdi zmdi-power"></i>Sair</a>
                                             </div>
                                         </div>
@@ -371,16 +371,16 @@
                   <span th:include="editmenu::editmenu_frag"> </span>
                 </div>
 
-                <div th:case="introduzir_pessoas">
-                  <span th:include="introduzir_pessoas::addemp_frag"> </span> <!--  name="algo" value="1" type="hidden" -->
+                <div th:case="introduzir_empregados">
+                  <span th:include="introduzir_empregados::addemp_frag"> </span> <!--  name="algo" value="1" type="hidden" -->
                 </div>
 
                 <div th:case="listar_emp">
                   <span th:include="listaremp::listar_utilizadores_frag"> </span>
                 </div>
 
-                <div th:case="editar_utilizadores">
-                  <span th:include="editar_utilizadores::editar_utilizadores_frag"> </span>
+                <div th:case="editar_empregados">
+                  <span th:include="editar_empregado::editar_empregado_frag"> </span>
                 </div>
 
                 <div th:case="mensagens">

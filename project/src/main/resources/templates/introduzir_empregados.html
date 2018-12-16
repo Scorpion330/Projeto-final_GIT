@@ -1,0 +1,51 @@
+<div th:fragment="addemp_frag">
+
+<div class="section__content section__content--p30">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header">Introduzir Utilizadores</div>
+
+      <div class="card-body">
+        <form action="/addemployee" method="post">
+
+          <div class="form-group">
+            <label>Nome:</label>
+            <input class="form-control" placeholder="Nome" name="nome" type="text" required>
+          </div>
+          <div class="form-group">
+            <label>Email:</label>
+            <input class="form-control" placeholder="exemplo@hotmail.com" name="email" type="email" required>
+          </div>
+          <div class="form-group">
+            <label>Contacto:</label>
+            <input class="form-control" placeholder="213456637" name="contacto" type="number" maxlength="13" required>
+          </div>
+          <div class="form-group">
+            <label>Username:</label>
+            <input class="form-control" placeholder="username" name="username" type="text" required>
+          </div>
+          <div class="form-group">
+            <label>Password:</label>
+            <input class="form-control" placeholder="password" name="password" type="password" required>
+          </div>
+          <div class="form-group">
+            <div class="form-group">
+                <label for="exampleSelect1">Restaurante</label>
+                <select name="id_restaurante" class="form-control" id="exampleSelect1" required>
+                    <option ></option>
+                  <span th:each="parametros : ${listrestaurantes}">
+                  <option th:value="${parametros.id}" >[[${parametros.nome}]]</option>
+                  </span>
+                </select>
+            </div>
+        </div>
+          <button type="submit" class="btn btn-primary">Adicionar</button>
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+</div>

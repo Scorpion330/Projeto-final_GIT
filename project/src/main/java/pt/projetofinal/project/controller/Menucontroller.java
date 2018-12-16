@@ -46,6 +46,8 @@ public class Menucontroller {
 		
 		if(u==null || u.getTipo().compareTo("1")!=0) {return "redirect:/login";}
 		
+		System.out.println("Estou no addmenu");
+		
 		for(Restaurante re: svrestaurante.findAll()) {
 			
 			if(re.getId_dono().compareTo(u.getId())==0) {
@@ -151,7 +153,7 @@ public class Menucontroller {
 		
 		ArrayList<Restaurante> res = new ArrayList<>();
 		
-		if(u==null || u.getTipo().compareTo("1")!=0) {return "redirect:/login";}
+		//if(u==null || u.getTipo().compareTo("1")!=0) {return "redirect:/login";}
 		
 		System.out.println("1");
 		for(Menu t: svmenu.findAll()) {
@@ -164,14 +166,14 @@ public class Menucontroller {
 		}
 		
 		for(Restaurante re: svrestaurante.findAll()) {
-			
+			System.out.println("the begining with yo");
 			if(re.getId_dono().compareTo(u.getId())==0) {
-				
+				System.out.println("bye bye aqyi");
 				res.add(re);
 				
 			}
 			
-		}
+		} 
 		
 		m.addAttribute("listrestaurantes",res);
 		m.addAttribute("fragment",fragment);
@@ -181,6 +183,8 @@ public class Menucontroller {
 	@PostMapping(value="/editarmenu")
 	public String editarmenu(Menu mm, @RequestParam("files") MultipartFile[] files,String id, String categoria) {
 		System.out.println("pooof");
+		
+		
 		String categor, picture;
 		if(files[0].getSize()>0) {
 			StringBuilder fileNames = new StringBuilder();
@@ -236,6 +240,8 @@ public class Menucontroller {
 						mm.setCategoria(categoria);
 					}
 					
+					
+					
 					picture=t.getPicture();
 					mm.setPicture(picture);
 					svmenu.save(mm);
@@ -256,30 +262,6 @@ public class Menucontroller {
 		return "redirect:/menu_cat?fragment=listar_menu&categoria="+cat;
 	}
 	
-/*	@GetMapping(value="/menu_cat")
-	public String menucat(Model m, String cat, String fragment, HttpSession session) {
-		
-		System.out.println("Me categoria "+cat);
-		
-		ArrayList<Menu> armenu = new ArrayList<>();
-		
-		Login u = (Login)session.getAttribute("user");
-		
-		for(Menu me: svmenu.findAll()) {
-			
-			System.out.println("cat: "+cat+" me categoria "+me.getCategoria());
-			if(cat.compareTo(me.getCategoria())==0) {
-				System.out.println("Ok but I'm here m8");
-				armenu.add(me);
-				
-			}
-			
-		}
-		
-		m.addAttribute("fragment",fragment);
-		m.addAttribute("menu",armenu);
-		return "mainownerprofile.html";
-	}    */
 	
 	@GetMapping(value="/menu_cat")
 	public String menucat(Model m, String categoria, String fragment, HttpSession session) {
@@ -331,9 +313,6 @@ public class Menucontroller {
 		Login u = (Login)session.getAttribute("user");
 		ArrayList<Menu> armenu = new ArrayList<>();
 		ArrayList<Login> arlogin = new ArrayList<>();
-		
-		
-		System.out.println("Ayyy estou nesta funcao");
 		
 		for(Restaurante re: svrestaurante.findAll()) {
 			

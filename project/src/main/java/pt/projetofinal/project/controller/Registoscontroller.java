@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -28,6 +29,7 @@ import pt.projetofinal.project.files.FileHandler.UploadFileResponse;
 import pt.projetofinal.project.model.Login;
 import pt.projetofinal.project.model.Restaurante;
 import pt.projetofinal.project.service.Loginrepository;
+import pt.projetofinal.project.service.Restauranterepository;
 
 @Controller
 public class Registoscontroller {
@@ -39,6 +41,8 @@ public class Registoscontroller {
 	@Autowired
 	Restaurantecontroller rc;
 	
+	@Autowired
+	Restauranterepository svres;
 	
 	@Autowired
 	FileHandler filehandler;
@@ -746,5 +750,136 @@ public class Registoscontroller {
 		
 		return "main.html";
 	}
+	
+	@GetMapping(value="/addemp")
+	public String addemp(Model m, String fragment, HttpSession session) {
+		
+		ArrayList<Restaurante> res = new ArrayList<>();
+		
+		Login u = (Login)session.getAttribute("user");
+		
+		System.out.println("qual e o u porra "+ u.getNome());
+		
+		if(u==null || u.getTipo().compareTo("1")!=0) {return "redirect:/login";}
+		
+		for(Restaurante re: svres.findAll()) {
+			
+			if(re.getId_dono().compareTo(u.getId())==0) {
+				
+				res.add(re);
+				
+			}
+			
+		}
+		
+		m.addAttribute("listrestaurantes",res);
+		
+		m.addAttribute("fragment",fragment);
+		
+		return "mainownerprofile.html";
+	}
+	
+	@PostMapping(value="/addemployee")
+	public String adde(Login em, String username2, HttpSession session) {
+		
+		Login u = (Login)session.getAttribute("user");
+		
+		em.setTipo("2");
+		em.setId_restaurante(u.getId_restaurante());
+		em.setArrestaurante(null);
+		service.save(em); //new Login(em.getId(),em.getUsername(),em.getPassword(),em.getNome(),em.getContacto(),em.getEmail(),username2,"2",null)
+				
+		
+		//return "profileowner.html";
+		return "redirect:/profileowner?fragment=profileowner";
+	}
+	
+	@GetMapping(value="/listaremp")
+	public String listemp(Model m, String fragment, HttpSession session) {
+		ArrayList<Login> emp = new ArrayList<Login>();
+		
+		Login u = (Login)session.getAttribute("user"); 
+		
+		System.out.println("hecked up");
+		
+		
+		for(Restaurante re: svres.findAll()) {
+			
+			for(Login e: service.findAll()) {
+				
+				if (re.getId_dono().compareTo(u.getId())==0) {
+					
+					if(re.getId().compareTo(e.getId_restaurante())==0 && e.getTipo().compareTo("2")==0) {
+						
+						emp.add(e);
+					}
+					
+				}
+				
+			}
+			
+		}
+		
+		
+		
+		m.addAttribute("fragment",fragment);
+		m.addAttribute("pessoa",emp);	
+		return "mainownerprofile.html";
+	}
+	
+	@PostMapping("/editar_empregados")
+    public String editaremp(Model m,Login l, String id, String nome, String fragment, HttpSession session) {
+		
+		Login u = (Login)session.getAttribute("user");
+		
+		ArrayList<Restaurante> arres = new ArrayList<>();
+
+        for(Login ll: service.findAll()) {
+            if(ll.getId().equals(id)) {
+            	System.out.println("Hecker voice I'm in");
+                m.addAttribute("utilizador",ll); //receber no th os dados deste objeto que tiver o mesmo id
+                
+            }
+        }
+        
+        for(Restaurante re: svres.findAll()) {
+        	
+        	if(re.getId_dono().compareTo(u.getId())==0) {
+        		
+        		arres.add(re);
+        	}
+        }
+        
+        m.addAttribute("listrestaurantes",arres);
+        m.addAttribute("fragment",fragment);
+        return "mainownerprofile.html";
+    }
+	
+	@PostMapping(value="/editutil")
+    public String editu(Login l, String idrestaurante, String id_restaurantes) {
+    	
+		System.out.println("wth is going with this id "+l.getId_restaurante());
+		System.out.println("id vindo i think "+id_restaurantes);
+		l.setId_restaurante(id_restaurantes);
+    	service.save(l);
+    	return "redirect:/listaremp?fragment=listar_emp";
+    }
+	
+	@GetMapping(value="/delemp")
+    public String delpeople(String id, String idrestaurante) {
+    	
+    	for(Login h: service.findAll()) {
+    		
+    		if(h.getId().compareTo(id)==0) {
+    			
+    			service.delete(h);
+    			
+    		}
+    		
+    	}
+    	
+    	//return "redirect:/listaremp?idrestaurante="+idrestaurante;
+    	return "redirect:/listaremp?fragment=listar_emp&idrestaurante="+idrestaurante;
+    }
 
 }

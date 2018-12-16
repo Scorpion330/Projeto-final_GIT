@@ -14773,3 +14773,47 @@ body {
     font-size: 14px;
   }
 }
+
+
+.ordertop{
+    width: 90%;
+    height: 90px;
+    margin: auto;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.orderstate{
+  width: 15%;
+  height: 90px;
+  float: left;
+}
+
+.orderdate{
+  margin-left: 15%;
+  height: 90px;
+}
+
+.orderlistcontainer{
+  width: 60%;
+  margin-left: 20%;
+}
+
+.textareaorder{
+
+}
+
+.buttonsorder{
+  margin-left: 20%;
+  margin-top: 5%;
+}
+
+.acceptorder{
+  float: left;
+
+}
+
+.denyorder{
+  margin-left: 63%;
+
+}
