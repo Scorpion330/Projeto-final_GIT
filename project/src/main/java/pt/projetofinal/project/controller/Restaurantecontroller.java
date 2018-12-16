@@ -221,6 +221,17 @@ public class Restaurantecontroller {
 						
 					}*/
 					
+					temp.add(dia1);
+					temp.add(dia2);
+					temp.add(dia3);
+					temp.add(dia4);
+					temp.add(dia5);
+					temp.add(dia6);
+					temp.add(dia7);
+					//r.getArDias_Semana().add(dia1);
+					r.setArDias_Semana(temp);
+					
+					
 					service.save(r);
 				
 				}
@@ -297,6 +308,8 @@ public class Restaurantecontroller {
 		for(Restaurante rr: service.findAll()) {
 			if(rr.getId().equals(id)) {
 				m.addAttribute("restaurante",rr); //receber no th os dados deste objeto que tiver o mesmo id
+				m.addAttribute("arr",rr.getArDias_Semana());
+				System.out.println("VER "+rr.getArDias_Semana());
 				m.addAttribute("fragment",fragment);
 			}
 		}

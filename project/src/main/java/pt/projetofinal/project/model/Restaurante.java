@@ -207,5 +207,9 @@ public class Restaurante {
 		this.arDias_Semana = arDias_Semana;
 		
 	}
+	/*public void setArDias_Semana(String dia) {
+		arDias_Semana.add(dia);
+		
+	}*/
 	
 }
