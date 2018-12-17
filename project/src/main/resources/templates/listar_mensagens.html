@@ -25,18 +25,21 @@
 
 
 
-                    <td>
-                    <form action="/nova_mensagem?fragment=nova_mensagem" method="get">
-                    <input class="form-control" name="id" type="hidden" th:value="${parametros.id}">
-                      <div class="fa-hover col-lg-3 col-md-6">
-                        <button type="submit">
+                    <td style="width:40%; text-align:center; vertical-align:middle;">
+  								<form action="/nova_mensagem" method="get">
+                      <input class="form-control" name="fragment" type="hidden" value="nova_mensagens">
+  									<input class="form-control" name="idm" type="hidden" th:value="${parametros.id}">
+                   <!-- Mandar o id para o editar -->
+  											<div class="fa-hover col-lg-3 col-md-6">
+  											<button type="submit">
 
-                        <i class="fa fa-trash-o" style="font-size:25px;"></i>
+  											<i class="fa fa-trash-o" style="font-size:25px;"></i>
 
-                        </button>
-                      </div>
-                    </form>
-                  </td>
+  											</button>
+  										</div>
+  									</form>
+
+  									</td>
 
                   </tr>
                 </tbody>

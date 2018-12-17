@@ -35,7 +35,7 @@ public class Contactoscontroller {
 	Calendar calendar1 = new GregorianCalendar();
 
 	@GetMapping("/nova_mensagem")
-	public String nova(Model m,String fragment, HttpSession request) {
+	public String nova(Model m,String fragment, String idm, HttpSession request) {
 		
 		Login l = (Login)request.getAttribute("user"); 
 		
@@ -43,23 +43,28 @@ public class Contactoscontroller {
 		
 		ArrayList<Login> arlogin = new ArrayList<>();
 		
+		System.out.println("fosga-se o id "+idm);
+		
+		m.addAttribute("idm",idm);
 		m.addAttribute("contacto",l);
 		m.addAttribute("fragment",fragment);
 		
 		if(l.getTipo().equals("0")) {
-			
+			System.out.println("main if");
+			m.addAttribute("fragment",fragment);
+			System.out.println("fragment "+fragment);
 			return "main.html";
 		}
 		
 		else if (l.getTipo().equals("1")) {
 			return "mainownerprofile.html";
 		}
-			
+			System.out.println("lmao fui aqui ter");
 		return "main.html";
 	}
 
 	@PostMapping("/enviar_mensagem") 
-	public String addmensagem(Contacto c, Model m, String id, HttpSession request) { //String nome,String email,String mensagem,
+	public String addmensagem(Contacto c, Model m, String idm, HttpSession request) { //String nome,String email,String mensagem,
 		
 		Login l = (Login)request.getAttribute("user"); 
 		
@@ -83,6 +88,8 @@ public class Contactoscontroller {
 		
 		c.setData(dia);
 		
+		System.out.println("Poque nao me estas a enviar, you are hurting me "+c.getId()+" me id "+idm);
+		
 		if(l.getTipo().equals("1")){ // tipo do user se é dono
 			System.out.println("hmm primeiro if 1");
 			c.setId_dono(l.getId());
@@ -92,8 +99,8 @@ public class Contactoscontroller {
 			
 		}else if(l.getTipo().equals("0")) {
 			for(Contacto cc: service.findAll()) {
-				
-				if(cc.getId().compareTo(id)==0) {
+				System.out.println("cc id "+cc.getId());
+				if(cc.getId().compareTo(idm)==0) {
 					System.out.println("hmm if 2");
 					c.setId_dono(cc.getId_dono());
 					c.setTipo("0");
