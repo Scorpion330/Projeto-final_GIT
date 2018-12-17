@@ -68,16 +68,32 @@ public class Contactoscontroller {
 		
 		c.setData(dia);
 		
+		if(l.getTipo().equals("1")){ // tipo do user se é dono
+			
+			c.setTipo("1"); //para a mensagem
+			service.save(c); 
+		}
 		
-		service.save(c);
+		
+		//service.save(c);
 			
 		
 		return "redirect:/painel?fragment=painel_admin";
 	}
 	
 	@GetMapping("/caixa_entrada")
-	public String lista_mensagens(Model m,String fragment) {
-		m.addAttribute("mensagem",service.findAll());
+	public String lista_mensagens(Contacto c,Model m,String fragment,String nome,String email,String mensagem,HttpSession request) {
+		
+		Login l = (Login)request.getAttribute("user"); 
+		
+		if(l==null || l.getTipo().compareTo("2")==0) {return "redirect:/login";}
+		
+		if(c.getTipo().equals("1")) {
+			System.out.println("yooo");
+			m.addAttribute("mensagem",service.findAll());
+		}
+
+		
 		m.addAttribute("fragment",fragment);
 		
 		return "main.html";
