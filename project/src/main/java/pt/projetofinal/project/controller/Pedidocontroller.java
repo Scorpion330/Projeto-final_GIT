@@ -7,6 +7,7 @@ import java.util.Calendar;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,8 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import pt.projetofinal.project.model.Login;
 import pt.projetofinal.project.model.Menu;
 import pt.projetofinal.project.model.Pedido;
+import pt.projetofinal.project.model.Restaurante;
 import pt.projetofinal.project.service.Loginrepository;
+import pt.projetofinal.project.service.Menurepository;
 import pt.projetofinal.project.service.Pedidorepository;
+import pt.projetofinal.project.service.Restauranterepository;
 
 @Controller
 public class Pedidocontroller {
@@ -27,6 +31,12 @@ public class Pedidocontroller {
 	
 	@Autowired
 	Loginrepository svusuário;
+	
+	@Autowired
+	Restauranterepository svres;
+	
+	@Autowired
+	Menurepository svmenu;
 	
 	/*@GetMapping(value="/listpedidos")
 	public String listorder(Model m) {
@@ -98,10 +108,10 @@ public class Pedidocontroller {
         //System.out.println("type: "+ordertype);
         for(Pedido p: svpedido.findAll()) {
             
-        	System.out.println("id restaurante pedido "+p.getId_restaurante_pedido()+" u id restaurante "+u.getId_restaurante());
+        	System.out.println("id restaurante pedido "+p.getId_restaurante()+" u id restaurante "+u.getId_restaurante());
         	
         	
-            if(p.getId_restaurante_pedido().compareTo(u.getId_restaurante())==0) {
+            if(p.getId_restaurante().compareTo(u.getId_restaurante())==0) {
             	String orderdate = (p.getData().substring(0,10));
                 System.out.println("Order date "+orderdate);
             	
@@ -111,7 +121,7 @@ public class Pedidocontroller {
                 		System.out.println("Estado passado");
                 		if(ordertype.compareTo("1")==0) {
                             System.out.println("Ultrapasso o ordertype");
-                            if(q.getId().compareTo(p.getId_cliente())==0 && p.getTipo().compareTo("reservar")!=0) {
+                            if(q.getId().compareTo(p.getId_user())==0 && p.getTipo().compareTo("reservar")!=0) {
                                 System.out.println("Hacker voice I'm in");
                                 
                                 arorder.add(p);
@@ -123,7 +133,7 @@ public class Pedidocontroller {
                         
                         else if(ordertype.compareTo("2")==0) {
                             
-                            if(q.getId().compareTo(p.getId_cliente())==0 && p.getTipo().compareTo("reservar")==0) {
+                            if(q.getId().compareTo(p.getId_user())==0 && p.getTipo().compareTo("reservar")==0) {
                                 System.out.println("Hacker voice I'm in");
                                 
                                 arorder.add(p);
@@ -137,7 +147,7 @@ public class Pedidocontroller {
                 
                 	else if (ordertype.compareTo("3")==0) {
 
-                		if(q.getId().compareTo(p.getId_cliente())==0 && p.getEstado().compareTo("Aceite")==0 && p.getTipo().compareTo("reservar")==0 && date.compareTo(orderdate)==0) {
+                		if(q.getId().compareTo(p.getId_user())==0 && p.getEstado().compareTo("Aceite")==0 && p.getTipo().compareTo("reservar")==0 && date.compareTo(orderdate)==0) {
                     		
                 			arorder.add(p);
                             arlog.add(q);
@@ -171,9 +181,9 @@ public class Pedidocontroller {
 		
 		for(Pedido r: svpedido.findAll()) {
 			
-			if (u.getId_restaurante().compareTo(r.getId_restaurante_pedido())==0) {
+			if (u.getId_restaurante().compareTo(r.getId_restaurante())==0) {
 			
-				if(r.getId_cliente().compareTo(id)==0 && (r.getEstado().compareTo("Enviado")==0 || r.getTipo().compareTo("reservar")==0 && r.getEstado().compareTo("Aceite")==0)) { //&& r.getTipo().compareTo("Aceite")==0) 
+				if(r.getId_user().compareTo(id)==0 && (r.getEstado().compareTo("Enviado")==0 || r.getTipo().compareTo("reservar")==0 && r.getEstado().compareTo("Aceite")==0)) { //&& r.getTipo().compareTo("Aceite")==0) 
 					
 					arorder.add(r);
 					System.out.println("r menu: "+r.getArmenu());
@@ -206,6 +216,7 @@ public class Pedidocontroller {
                 
                 if(buttonorder.compareTo("0")==0) {
                     
+                	
                     r.setMensagem("O seu pedido foi aceite. "+descricao);
                     r.setEstado("Aceite");
                     svpedido.save(r);
@@ -243,6 +254,180 @@ public class Pedidocontroller {
         
         return "redirect:/listpedidos?fragment=listpedidopf&ordertype="+ordertype;
     }
+	
+	@PostMapping(value="/pesqe")
+	public String pesqe(Model m, String search, HttpSession session) {
+		
+		Login u = (Login)session.getAttribute("user");
+		
+		if(u==null || u.getTipo().compareTo("2")!=0) {return "redirect:/login";}
+		
+		String abcz="z";
+		
+		for(Restaurante re: svres.findAll()) {
+			
+			if(re.getId().compareTo(u.getId_restaurante())==0) {
+				
+				for(Menu me: svmenu.findAll()) {
+				
+					for(Pedido p: svpedido.findAll()) {
+						
+						if(me.getId_restaurante().compareTo(re.getId())==0 && p.getId_restaurante().compareTo(re.getId())==0) {
+							
+							for(Login lo: svusuário.findAll()) {
+								
+								if(lo.getTipo().equals("3") && lo.getId().compareTo(p.getId_user())==0) {
+									
+									if ((me.getNome().contains(search) || me.getIngrediente().contains(search)) && lo.getNome().startsWith(search)) {
+										
+										return "redirect:/proc_menupedido?fragment=proc_menupedido&search="+search; 
+									}
+							
+									else if(me.getNome().contains(search) || me.getIngrediente().contains(search)) {
+										
+										abcz="a";
+									}
+									
+									else if (lo.getNome().startsWith(search)) {
+										
+										abcz="b";
+									}	
+								}	
+							}
+						}
+					}
+				}
+				
+			}
+			
+			
+		}
+
+		if(abcz.compareTo("a")==0) {
+			
+			return "redirect:/proc_menuse?fragment=listarmenu_empregado&search="+search; 
+		}
+		
+		else if(abcz.compareTo("b")==0) {
+			return "redirect:/proc_pedido?fragment=listpedidopf&search="+search; 
+		}
+		
+		return "mainempprofile.html";
+	}
+	
+	
+	@GetMapping(value="/proc_menupedido")
+	public String procmenu(Model m, String search, String fragment, HttpSession session) {
+		
+		Login u = (Login)session.getAttribute("user");
+		
+		ArrayList<Login> arlogin = new ArrayList<>();
+		
+		ArrayList<Menu> armenu = new ArrayList<>();
+		
+		if(u==null || u.getTipo().compareTo("2")!=0) {return "redirect:/login";}
+		
+		for(Restaurante re: svres.findAll()) {
+			
+			if(re.getId().compareTo(u.getId_restaurante())==0) {
+				
+				for(Menu me: svmenu.findAll()) {
+					
+					for(Pedido p: svpedido.findAll()) {
+						
+						if(me.getId_restaurante().compareTo(re.getId())==0 && p.getId_restaurante().compareTo(re.getId())==0) {
+							
+							for(Login lo: svusuário.findAll()) {
+								
+								if(lo.getTipo().equals("3") && lo.getId().compareTo(p.getId_user())==0) {
+									
+									if (me.getNome().contains(search) && lo.getNome().startsWith(search)) {
+										
+										arlogin.add(lo);
+										armenu.add(me);
+										//enviar para aquele com ambos
+									}
+									
+								}
+								
+							}
+						
+					}
+					
+				}
+				
+			}
+			
+		}
+		
+	}
+		
+		
+		m.addAttribute("menu",armenu);
+		m.addAttribute("userorder", arlogin);
+		m.addAttribute("fragment",fragment);
+		return "mainempprofile.html";
+	}
+	
+	@GetMapping(value="/proc_pedido")
+	public String procpedido(Model m, String fragment, String search, HttpSession session) {
+		
+		ArrayList<Login> arlo = new ArrayList<>();
+		
+		Login u = (Login)session.getAttribute("user");
+		
+		if(u==null || u.getTipo().compareTo("2")!=0) {return "redirect:/login";}
+		
+		for(Pedido p: svpedido.findAll()) {
+			
+			if(p.getId_restaurante().compareTo(u.getId_restaurante())==0) {
+				
+				for(Login lo: svusuário.findAll()) {
+					
+					if(lo.getId().compareTo(p.getId_user())==0 && lo.getNome().startsWith(search) && lo.getNome().endsWith(search)) {
+
+						arlo.add(lo);
+					}
+					
+				}
+				
+			}
+			
+			
+		}
+		
+		m.addAttribute("userorder", arlo);
+		m.addAttribute("fragment",fragment);
+		return "mainempprofile.html";
+	}
+	
+	@GetMapping(value="/proc_menuse")
+	public String procmenuse(Model m, String fragment, String search, HttpSession session) {
+		
+		System.out.println("proc_menuse");
+		
+		ArrayList<Menu> armenu = new ArrayList<>();
+		
+		Login u = (Login)session.getAttribute("user");
+		
+		if(u==null || u.getTipo().compareTo("2")!=0) {return "redirect:/login";}
+		
+		for(Menu me: svmenu.findAll()) {
+			
+			if(me.getId_restaurante().compareTo(u.getId_restaurante())==0) {	
+				
+				if(me.getNome().contains(search) || me.getNome().equalsIgnoreCase(search) || me.getIngrediente().contains(search)) {
+					
+					
+					armenu.add(me);
+					
+				}	
+			}
+		}
+		m.addAttribute("menu",armenu);
+		m.addAttribute("fragment",fragment);
+		return "mainempprofile.html";
+	}
 	
 
 }

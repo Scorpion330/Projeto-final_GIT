@@ -822,7 +822,7 @@ public class Registoscontroller {
 			
 		}
 		
-		
+		//Collections.sort(emp, c);
 		
 		m.addAttribute("fragment",fragment);
 		m.addAttribute("pessoa",emp);	

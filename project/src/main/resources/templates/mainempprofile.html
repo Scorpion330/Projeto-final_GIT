@@ -177,10 +177,10 @@
                         </li>
                         <li class="active has-sub">
                             <a class="js-arrow" href="#">
-                                <i class="fas fa-tachometer-alt"></i>Gestão de Empregados</a>
+                                <i class="fas fa-tachometer-alt"></i>Menus</a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
                                 <li>
-                                    <a href="/addemp?fragment=introduzir_pessoas">Introduzir</a>
+                                    <a href="/listarmenu?fragment=listarmenu_empregado">Listar Menu</a>
                                 </li>
                                 <li>
                                 <!--    <a href="/listaremp?fragment=listar_emp">Listagem</a>   href="../school/create-division.html"
@@ -281,7 +281,7 @@
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <div class="header-wrap">
-                            <form class="form-header" action="/procurar" method="post">
+                            <form class="form-header" action="/pesqe" method="post">
                                 <input class="au-input au-input--xl" type="text" name="search" placeholder="Nome de restaurantes e utilizadores..." />
                                 <button class="au-btn--submit" type="submit">
                                     <i class="zmdi zmdi-search"></i>
@@ -293,12 +293,12 @@
                             </button>
 
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <form >
-                                <input class="dropdown-item" value="Todos Restaurantes" type="submit" name="categoria">
-                                <input class="dropdown-item" value="Comida Portuguesa" text="Comida Portuguesa" type="submit" name="categoria">
-                                <input class="dropdown-item" value="Chines" text="Chines" type="submit" name="categoria">
-                                <input class="dropdown-item" value="Sushi" text="Sushi" type="submit" name="categoria">
-                                <input class="dropdown-item" value="Fast-Food" text="Fast-Food" type="submit" name="categoria">
+                            <form action="/filt_menu" method="get">
+                                <input class="dropdown-item" value="todos" type="submit" name="cat">
+                                <input class="dropdown-item" value="Entrada" text="Entrada" type="submit" name="cat">
+                                <input class="dropdown-item" value="Prato Principal" text="Prato Principal" type="submit" name="cat">
+                                <input class="dropdown-item" value="Bebida" text="Bebida" type="submit" name="cat">
+                                <input class="dropdown-item" value="Sobremessa" text="Sobremessa" type="submit" name="cat">
                               </form>
                             </div>
 
@@ -369,6 +369,11 @@
                   <span th:include="listpedidopf::listpedidopf_frag"> </span>
                 </div>
 
+                <!-- E ONDE VAI FICAR O LISTAR -->
+               <div th:case="listarmenu_empregado">
+                  <span th:include="listar_menu_empregado::listar_menuemp_frag"> </span>
+                </div>
+
                 <div th:case="orderacept">
                   <span th:include="order::order_frag"> </span> <!--1 - nome do ficheiro .html e 2 - nome do frag em listar_rest_frag -->
                 </div>
@@ -387,6 +392,10 @@
 
                 <div th:case="editar_utilizadores">
                   <span th:include="editar_utilizadores::editar_utilizadores_frag"> </span>
+                </div>
+
+                <div th:case="proc_menupedido">
+                 <span th:include="listarmenupedidos::listar_menupedidoemp_frag"> </span> <!--1 - nome do ficheiro .html e 2 - nome do frag em listar_rest_frag -->
                 </div>
 
                 <div th:case="mensagens">
@@ -434,6 +443,31 @@
 
     <!-- Main JS-->
     <script src="js/main.js"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script type="text/javascript">
+          $(function() {
+          var maxlength=150;
+          $('remaining').text(maxlength);
+          $("#descricao").keydown(function (event) {
+            LimitLeters($(this));
+          });
+          $("#descricao").keyup(function (event) {
+            LimitLeters($(this));
+          });
+          function LimitLeters(descricao){
+            if (descricao.val().length>maxlength) {
+              descricao.val(descricao.val().substring(0,maxlength));
+            }
+            else {
+              var nRemaining = maxlength - descricao.val().length;
+              $('.remaining').text(nRemaining);
+            }
+          }
+
+          });
+
+        </script>
 
 </body>
 
