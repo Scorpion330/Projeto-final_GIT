@@ -191,7 +191,7 @@ public class Restaurantecontroller {
 			
 			r.setRating("0.0");
 			
-			Funcoes.sendEmailReset("hencarnacao@sapo.pt"); // email do objeto
+			//Funcoes.sendEmailReset("hencarnacao@sapo.pt"); // email do objeto
 			System.out.println("email com img");
 			service.save(r);
 	
