@@ -1,6 +1,7 @@
 package pt.projetofinal.project.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -82,17 +83,24 @@ public class Contactoscontroller {
 	}
 	
 	@GetMapping("/caixa_entrada")
-	public String lista_mensagens(Contacto c,Model m,String fragment,String nome,String email,String mensagem,HttpSession request) {
+	public String lista_mensagens(Contacto c,Model m,String fragment,HttpSession request) {
 		
 		Login l = (Login)request.getAttribute("user"); 
 		
 		if(l==null || l.getTipo().compareTo("2")==0) {return "redirect:/login";}
 		
-		if(c.getTipo().equals("1")) {
-			System.out.println("yooo");
-			m.addAttribute("mensagem",service.findAll());
+		ArrayList<Contacto> arrc = new ArrayList<>();
+		
+		for(Contacto cc: service.findAll()) {
+			if(cc.getTipo().equals("1") && l.getTipo().compareTo("0")==0) {
+				System.out.println("yooo");
+				arrc.add(cc);
+			}else if(cc.getTipo().equals("0") && l.getTipo().compareTo("1")==0) {
+				arrc.add(cc);
+			}
 		}
-
+		
+		m.addAttribute("mensagem",arrc);
 		
 		m.addAttribute("fragment",fragment);
 		
