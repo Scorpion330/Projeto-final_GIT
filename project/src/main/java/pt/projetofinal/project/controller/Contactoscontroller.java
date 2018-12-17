@@ -89,13 +89,13 @@ public class Contactoscontroller {
 		c.setData(dia);
 		
 		if(l.getTipo().equals("1")){ // tipo do user se é dono
-			System.out.println("hmm primeiro if 1");
+			
 			c.setId_dono(l.getId());
 			c.setTipo("1"); //para a mensagem
 			service.save(c);
 			
 			for(Contacto t: service.findAll()) {
-				System.out.println("idm what2 "+idm);
+				
 				if(idm!=null) {
 					
 					if(t.getId().compareTo(idm)==0) {
@@ -111,9 +111,9 @@ public class Contactoscontroller {
 			
 		}else if(l.getTipo().equals("0")) {
 			for(Contacto cc: service.findAll()) {
-				System.out.println("cc id "+cc.getId());
+				
 				if(cc.getId().compareTo(idm)==0) {
-					System.out.println("hmm if 2");
+				
 					cc.setTipo("3");
 					service.save(cc);
 					c.setId_dono(cc.getId_dono());
@@ -141,7 +141,7 @@ public class Contactoscontroller {
 		
 		for(Contacto cc: service.findAll()) {
 			if(cc.getTipo().equals("1") && l.getTipo().compareTo("0")==0) {
-				System.out.println("yooo");
+			
 				arrc.add(cc);
 			}else if(cc.getTipo().equals("0") && l.getTipo().compareTo("1")==0 && l.getId().compareTo(cc.getId_dono())==0) {
 				arrc.add(cc);
