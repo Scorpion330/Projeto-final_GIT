@@ -6,16 +6,16 @@
         <div class="card-header">Enviar Mensagem</div>
 
         <div class="card-body">
-          <form action="/enviar_mensagem" method="post">
+          <form th:each="parametros : ${contacto}" action="/enviar_mensagem" method="post">
 
             <div class="form-group">
               <label>Nome:</label>
-              <input class="form-control"  name="nome" type="text" disabled>
+              <input class="form-control"  name="nome" type="text" disabled th:value="${parametros.nome}">
             </div>
             <div class="form-group">
               <label>Email:</label>
 
-              <input class="form-control" name="email" type="email" disabled>
+              <input class="form-control" name="email" type="email" disabled th:value="${parametros.email}">
 
             </div>
             <div class="form-group"> <label>Mensagem</label>

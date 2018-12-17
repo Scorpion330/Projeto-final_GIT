@@ -185,8 +185,6 @@
                                 <li>
                                 <!--    <a href="/listaremp?fragment=listar_emp">Listagem</a>   href="../school/create-division.html"
    th:href="@{/school/CreateDivision.html(sid=${ts.id})}" -->
-                                  <a href="/listaremp?fragment=listar_emp">Listagem</a>
-
                                 </li>
                             </ul>
                         </li>
@@ -396,10 +394,6 @@
 
                 <div th:case="proc_menupedido">
                  <span th:include="listarmenupedidos::listar_menupedidoemp_frag"> </span> <!--1 - nome do ficheiro .html e 2 - nome do frag em listar_rest_frag -->
-                </div>
-
-                <div th:case="mensagens">
-                  <span th:include="nova_mensagem::nova_mensagem_frag"> </span>
                 </div>
 
               </div>

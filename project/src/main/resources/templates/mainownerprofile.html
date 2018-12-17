@@ -188,6 +188,23 @@
                             </ul>
                         </li>
 
+                        <li class="active has-sub">
+                            <a class="js-arrow" href="#">
+                                <i class="fas fa-tachometer-alt"></i>Contacto</a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                <li>
+                                    <a href="/nova_mensagem?fragment=criar_mensagem">Contactar Admistradores</a>
+                                </li>
+                                <li>
+                                    <a href="/listarmenu?fragment=listarmenu_empregado">Listar Admistradores</a>
+                                </li>
+                                <li>
+                                <!--    <a href="/listaremp?fragment=listar_emp">Listagem</a>   href="../school/create-division.html"
+                                th:href="@{/school/CreateDivision.html(sid=${ts.id})}" -->
+                                </li>
+                            </ul>
+                        </li>
+
                         <li>
                             <a href="/lista_users_app?fragment=listagem_users">
                                 <i class="far fa-check-square"></i>Usuários da Aplicação</a>
@@ -389,6 +406,10 @@
 
                 <div th:case="naprocurar">
                  <span th:include="listar_pratos_e_empregados::listar_menuandemp_frag"> </span> <!--1 - nome do ficheiro .html e 2 - nome do frag em listar_rest_frag -->
+                </div>
+
+                <div th:case="criar_mensagem">
+                  <span th:include="nova_mensagem::nova_mensagem_frag"> </span>
                 </div>
 
               </div>

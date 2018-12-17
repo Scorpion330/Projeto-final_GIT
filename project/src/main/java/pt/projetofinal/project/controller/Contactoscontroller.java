@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import pt.projetofinal.project.model.Contacto;
 import pt.projetofinal.project.model.Login;
 import pt.projetofinal.project.service.Contactorepository;
+import pt.projetofinal.project.service.Loginrepository;
 
 @Controller
 public class Contactoscontroller {
@@ -25,31 +26,44 @@ public class Contactoscontroller {
 	@Autowired
 	Contactorepository service;
 	
+	@Autowired
+	Loginrepository svlogin;
+	
 	String dia;
 	
 	Date date = new Date();	
 	Calendar calendar1 = new GregorianCalendar();
 
 	@GetMapping("/nova_mensagem")
-	public String nova(Model m,String fragment) {
+	public String nova(Model m,String fragment, HttpSession request) {
 		
+		Login l = (Login)request.getAttribute("user"); 
+		
+		if(l==null || l.getTipo().compareTo("1")!=0 && l.getTipo().compareTo("0")!=0) {return "redirect:/login";}
+		
+		ArrayList<Login> arlogin = new ArrayList<>();
+		
+		m.addAttribute("contacto",l);
 		m.addAttribute("fragment",fragment);
 		
+		if(l.getTipo().equals("0")) {
+			
+			return "main.html";
+		}
+		
+		else if (l.getTipo().equals("1")) {
+			return "mainownerprofile.html";
+		}
+			
 		return "main.html";
 	}
 
 	@PostMapping("/enviar_mensagem") 
-	public String addmensagem(Contacto c, Model m, String nome,String email,String mensagem, HttpSession request) {
+	public String addmensagem(Contacto c, Model m, String id, HttpSession request) { //String nome,String email,String mensagem,
 		
 		Login l = (Login)request.getAttribute("user"); 
 		
 		if(l==null) {return "redirect:/login";}
-		
-			/*if(email=="findlechef_support@hotmail.com"){
-				c.setTipo("1");
-			}else {
-				c.setTipo("0");
-			}*/
 		
 		calendar1.setTime(date);
 
@@ -64,20 +78,32 @@ public class Contactoscontroller {
 		SimpleDateFormat data1 = new SimpleDateFormat("yyyy-MM-dd");
 		
 		String data = data1.format(cal.getTime());
-					
-		
+							
 		dia=data+"-"+hour+":"+min+":"+sec;
 		
 		c.setData(dia);
 		
 		if(l.getTipo().equals("1")){ // tipo do user se é dono
-			
+			System.out.println("hmm primeiro if 1");
+			c.setId_dono(l.getId());
 			c.setTipo("1"); //para a mensagem
 			service.save(c); 
+			return "redirect:/painel?fragment=profileowner";
+			
+		}else if(l.getTipo().equals("0")) {
+			for(Contacto cc: service.findAll()) {
+				
+				if(cc.getId().compareTo(id)==0) {
+					System.out.println("hmm if 2");
+					c.setId_dono(cc.getId_dono());
+					c.setTipo("0");
+					service.save(c);
+					return "redirect:/painel?fragment=painel_admin";
+				}
+				
+			}	
 		}
-		
-		
-		//service.save(c);
+	
 			
 		
 		return "redirect:/painel?fragment=painel_admin";
@@ -108,43 +134,4 @@ public class Contactoscontroller {
 		return "main.html";
 	}
 	
-	@PostMapping("/res_mensagem")
-	public String resmensagem(Model m, Contacto c, HttpSession session, String id) {
-		
-		Login u = (Login)session.getAttribute("user");
-		
-		if(u==null || u.getTipo().compareTo("0")!=0) {return "redirect:/login";}
-		
-		calendar1.setTime(date);
-		
-		int min=calendar1.get(Calendar.MINUTE);
-		int sec=calendar1.get(Calendar.SECOND);
-		int hour=calendar1.get(Calendar.HOUR_OF_DAY);	
-		int day=calendar1.get(Calendar.DAY_OF_MONTH);
-		
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.DATE, 1);
-		SimpleDateFormat data1 = new SimpleDateFormat("yyyy-MM-dd");
-		
-		String data = data1.format(cal.getTime());
-					
-		dia=data+"-"+hour+":"+min+":"+sec;
-		
-		c.setData(dia);
-		
-		
-		for(Contacto cc: service.findAll()) {
-			
-			if(cc.getId().compareTo(id)==0) {
-				
-				c.setId_dono(cc.getId_dono());
-				c.setTipo("0");
-			}
-			
-		}
-		
-		service.save(c);
-		return "redirect:/painel?fragment=painel_admin";
-	}
-
 }
