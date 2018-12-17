@@ -57,6 +57,7 @@ public class Contactoscontroller {
 		}
 		
 		else if (l.getTipo().equals("1")) {
+			m.addAttribute("fragment",fragment);
 			return "mainownerprofile.html";
 		}
 			System.out.println("lmao fui aqui ter");

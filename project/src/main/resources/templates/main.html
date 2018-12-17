@@ -43,7 +43,9 @@
         $("#Monday").click(function(){
           if($("#dia1").val() == "Monday"){
             $("#dia1").val("Encerrado")
-          }else {
+          }else if($("#dia1").val() != "Monday"){
+              $("#dia1").val("Monday")
+          }else{
               $("#dia1").val("Monday");
           }
             /*alert($("#tipo").val());*/
