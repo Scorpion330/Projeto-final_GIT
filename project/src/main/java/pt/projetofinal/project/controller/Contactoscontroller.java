@@ -24,6 +24,11 @@ public class Contactoscontroller {
 	
 	@Autowired
 	Contactorepository service;
+	
+	String dia;
+	
+	Date date = new Date();	
+	Calendar calendar1 = new GregorianCalendar();
 
 	@GetMapping("/nova_mensagem")
 	public String nova(Model m,String fragment) {
@@ -35,7 +40,6 @@ public class Contactoscontroller {
 
 	@PostMapping("/enviar_mensagem") 
 	public String addmensagem(Contacto c, Model m, String nome,String email,String mensagem, HttpSession request) {
-		String dia;
 		
 		Login l = (Login)request.getAttribute("user"); 
 		
@@ -46,9 +50,6 @@ public class Contactoscontroller {
 			}else {
 				c.setTipo("0");
 			}*/
-		
-		Date date = new Date();	
-		Calendar calendar1 = new GregorianCalendar();
 		
 		calendar1.setTime(date);
 
@@ -105,6 +106,45 @@ public class Contactoscontroller {
 		m.addAttribute("fragment",fragment);
 		
 		return "main.html";
+	}
+	
+	@PostMapping("/res_mensagem")
+	public String resmensagem(Model m, Contacto c, HttpSession session, String id) {
+		
+		Login u = (Login)session.getAttribute("user");
+		
+		if(u==null || u.getTipo().compareTo("0")!=0) {return "redirect:/login";}
+		
+		calendar1.setTime(date);
+		
+		int min=calendar1.get(Calendar.MINUTE);
+		int sec=calendar1.get(Calendar.SECOND);
+		int hour=calendar1.get(Calendar.HOUR_OF_DAY);	
+		int day=calendar1.get(Calendar.DAY_OF_MONTH);
+		
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, 1);
+		SimpleDateFormat data1 = new SimpleDateFormat("yyyy-MM-dd");
+		
+		String data = data1.format(cal.getTime());
+					
+		dia=data+"-"+hour+":"+min+":"+sec;
+		
+		c.setData(dia);
+		
+		
+		for(Contacto cc: service.findAll()) {
+			
+			if(cc.getId().compareTo(id)==0) {
+				
+				c.setId_dono(cc.getId_dono());
+				c.setTipo("0");
+			}
+			
+		}
+		
+		service.save(c);
+		return "redirect:/painel?fragment=painel_admin";
 	}
 
 }

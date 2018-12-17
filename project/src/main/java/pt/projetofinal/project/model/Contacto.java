@@ -10,13 +10,13 @@ public class Contacto {
 	String id;
 	
 	String nome,email,
-	mensagem,data,tipo;
+	mensagem,data,tipo,id_dono;
 
 	public Contacto() {
 		super();
 	}
 
-	public Contacto(String id, String nome, String email, String mensagem, String data, String tipo) {
+	public Contacto(String id, String nome, String email, String mensagem, String data, String tipo, String id_dono) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -24,6 +24,7 @@ public class Contacto {
 		this.mensagem = mensagem;
 		this.data = data;
 		this.tipo = tipo;
+		this.id_dono = id_dono;
 	}
 
 	public String getId() {
@@ -73,4 +74,13 @@ public class Contacto {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
+
+	public String getId_dono() {
+		return id_dono;
+	}
+
+	public void setId_dono(String id_dono) {
+		this.id_dono = id_dono;
+	}
+	
 }
