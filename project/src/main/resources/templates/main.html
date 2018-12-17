@@ -103,6 +103,42 @@
             /*alert($("#tipo").val());*/
             /*console.log();*/
         });
+        $("#Restaurante").click(function(){
+          if($("#srest").val() == "Restaurante"){
+            $("#srest").val("Inexistente")
+          }else {
+              $("#srest").val("Restaurante");
+          }
+            /*alert($("#tipo").val());*/
+            /*console.log();*/
+        });
+        $("#TakeAway").click(function(){
+          if($("#stakeaway").val() == "TakeAway"){
+            $("#stakeaway").val("Inexistente")
+          }else {
+              $("#stakeaway").val("TakeAway");
+          }
+            /*alert($("#tipo").val());*/
+            /*console.log();*/
+        });
+        $("#Encomenda").click(function(){
+          if($("#sencomenda").val() == "Encomenda"){
+            $("#sencomenda").val("Inexistente")
+          }else {
+              $("#sencomenda").val("Encomenda");
+          }
+            /*alert($("#tipo").val());*/
+            /*console.log();*/
+        });
+        $("#Reserva").click(function(){
+          if($("#sreserva").val() == "Reserva"){
+            $("#sreserva").val("Inexistente")
+          }else {
+              $("#sreserva").val("Reserva");
+          }
+            /*alert($("#tipo").val());*/
+            /*console.log();*/
+        });
 
       });
 
@@ -223,7 +259,7 @@
         <!--<span th:include="lateral::slide"> </span>-->
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
-                <a href="http://localhost:8080/inicio?fragment=painel_admin">
+                <a href="http://18.222.203.109:6997/inicio?fragment=painel_admin">
                     <img src="images/icon/logo.png" alt="Cool Admin" />
                 </a>
             </div>
@@ -416,7 +452,7 @@
                                             </div>
                                             <div class="account-dropdown__footer">
 
-                                                    <a href="http://localhost:8080/logout">
+                                                    <a href="http://18.222.203.109:6997/logout">
                                                     <i class="zmdi zmdi-power"></i>Sair</a>
                                             </div>
                                         </div>

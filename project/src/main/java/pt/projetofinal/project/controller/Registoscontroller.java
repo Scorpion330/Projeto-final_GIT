@@ -74,7 +74,6 @@ public class Registoscontroller {
     }
 	
 	
-	
 	@GetMapping("/introduzir")
 	public String registar(Model m,String fragment,HttpSession request) {
 		
@@ -121,7 +120,8 @@ public class Registoscontroller {
 			}
 		
 		}
-
+		ll.setId_restaurante("0");
+		
 		service.save(ll);
 		
 		if(ll.getTipo().equals("1")) {
@@ -151,6 +151,8 @@ public class Registoscontroller {
 			}
 		}
 		System.out.println("Estou a adicionar na mesma : )");
+		
+		ll.setId_restaurante("0");
 		service.save(ll);
 		
 			if(ll.getTipo().equals("1")) {
@@ -785,7 +787,7 @@ public class Registoscontroller {
 		Login u = (Login)session.getAttribute("user");
 		
 		em.setTipo("2");
-		em.setId_restaurante(u.getId_restaurante());
+		//em.setId_restaurante(u.getId_restaurante());
 		em.setArrestaurante(null);
 		service.save(em); //new Login(em.getId(),em.getUsername(),em.getPassword(),em.getNome(),em.getContacto(),em.getEmail(),username2,"2",null)
 				

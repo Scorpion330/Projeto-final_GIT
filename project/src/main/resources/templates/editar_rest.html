@@ -68,7 +68,7 @@
             <div class="form-group">
               <label for="exampleInputEmail1">Dias funcionais:</label>
               <span th:each="teste : ${arr}">
-                <span th:if="${teste} == 'Monday'">
+              <!--  <span th:if="${teste} == 'Monday'">
                   <input type="checkbox" id="Monday" aria-label="Checkbox for following text input">
                 </span>
                 <span th:unless="${teste} == 'Tuesday'">
@@ -88,13 +88,24 @@
                 </span>
                 <span th:unless="${teste} == 'Sunday'">
                   <input type="checkbox" id="Sunday" aria-label="Checkbox for following text input">
-                </span>
+                </span>-->
                 <div class="input-group-prepend">
                   <input th:value=${teste} class="form-control" aria-label="Text input with checkbox" disabled>
+                  &nbsp&nbsp
                 </div>
               </span>
             </div>
 
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">Serviços Prestados:</label>
+              <span th:each="serv : ${arrserv}">
+                <div class="input-group-prepend">
+                  <input th:value=${serv} class="form-control" aria-label="Text input with checkbox" disabled>
+                  <br>
+                </div>
+              </span>
+            </div>
 
 
         <!--    <div class="form-group">
