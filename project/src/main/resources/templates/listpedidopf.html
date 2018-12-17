@@ -21,9 +21,13 @@ $(document).ready(function(){
 
 </script>
 
-<div th:fragment="listpedidopf_frag">
 
+
+<div th:fragment="listpedidopf_frag">
+<!--<meta http-equiv="refresh" content="9"> -->
 <div class="section__content section__content--p30">
+  <body onload="JavaScript:AutoRefresh(25000);">
+
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-lg-12">
@@ -155,5 +159,6 @@ $(document).ready(function(){
 
 
 					</table>
+          </body>
 				</div>
 				</div>
