@@ -17,8 +17,10 @@ public static String sendEmailReset(String usermail) {
 try {
 						
 	email.setFrom("findelechef@gmail.com");
-	email.setSubject("Confirmação da alteração da passsword");
-	email.setMsg("Quaresma és burro !");
+	email.setSubject("Bem-Vindo ao Find Le Chef !");
+	email.setMsg("Obrigado por ter aderido à nossa aplicação, esperemos que goste e continue a utilizar a nossa aplicação no futuro."
+			+ "Melhores Cumprimentos,"
+			+ "Equipa Find Le Chef.");
 	email.addTo(usermail);
 	email.send();
 					

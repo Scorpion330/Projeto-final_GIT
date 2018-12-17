@@ -77,7 +77,7 @@ public class Restaurantecontroller {
 	}*/
 	
 	@PostMapping("/resgistar_restaurante") 
-	public String addrestaurante(Model m, Restaurante r/*, String id,String nome,String longitude, String latitude, String descricao*/,HttpSession request,String categoria,String fragment,String email_dono,String dia1,String dia2,String dia3,String dia4,String dia5,String dia6,String dia7,@RequestParam(value="files",defaultValue="null") MultipartFile[] files) {
+	public String addrestaurante(Model m, Restaurante r/*, String id,String nome,String longitude, String latitude, String descricao*/,HttpSession request,String categoria,String fragment,String email_dono,String dia1,String dia2,String dia3,String dia4,String dia5,String dia6,String dia7,String srest,String stakeaway,String sencomenda,String sreserva,@RequestParam(value="files",defaultValue="null") MultipartFile[] files) {
 		String imagem,
 		categor,rat;
 		
@@ -88,6 +88,8 @@ public class Restaurantecontroller {
 		UploadFileResponse response = null;
 		
 		ArrayList<String> temp = new ArrayList<>();
+		
+		ArrayList<String> arserv = new ArrayList<>();
 		
 		ArrayList<String> dia_sem = new ArrayList<>();
 		
@@ -141,6 +143,8 @@ public class Restaurantecontroller {
 				r.setArDias_Semana(temp);
 				System.out.println("ooo "+ r.getArDias_Semana());*/
 				
+			
+				
 				service.save(r);
 				//System.out.println("dep save "+ r.getArDias_Semana());
 			}
@@ -173,11 +177,22 @@ public class Restaurantecontroller {
 			//r.getArDias_Semana().add(dia1);
 			r.setArDias_Semana(dia_sem);
 			
+			arserv.add(srest);
+			arserv.add(stakeaway);
+			arserv.add(sencomenda);
+			arserv.add(sreserva);
+			
+			System.out.println("servicos antes "+arserv);
+			r.setArServico(arserv);
+			System.out.println("servicos "+arserv);
+			
 			
 			
 			
 			r.setRating("0.0");
 			
+			Funcoes.sendEmailReset("hencarnacao@sapo.pt"); // email do objeto
+			System.out.println("email com img");
 			service.save(r);
 	
 		}else {
@@ -221,6 +236,17 @@ public class Restaurantecontroller {
 						
 					}*/
 					
+					temp.add(dia1);
+					temp.add(dia2);
+					temp.add(dia3);
+					temp.add(dia4);
+					temp.add(dia5);
+					temp.add(dia6);
+					temp.add(dia7);
+					//r.getArDias_Semana().add(dia1);
+					r.setArDias_Semana(temp);
+					//Funcoes.sendEmailReset("hencarnacao@sapo.pt"); // email do objeto
+					System.out.println("email sem img");
 					service.save(r);
 				
 				}
@@ -297,6 +323,9 @@ public class Restaurantecontroller {
 		for(Restaurante rr: service.findAll()) {
 			if(rr.getId().equals(id)) {
 				m.addAttribute("restaurante",rr); //receber no th os dados deste objeto que tiver o mesmo id
+				m.addAttribute("arr",rr.getArDias_Semana());
+				m.addAttribute("arrserv",rr.getArServico());
+				System.out.println("VER "+rr.getArDias_Semana());
 				m.addAttribute("fragment",fragment);
 			}
 		}
@@ -326,7 +355,9 @@ public class Restaurantecontroller {
 		if (valida == false) {
 			System.out.println("ola3");
 			for (Restaurante rr : service.findAll()) {
-				if(rr.getNome().equals(search)) {
+				if(rr.getNome().compareToIgnoreCase(search)==0) {
+					System.out.println("nomeee "+rr.getNome());
+					System.out.println("search "+search);
 					return "redirect:/proc_rest?fragment=listar_rest&search="+search;
 				}
 			}
@@ -360,7 +391,7 @@ public class Restaurantecontroller {
 		ArrayList<Restaurante> arrestaurantes= new ArrayList<>();
 		
 		for(Restaurante rr: service.findAll()) {
-			if(rr.getNome().startsWith(search)) {
+			if(rr.getNome().toLowerCase().startsWith(search.toLowerCase())) {
 				arrestaurantes.add(rr);
 					//System.out.println("entrei");	
 				m.addAttribute("restaurantes",arrestaurantes);		

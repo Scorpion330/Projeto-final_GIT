@@ -42,7 +42,7 @@
       $(document).ready(function(){
         $("#Monday").click(function(){
           if($("#dia1").val() == "Monday"){
-            $("#dia1").val("0")
+            $("#dia1").val("Encerrado")
           }else {
               $("#dia1").val("Monday");
           }
@@ -51,7 +51,7 @@
         });
         $("#Tuesday").click(function(){
           if($("#dia2").val() == "Tuesday"){
-            $("#dia2").val("0")
+            $("#dia2").val("Encerrado")
           }else {
               $("#dia2").val("Tuesday");
           }
@@ -60,7 +60,7 @@
         });
         $("#Wednesday").click(function(){
           if($("#dia3").val() == "Wednesday"){
-            $("#dia3").val("0")
+            $("#dia3").val("Encerrado")
           }else {
               $("#dia3").val("Wednesday");
           }
@@ -69,7 +69,7 @@
         });
         $("#Thursday").click(function(){
           if($("#dia4").val() == "Thursday"){
-            $("#dia4").val("0")
+            $("#dia4").val("Encerrado")
           }else {
               $("#dia4").val("Thursday");
           }
@@ -78,7 +78,7 @@
         });
         $("#Friday").click(function(){
           if($("#dia5").val() == "Friday"){
-            $("#dia5").val("0")
+            $("#dia5").val("Encerrado")
           }else {
               $("#dia5").val("Friday");
           }
@@ -87,7 +87,7 @@
         });
         $("#Saturday").click(function(){
           if($("#dia6").val() == "Saturday"){
-            $("#dia6").val("0")
+            $("#dia6").val("Encerrado")
           }else {
               $("#dia6").val("Saturday");
           }
@@ -96,9 +96,45 @@
         });
         $("#Sunday").click(function(){
           if($("#dia7").val() == "Sunday"){
-            $("#dia7").val("0")
+            $("#dia7").val("Encerrado")
           }else {
               $("#dia7").val("Sunday");
+          }
+            /*alert($("#tipo").val());*/
+            /*console.log();*/
+        });
+        $("#Restaurante").click(function(){
+          if($("#srest").val() == "Restaurante"){
+            $("#srest").val("Inexistente")
+          }else {
+              $("#srest").val("Restaurante");
+          }
+            /*alert($("#tipo").val());*/
+            /*console.log();*/
+        });
+        $("#TakeAway").click(function(){
+          if($("#stakeaway").val() == "TakeAway"){
+            $("#stakeaway").val("Inexistente")
+          }else {
+              $("#stakeaway").val("TakeAway");
+          }
+            /*alert($("#tipo").val());*/
+            /*console.log();*/
+        });
+        $("#Encomenda").click(function(){
+          if($("#sencomenda").val() == "Encomenda"){
+            $("#sencomenda").val("Inexistente")
+          }else {
+              $("#sencomenda").val("Encomenda");
+          }
+            /*alert($("#tipo").val());*/
+            /*console.log();*/
+        });
+        $("#Reserva").click(function(){
+          if($("#sreserva").val() == "Reserva"){
+            $("#sreserva").val("Inexistente")
+          }else {
+              $("#sreserva").val("Reserva");
           }
             /*alert($("#tipo").val());*/
             /*console.log();*/
@@ -223,7 +259,7 @@
         <!--<span th:include="lateral::slide"> </span>-->
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
-                <a href="http://localhost:8080/inicio?fragment=painel_admin">
+                <a href="http://18.222.203.109:6997/inicio?fragment=painel_admin">
                     <img src="images/icon/logo.png" alt="Cool Admin" />
                 </a>
             </div>
@@ -366,7 +402,7 @@
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
-                                            <img th:src="${session.user.foto}" alt="John Doe" />
+                                            <img th:src="${session.user.foto}"/>
                                         </div>
                                         <div class="content">
                                             <a class="js-acc-btn" href="#" th:text="${session.user.nome}"></a>
@@ -416,7 +452,7 @@
                                             </div>
                                             <div class="account-dropdown__footer">
 
-                                                    <a href="http://localhost:8080/logout">
+                                                    <a href="http://18.222.203.109:6997/logout">
                                                     <i class="zmdi zmdi-power"></i>Sair</a>
                                             </div>
                                         </div>
