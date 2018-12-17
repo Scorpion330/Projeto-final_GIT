@@ -196,7 +196,7 @@
                                     <a href="/nova_mensagem?fragment=criar_mensagem">Contactar Admistradores</a>
                                 </li>
                                 <li>
-                                    <a href="/listarmenu?fragment=listarmenu_empregado">Listar Admistradores</a>
+                                    <a href="/caixa_entrada?fragment=lista_mensagens">Listar Mensagens</a>
                                 </li>
                                 <li>
                                 <!--    <a href="/listaremp?fragment=listar_emp">Listagem</a>   href="../school/create-division.html"
@@ -408,8 +408,20 @@
                  <span th:include="listar_pratos_e_empregados::listar_menuandemp_frag"> </span> <!--1 - nome do ficheiro .html e 2 - nome do frag em listar_rest_frag -->
                 </div>
 
+                <div th:case="nova_mensagens">
+                  <span th:include="nova_mensagem::nova_mensagem_frag"> </span>
+                </div>
+
                 <div th:case="criar_mensagem">
                   <span th:include="nova_mensagem::nova_mensagem_frag"> </span>
+                </div>
+
+                <div th:case="lista_mensagens">
+                  <span th:include="listar_mensagens::listar_mens_frag"> </span>
+                </div>
+
+                <div th:case="enviar_mensagem">
+                  <span th:include="profileowner::profileowner_frag"> </span>
                 </div>
 
               </div>

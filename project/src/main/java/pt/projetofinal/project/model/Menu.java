@@ -3,7 +3,7 @@ package pt.projetofinal.project.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection="Menu")
+@Document(collection="menu")
 public class Menu{
 	
 	@Id

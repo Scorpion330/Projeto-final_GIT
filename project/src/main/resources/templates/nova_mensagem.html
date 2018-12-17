@@ -21,7 +21,8 @@
             <div class="form-group"> <label>Mensagem</label>
             <textarea class="form-control" name="mensagem" rows="3" required></textarea>
             </div>
-            <span th:each="valor : ${contacto}">
+            <span th:each="valor : ${idm}">
+                <input class="form-control" name="idm" type="hidden" th:value="${valor}">
             </span>
 
             <button type="submit" class="btn btn-primary">Enviar</button>
