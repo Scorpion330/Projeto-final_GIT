@@ -1,27 +1,3 @@
-<script type="text/javascript">
-  $(function() {
-  var maxlength=150;
-  $('remaining').text(maxlength);
-  $("#descricao").keydown(function (event) {
-    LimitLeters($(this));
-  });
-  $("#descricao").keyup(function (event) {
-    LimitLeters($(this));
-  });
-  function LimitLeters(descricao){
-    if (descricao.val().length>maxlength) {
-      descricao.val(descricao.val().substring(0,maxlength));
-    }
-    else {
-      var nRemaining = maxlength - descricao.val().length;
-      $('.remaining').text(nRemaining);
-    }
-  }
-
-  });
-
-</script>
-
 <div th:fragment="order_frag">
 <div class="section__content section__content--p30">
   <div class="container-fluid">
@@ -65,11 +41,11 @@
           </table>
 
 
-      <div class="textareaorder">
-        <label for="exampleTextarea">Mensagem</label>
-        <textarea class="form-control" name="descricao" id="descricao" rows="5" onkeyup="count(this,'totalletter',20)"></textarea>
-        <br>Restante: <b><span text="150" class="remaining"></span></b>
-      </div>
+          <div class="textareaorder">
+                    <label for="exampleTextarea">Mensagem</label>
+                    <textarea class="form-control" name="descricao" id="descricao" rows="5" onkeyup="count(this,'totalletter',20)"></textarea>
+                    <br>Restante: <b><span text="150" class="remaining"></span></b>
+                  </div>
       <div class="buttonsorder">
         <div class="acceptorder">
           <button type="submit" class="btn btn-success" name="buttonorder" value="0">Aceitar Pedido</button>

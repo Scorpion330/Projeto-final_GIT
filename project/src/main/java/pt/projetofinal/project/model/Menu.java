@@ -3,14 +3,14 @@ package pt.projetofinal.project.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection="menu")
-public class Menu {
+@Document(collection="Menu")
+public class Menu{
 	
 	@Id
 	String id;
 	
 	String nome,
-			ingridiente,
+			ingrediente,
 			categoria,
 			picture,
 			id_restaurante;
@@ -24,12 +24,12 @@ public class Menu {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Menu(String id, String nome, String ingridiente, String categoria, String picture, String id_restaurante,
+	public Menu(String id, String nome, String ingrediente, String categoria, String picture, String id_restaurante,
 			int quantidade, double custo) {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.ingridiente = ingridiente;
+		this.ingrediente = ingrediente;
 		this.categoria = categoria;
 		this.picture = picture;
 		this.id_restaurante = id_restaurante;
@@ -53,12 +53,12 @@ public class Menu {
 		this.nome = nome;
 	}
 
-	public String getIngridiente() {
-		return ingridiente;
+	public String getIngrediente() {
+		return ingrediente;
 	}
 
-	public void setIngridiente(String ingridiente) {
-		this.ingridiente = ingridiente;
+	public void setIngrediente(String ingrediente) {
+		this.ingrediente = ingrediente;
 	}
 
 	public String getCategoria() {
@@ -100,5 +100,6 @@ public class Menu {
 	public void setCusto(double custo) {
 		this.custo = custo;
 	}
+	
 
 }

@@ -94,6 +94,8 @@ public class Menucontroller {
 	@GetMapping(value="/listarmenu")
 	public String listmenu(Model m, String fragment, HttpSession session) {
 		
+		System.out.println("Oi boy estou no listar");
+		
 		Login u = (Login)session.getAttribute("user");
 		
 		System.out.println("estou aqui no listar");
@@ -105,32 +107,40 @@ public class Menucontroller {
 		
 		for(Restaurante re: svrestaurante.findAll()) {
 			System.out.println("a");
-			if(u.getId().compareTo(re.getId_dono())==0) {
+			if(u.getId().compareTo(re.getId_dono())==0 || u.getId_restaurante().compareTo(re.getId())==0) {
 				System.out.println("b");
 				for(Menu me: svmenu.findAll()) {
 					System.out.println("c");
 					System.out.println("me id restaurante: "+me.getId()+" re id: "+re.getId());
-					if(me.getId_restaurante().compareTo(re.getId())==0) {
+					if(me.getId_restaurante().compareTo(re.getId())==0 && u.getId().compareTo(re.getId_dono())==0) {
 						System.out.println("d");
 						armenu.add(me);
 						
 					}
-					
+
+					else if(u.getId_restaurante().compareTo(me.getId_restaurante())==0) {
+						
+						armenu.add(me);
+					}	
 				}
-				
-				
 			}
-			
-			
-			
 		}
-		
 		
 		
 		m.addAttribute("fragment", fragment);
 		m.addAttribute("menu",armenu);
+		
 		System.out.println("I am indeed here");
-		return "mainownerprofile.html";
+		
+		if (u.getTipo().equals("1")) {
+			return "mainownerprofile.html";
+		}
+		else if(u.getTipo().equals("2")) {
+			return "mainempprofile.html";
+		}
+		
+		return "redirect:/login";
+		
 	}
 	
 	@GetMapping(value="/deletemenu")
@@ -272,10 +282,21 @@ public class Menucontroller {
 		
 		Login u = (Login)session.getAttribute("user");
 		
-		if(u==null || u.getTipo().compareTo("1")!=0) {return "redirect:/login";}
+		if(u==null || u.getTipo().compareTo("1")!=0 && u.getTipo().compareTo("2")!=0) {return "redirect:/login";}
 				
-			if (categoria.compareTo("t")==0) {
+			if (categoria.compareTo("todos")==0 && u.getTipo().compareTo("1")==0) {
 				m.addAttribute("menu",svmenu.findAll());
+			}else if (categoria.compareTo("todos")==0 && u.getTipo().compareTo("2")==0) {
+				for(Menu mm: svmenu.findAll()) {
+					
+					if(u.getId_restaurante().compareTo(mm.getId_restaurante())==0) {
+						
+						m.addAttribute("menu",mm);
+						
+					}
+					
+				}
+				
 			}
 			
 			for(Restaurante tt: svrestaurante.findAll()) {
@@ -284,23 +305,31 @@ public class Menucontroller {
 					System.out.println("menu "+me.getNome());
 					System.out.println("cat: "+categoria+" me categoria "+me.getCategoria());
 					
-					if(me.getCategoria().compareToIgnoreCase(categoria)==0 && tt.getId_dono().compareTo(u.getId())==0 && tt.getId().compareTo(me.getId_restaurante())==0) {
-						
-						
-							System.out.println("Ok but I'm here m8 "+tt.getNome());
-							
-
-							
-							armenu.add(me);
-							m.addAttribute("menu",armenu);
-							
-							}	
+					if(me.getCategoria().compareToIgnoreCase(categoria)==0 && tt.getId().compareTo(me.getId_restaurante())==0) {
+						System.out.println("oi");
+						if(u.getTipo().equals("1")) {
+							System.out.println("yo");
+							if (tt.getId_dono().compareTo(u.getId())==0) {
+								System.out.println("dumb af Ana");
+								armenu.add(me);
+								m.addAttribute("menu",armenu);
+							}
 						}
 						
-					
+						else if(u.getTipo().equals("2")) {
+							
+							if (me.getId_restaurante().compareTo(u.getId_restaurante())==0) {
+								armenu.add(me);
+								m.addAttribute("menu",armenu);
+							}
+							
+						}			
+						
+						//	System.out.println("Ok but I'm here m8 "+tt.getNome());				
+							
+							}	
+						}	
 				}
-		
-		
 		
 		m.addAttribute("fragment",fragment);
 		//m.addAttribute("menu",armenu);
@@ -404,6 +433,7 @@ public class Menucontroller {
 			return "redirect:/proc_menun?fragment=listar_menu&search="+search; 
 		}
 		
+		//TENS QUE TIRAR ISTO DAQUI
 		return "redirect:/menu_cat?fragment=listar_menu&categoria=bebida";
 	}
 	
@@ -471,6 +501,7 @@ public class Menucontroller {
 		m.addAttribute("fragment",fragment);
 		return "mainownerprofile.html";
 	}
+	
 	
 }
 
