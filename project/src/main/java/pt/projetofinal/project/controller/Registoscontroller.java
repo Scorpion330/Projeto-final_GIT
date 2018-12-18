@@ -790,7 +790,7 @@ public class Registoscontroller {
 		
 		em.setTipo("2");
 		
-		
+		em.setFoto(null);
 		
 		em.setArrestaurante(null);
 		service.save(em); //new Login(em.getId(),em.getUsername(),em.getPassword(),em.getNome(),em.getContacto(),em.getEmail(),username2,"2",null)
