@@ -43,7 +43,6 @@ public class Contactoscontroller {
 		
 		ArrayList<Login> arlogin = new ArrayList<>();
 		
-		System.out.println("fosga-se o id "+idm);
 		
 		m.addAttribute("idm",idm);
 		m.addAttribute("contacto",l);
@@ -154,7 +153,16 @@ public class Contactoscontroller {
 		
 		m.addAttribute("fragment",fragment);
 		
-		return "main.html";
+		if(l.getTipo().equals("1")) {
+			
+			return "mainownerprofile.html";
+		}
+		else if (l.getTipo().equals("0")) {
+			return "main.html";
+		}
+		
+		
+		return "redirect:/login";
 	}
 	
 }

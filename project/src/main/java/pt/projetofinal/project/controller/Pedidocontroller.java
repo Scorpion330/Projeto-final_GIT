@@ -121,7 +121,7 @@ public class Pedidocontroller {
                 		System.out.println("Estado passado");
                 		if(ordertype.compareTo("1")==0) {
                             System.out.println("Ultrapasso o ordertype");
-                            if(q.getId().compareTo(p.getId_user())==0 && p.getTipo().compareTo("reservar")!=0) {
+                            if(q.getId().compareTo(p.getId_user())==0 && p.getTipo().compareTo("reserva")!=0) {
                                 System.out.println("Hacker voice I'm in");
                                 
                                 arorder.add(p);
@@ -133,7 +133,7 @@ public class Pedidocontroller {
                         
                         else if(ordertype.compareTo("2")==0) {
                             
-                            if(q.getId().compareTo(p.getId_user())==0 && p.getTipo().compareTo("reservar")==0) {
+                            if(q.getId().compareTo(p.getId_user())==0 && p.getTipo().compareTo("reserva")==0) {
                                 System.out.println("Hacker voice I'm in");
                                 
                                 arorder.add(p);
@@ -147,7 +147,7 @@ public class Pedidocontroller {
                 
                 	else if (ordertype.compareTo("3")==0) {
 
-                		if(q.getId().compareTo(p.getId_user())==0 && p.getEstado().compareTo("Aceite")==0 && p.getTipo().compareTo("reservar")==0 && date.compareTo(orderdate)==0) {
+                		if(q.getId().compareTo(p.getId_user())==0 && p.getEstado().compareTo("Aceite")==0 && p.getTipo().compareTo("reserva")==0 && date.compareTo(orderdate)==0) {
                     		
                 			arorder.add(p);
                             arlog.add(q);
@@ -163,6 +163,7 @@ public class Pedidocontroller {
             
         }
         
+        m.addAttribute("ordertype",ordertype);
         m.addAttribute("fragment",fragment);
         m.addAttribute("userorder",arlog);
         m.addAttribute("pedidos",arorder);
@@ -170,27 +171,78 @@ public class Pedidocontroller {
     }
 	
 	@PostMapping(value="/orderacept")
-	public String orderacept(Pedido p, Model m, String id, String fragment, HttpSession session) {
+	public String orderacept(Pedido p, Model m, String id, String ordertype, String fragment, HttpSession session) {
 		System.out.println("String id: "+id);
 		ArrayList<Pedido> arorder = new ArrayList<>();
 		ArrayList<Menu> armenu = new ArrayList<>();
+		
+		String date="";
+		
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar cal = Calendar.getInstance();
+        date = dateFormat.format(cal.getTime());
 		
 		Login u = (Login)session.getAttribute("user");
 		
 		if(u==null || u.getTipo().compareTo("2")!=0) {return "redirect:/login";}
 		
+		System.out.println("idddd porra "+id);
+		System.out.println("ordertype "+ordertype);
+		
 		for(Pedido r: svpedido.findAll()) {
+			String orderdate = (r.getData().substring(0,10));
+			
 			
 			if (u.getId_restaurante().compareTo(r.getId_restaurante())==0) {
-			
-				if(r.getId_user().compareTo(id)==0 && (r.getEstado().compareTo("Enviado")==0 || r.getTipo().compareTo("reservar")==0 && r.getEstado().compareTo("Aceite")==0)) { //&& r.getTipo().compareTo("Aceite")==0) 
+				
+				if (r.getId_user().compareTo(id)==0) {
 					
-					arorder.add(r);
-					System.out.println("r menu: "+r.getArmenu());
+					if(ordertype.equals("1")) {
+						
+						if (r.getEstado().compareTo("Enviado")==0 && r.getTipo().compareTo("reserva")!=0) {
+							arorder.add(r);
+							
+							for(int i=0; i<r.getArmenu().size();i++) {
+								System.out.println("armenu "+r.getArmenu().get(i).getNome());
+								armenu.add(r.getArmenu().get(i));
+								
+							}
+						}
+						
+						
+					}
 					
-					for(int i=0; i<r.getArmenu().size();i++) {
-						System.out.println("armenu "+r.getArmenu().get(i).getNome());
-						armenu.add(r.getArmenu().get(i));
+					if(ordertype.equals("2")) {
+						
+						if(r.getTipo().compareTo("reserva")==0 && r.getEstado().compareTo("Enviado")==0) {
+							System.out.println("broo reserva");
+							arorder.add(r);
+							
+							for(int i=0; i<r.getArmenu().size();i++) {
+								System.out.println("armenu "+r.getArmenu().get(i).getNome());
+								armenu.add(r.getArmenu().get(i));
+								
+							}
+							
+						}
+						
+					}
+					
+					if(ordertype.equals("3")) {
+						
+						if (r.getTipo().compareTo("reserva")==0 && r.getEstado().compareTo("Aceite")==0 && orderdate.compareTo(date)==0) {
+							
+							arorder.add(r);
+							System.out.println("estou aqui na reserva lol");
+							
+							for(int i=0; i<r.getArmenu().size();i++) {
+								System.out.println("armenu "+r.getArmenu().get(i).getNome());
+								armenu.add(r.getArmenu().get(i));
+								
+							}
+							
+						}
+						
 						
 					}
 					
@@ -223,13 +275,13 @@ public class Pedidocontroller {
                     m.addAttribute("fragment",fragment);
                     System.out.println("Estou aqui 1");
                     
-                    if(r.getTipo().compareTo("reservar")!=0) {
+                    if(r.getTipo().compareTo("reserva")!=0) {
                     	
                     	ordertype="1";
                     	
                     }
                     
-                    else if(r.getTipo().compareTo("reservar")==0 && r.getEstado().compareTo("Aceite")==0) {
+                    else if(r.getTipo().compareTo("reserva")==0 && r.getEstado().compareTo("Aceite")==0) {
                     	ordertype="3";
                     }
                     
@@ -332,25 +384,43 @@ public class Pedidocontroller {
 			if(re.getId().compareTo(u.getId_restaurante())==0) {
 				
 				for(Menu me: svmenu.findAll()) {
-					
-					for(Pedido p: svpedido.findAll()) {
 						
-						if(me.getId_restaurante().compareTo(re.getId())==0 && p.getId_restaurante().compareTo(re.getId())==0) {
+						if(me.getId_restaurante().compareTo(re.getId())==0) {
 							
-							for(Login lo: svusuário.findAll()) {
-								
-								if(lo.getTipo().equals("3") && lo.getId().compareTo(p.getId_user())==0) {
-									
-									if (me.getNome().contains(search) && lo.getNome().startsWith(search)) {
+									if (me.getNome().contains(search) ) {
 										
-										arlogin.add(lo);
+										
 										armenu.add(me);
 										//enviar para aquele com ambos
 									}
 									
 								}
 								
-							}
+							}		
+			}
+			
+		}
+		
+		
+		for(Restaurante re: svres.findAll()) {
+			
+			if(re.getId().compareTo(u.getId_restaurante())==0) {
+				
+				for(Pedido p: svpedido.findAll()) {
+					
+					if (p.getId_restaurante().compareTo(re.getId())==0) {
+						
+						for(Login lo: svusuário.findAll()){
+							
+							if(lo.getTipo().equals("3") && lo.getId().compareTo(p.getId_user())==0) {
+							
+								if(lo.getNome().startsWith(search)) {
+								
+									arlogin.add(lo);
+								}
+							}	
+							
+						}	
 						
 					}
 					
@@ -359,8 +429,6 @@ public class Pedidocontroller {
 			}
 			
 		}
-		
-	}
 		
 		
 		m.addAttribute("menu",armenu);

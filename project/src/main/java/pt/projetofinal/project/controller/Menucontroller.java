@@ -121,8 +121,8 @@ public class Menucontroller {
 						armenu.add(me);
 						
 					}
-
-					else if(u.getId_restaurante().compareTo(me.getId_restaurante())==0) {
+					System.out.println(" id restaurante "+u.getId_restaurante()+" me id "+me.getId_restaurante());
+					 if(u.getId_restaurante().compareTo(me.getId_restaurante())==0) {
 						
 						armenu.add(me);
 					}	
@@ -320,7 +320,7 @@ public class Menucontroller {
 						
 					if(u.getId_restaurante().compareTo(mm.getId_restaurante())==0) {
 						armenu.add(mm);
-						//m.addAttribute("menu",mm);
+						
 						
 					}
 					
@@ -382,14 +382,15 @@ public class Menucontroller {
 		ArrayList<Menu> armenu = new ArrayList<>();
 		ArrayList<Login> arlogin = new ArrayList<>();
 		
+		
 		for(Restaurante re: svrestaurante.findAll()) {
 			
 			if(u.getId().compareTo(re.getId_dono())==0) {
 				
 				for(Menu me: svmenu.findAll()) {
 					
-					if (me.getNome().contains(search) && me.getId_restaurante().compareTo(re.getId())==0) {
-						
+					if (me.getNome().toLowerCase().contains(search.toLowerCase()) && me.getId_restaurante().compareTo(re.getId())==0) {
+							
 							armenu.add(me);
 						}
 				}
@@ -398,7 +399,7 @@ public class Menucontroller {
 					
 					if(lo.getId_restaurante().compareTo(re.getId())==0 ) {
 						
-						if (lo.getTipo().equals("2") && lo.getId_restaurante().compareTo(re.getId())==0 && lo.getNome().startsWith(search)) {
+						if (lo.getTipo().equals("2") && lo.getId_restaurante().compareTo(re.getId())==0 && lo.getNome().toLowerCase().startsWith(search.toLowerCase())) {
 							arlogin.add(lo);
 						}
 						
@@ -437,12 +438,12 @@ public class Menucontroller {
 					
 					for(Login lo: svlogin.findAll()) {
 						
-						if(lo.getTipo().equals("2") && lo.getId_restaurante().compareTo(re.getId())==0 && lo.getNome().startsWith(search)) {
+						if(lo.getTipo().equals("2") && lo.getId_restaurante().compareTo(re.getId())==0 && lo.getNome().toLowerCase().startsWith(search.toLowerCase())) {
 							
 							abcz="a";
 							allogin.add(lo);
 							
-						}if (me.getNome().contains(search)) {
+						}if (me.getNome().toLowerCase().contains(search.toLowerCase())) {
 							abcz="b";
 							almenu.add(me);
 						}
@@ -475,7 +476,7 @@ public class Menucontroller {
 		}
 		
 		//TENS QUE TIRAR ISTO DAQUI
-		return "redirect:/menu_cat?fragment=listar_menu&categoria=bebida";
+		return "redirect:/login";
 	}
 	
 	@GetMapping(value="/proc_empname")
@@ -493,7 +494,7 @@ public class Menucontroller {
 				
 				for(Login lo: svlogin.findAll()) {
 					
-					if(lo.getId_restaurante().compareTo(re.getId())==0 && lo.getTipo().equals("2") && lo.getNome().startsWith(search)) {
+					if(lo.getId_restaurante().compareTo(re.getId())==0 && lo.getTipo().equals("2") && lo.getNome().toLowerCase().startsWith(search.toLowerCase())) {
 						
 						arlogin.add(lo);
 						
@@ -526,7 +527,7 @@ public class Menucontroller {
 				
 				for(Menu me: svmenu.findAll()) {
 					
-					if(me.getId_restaurante().compareTo(re.getId())==0 && me.getNome().contains(search)) {
+					if(me.getId_restaurante().compareTo(re.getId())==0 && me.getNome().toLowerCase().contains(search.toLowerCase())) {
 						
 						armenu.add(me);
 						
