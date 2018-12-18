@@ -62,7 +62,6 @@ $(document).ready(function(){
       							<tr>
       								<th>Nome</th>
       								<th>Tipo</th>
-      								<th style="text-align:center;">Ver Pedido</th>
       							</tr>
 
 
@@ -74,21 +73,6 @@ $(document).ready(function(){
 
       			<td>
 
-
-
-      			<td style="width:40%; text-align:center; vertical-align:middle;">
-      		<form action="/orderacept?fragment=orderacept" method="post">
-      			<input class="form-control" name="id" type="hidden" th:value="${parametros.id}"> <!-- Mandar o id para o editar -->
-      					<div class="fa-hover col-lg-3 col-md-6">
-      					<button type="submit">
-
-      					<i class="fa fa-pencil" style="font-size:25px;"></i>
-
-      					</button>
-      				</div>
-      			</form>
-
-      			</td>
       		</tr>
 
 
