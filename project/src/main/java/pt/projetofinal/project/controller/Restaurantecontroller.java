@@ -119,6 +119,7 @@ public class Restaurantecontroller {
 					r.setCategoria(categoria);
 				}
 				
+				r.setId_dono(rr.getId_dono());
 								
 				imagem=rr.getPicture();
 				r.setPicture(imagem);
@@ -148,8 +149,6 @@ public class Restaurantecontroller {
 				System.out.println("array"+temp);
 				r.setArDias_Semana(temp);
 				System.out.println("ooo "+ r.getArDias_Semana());*/
-				
-			
 				
 				service.save(r);
 				//System.out.println("dep save "+ r.getArDias_Semana());
@@ -223,7 +222,7 @@ public class Restaurantecontroller {
 						r.setCategoria(categoria);
 					}
 				
-					
+					r.setId_dono(rr.getId_dono());
 	
 					/*imagem=rr.getPicture();
 					r.setPicture(imagem);*/
