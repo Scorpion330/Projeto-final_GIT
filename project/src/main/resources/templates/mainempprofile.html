@@ -215,11 +215,11 @@
 
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <form action="/filt_menu" method="get">
-                                <input class="dropdown-item" value="todos" type="submit" name="cat">
+                                <input class="dropdown-item" value="Todos" type="submit" name="cat">
                                 <input class="dropdown-item" value="Entrada" text="Entrada" type="submit" name="cat">
                                 <input class="dropdown-item" value="Prato Principal" text="Prato Principal" type="submit" name="cat">
                                 <input class="dropdown-item" value="Bebida" text="Bebida" type="submit" name="cat">
-                                <input class="dropdown-item" value="Sobremessa" text="Sobremessa" type="submit" name="cat">
+                                <input class="dropdown-item" value="Sobremesa" text="Sobremesa" type="submit" name="cat">
                               </form>
                             </div>
 
@@ -230,29 +230,32 @@
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
-                                            <img src="images/icon/avatar-01.jpg" alt="John Doe" />
+                                            <img th:src="${session.user.foto}"/>
                                         </div>
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#">john doe</a>
+                                            <a class="js-acc-btn" href="#" th:text="${session.user.nome}"></a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
-                                                        <img src="images/icon/avatar-01.jpg" alt="John Doe" />
+                                                        <img th:src="${session.user.foto}"/>
                                                     </a>
                                                 </div>
                                                 <div class="content">
                                                     <h5 class="name">
-                                                        <a href="#">john doe</a>
+                                                      <span th:text="${session.user.nome}"></span>
                                                     </h5>
-                                                    <span class="email">johndoe@example.com</span>
+                                                    <span class="email" th:text="${session.user.email}"></span>
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__body">
                                                 <div class="account-dropdown__item">
-                                                    <a href="#">
-                                                        <i class="zmdi zmdi-account"></i>Account</a>
+
+                                                   <a th:href="@{/minha_conta?fragment=conta&id={type}(type=${session.user.id})}">
+
+                                                      <i class="zmdi zmdi-account" ></i>Minha Conta
+                                                  </a>
                                                 </div>
                                                 <div class="account-dropdown__item">
                                                     <a href="#">
@@ -309,6 +312,10 @@
 
                 <div th:case="listar_emp">
                   <span th:include="listaremp::listar_utilizadores_frag"> </span>
+                </div>
+
+                <div th:case="naprocurar">
+                  <span th:include="listar_pratos_e_empregados::listar_menuandemp_frag"> </span> <!--1 - nome do ficheiro .html e 2 - nome do frag em listar_rest_frag -->
                 </div>
 
                 <div th:case="editar_utilizadores">

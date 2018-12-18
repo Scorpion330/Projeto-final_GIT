@@ -1,6 +1,7 @@
 package pt.projetofinal.project.controller;
 
 import java.io.IOException;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import pt.projetofinal.project.files.FileHandler;
+import pt.projetofinal.project.files.FileHandler.UploadFileResponse;
 import pt.projetofinal.project.model.Login;
 import pt.projetofinal.project.model.Menu;
 import pt.projetofinal.project.model.Restaurante;
@@ -36,6 +39,9 @@ public class Menucontroller {
 	
 	@Autowired
 	Loginrepository svlogin;
+	
+	@Autowired
+	FileHandler filehandler;
 	
 	@GetMapping(value="/addmenu")
 	public String addmenu(Model m, String fragment, HttpSession session) {
@@ -72,20 +78,16 @@ public class Menucontroller {
 		
 		if(u==null || u.getTipo().compareTo("1")!=0) {return "redirect:/login";}
 		
+		UploadFileResponse response = null;
+		
 		System.out.println("id enviado "+mm.getId_restaurante());
 		
-		StringBuilder fileNames = new StringBuilder();
-		for(MultipartFile file : files) {
-			Path fileNameAndPath = Paths.get(uploadDirectory,file.getOriginalFilename());
-			fileNames.append(file.getOriginalFilename()+" ");
-			try {
-				Files.write(fileNameAndPath,file.getBytes());
-			}catch (IOException e) {
-				e.printStackTrace();
-			}			
-		}
+		response = filehandler.saveFile(files[0]);
 		
-		String pic="/uploads/"+fileNames;
+		mm.setPicture(response.getFileDownloadUri());
+		
+		String pic=response.getFileDownloadUri();
+		
 		mm.setPicture(pic);
 		//mm.setId_restaurante(u.getId_restaurante());
 		svmenu.save(mm);
@@ -267,10 +269,18 @@ public class Menucontroller {
 	}
 	
 	@GetMapping(value="filt_menu")
-	public String filtmenu(Model m, String cat) {
+	public String filtmenu(Model m, String cat, HttpSession session) {
 		
+		Login u = (Login)session.getAttribute("user");
 		
-		return "redirect:/menu_cat?fragment=listar_menu&categoria="+cat;
+		if(u.getTipo().equals("1")) {
+			return "redirect:/menu_cat?fragment=listar_menu&categoria="+cat;
+		}
+		else if(u.getTipo().equals("2")) {
+			return "redirect:/menu_cat?fragment=listarmenu_empregado&categoria="+cat;
+		}
+		
+		return "redirect:/login";
 	}
 	
 	
@@ -284,21 +294,39 @@ public class Menucontroller {
 		Login u = (Login)session.getAttribute("user");
 		
 		if(u==null || u.getTipo().compareTo("1")!=0 && u.getTipo().compareTo("2")!=0) {return "redirect:/login";}
+		
+		for(Menu mm: svmenu.findAll()) {
+			
+			if (categoria.compareTo("Todos")==0 && u.getTipo().compareTo("1")==0) {
 				
-			if (categoria.compareTo("todos")==0 && u.getTipo().compareTo("1")==0) {
-				m.addAttribute("menu",svmenu.findAll());
-			}else if (categoria.compareTo("todos")==0 && u.getTipo().compareTo("2")==0) {
-				for(Menu mm: svmenu.findAll()) {
+				for(Restaurante re: svrestaurante.findAll()) {
 					
-					if(u.getId_restaurante().compareTo(mm.getId_restaurante())==0) {
+					if(re.getId().compareTo(mm.getId_restaurante())==0) {
 						
-						m.addAttribute("menu",mm);
+						if (re.getId_dono().compareTo(u.getId())==0) {
+							System.out.println("nome "+mm.getNome()+" re id: "+re.getId()+" mm id "+mm.getId_restaurante()+" u id "+u.getId()+" id dele proprio "+mm.getId_restaurante());
+							armenu.add(mm);
+							
+						}
 						
 					}
 					
 				}
 				
-			}
+				
+				//m.addAttribute("menu",svmenu.findAll());
+			}else if (categoria.compareTo("Todos")==0 && u.getTipo().compareTo("2")==0) {
+						
+					if(u.getId_restaurante().compareTo(mm.getId_restaurante())==0) {
+						armenu.add(mm);
+						//m.addAttribute("menu",mm);
+						
+					}
+					
+				}
+			
+		}	
+				
 			
 			for(Restaurante tt: svrestaurante.findAll()) {
 				
@@ -309,11 +337,11 @@ public class Menucontroller {
 					if(me.getCategoria().compareToIgnoreCase(categoria)==0 && tt.getId().compareTo(me.getId_restaurante())==0) {
 						System.out.println("oi");
 						if(u.getTipo().equals("1")) {
-							System.out.println("yo");
+							
 							if (tt.getId_dono().compareTo(u.getId())==0) {
-								System.out.println("dumb af Ana");
+								
 								armenu.add(me);
-								m.addAttribute("menu",armenu);
+								//m.addAttribute("menu",armenu);
 							}
 						}
 						
@@ -321,7 +349,7 @@ public class Menucontroller {
 							
 							if (me.getId_restaurante().compareTo(u.getId_restaurante())==0) {
 								armenu.add(me);
-								m.addAttribute("menu",armenu);
+								
 							}
 							
 						}			
@@ -331,10 +359,19 @@ public class Menucontroller {
 							}	
 						}	
 				}
+			
+			m.addAttribute("menu",armenu);
+			m.addAttribute("fragment",fragment);
+			
+			if(u.getTipo().equals("1")) {
+				return "mainownerprofile.html";
+			}
+			else if(u.getTipo().equals("2")) {
+				return "mainempprofile.html";
+			}
 		
-		m.addAttribute("fragment",fragment);
-		//m.addAttribute("menu",armenu);
-		return "mainownerprofile.html";
+			return "redirect:/login";
+		
 	}
 	
 	@GetMapping(value="/naprocurar")
@@ -350,17 +387,18 @@ public class Menucontroller {
 				
 				for(Menu me: svmenu.findAll()) {
 					
-					for(Login lo: svlogin.findAll()) {
+					if (me.getNome().contains(search) && me.getId_restaurante().compareTo(re.getId())==0) {
 						
-						if(me.getId_restaurante().compareTo(re.getId())==0 && lo.getTipo().equals("2") && lo.getId_restaurante().compareTo(re.getId())==0) {
-							
-							if(lo.getNome().startsWith(search) && me.getNome().contains(search)) {
-								
-								armenu.add(me);
-								arlogin.add(lo);
-								
-							}
-							
+							armenu.add(me);
+						}
+				}
+				
+				for(Login lo: svlogin.findAll()) {
+					
+					if(lo.getId_restaurante().compareTo(re.getId())==0 ) {
+						
+						if (lo.getTipo().equals("2") && lo.getId_restaurante().compareTo(re.getId())==0 && lo.getNome().startsWith(search)) {
+							arlogin.add(lo);
 						}
 						
 					}
@@ -370,6 +408,7 @@ public class Menucontroller {
 			}
 			
 		}
+		
 		
 		m.addAttribute("fragment",fragment);
 		m.addAttribute("menu",armenu);
@@ -382,7 +421,10 @@ public class Menucontroller {
 	public String nsearchh(Model m, String search, String fragment, HttpSession session) {
 		
 		String abcz="z";
-		//System.out.println("search: "+search);
+		
+		ArrayList<Login> allogin = new ArrayList<>();
+		
+		ArrayList<Menu> almenu = new ArrayList<>();
 		
 		Login u = (Login)session.getAttribute("user");
 		
@@ -393,30 +435,15 @@ public class Menucontroller {
 				for(Menu me: svmenu.findAll()) {
 					
 					for(Login lo: svlogin.findAll()) {
-						//System.out.println("quatro");
-						//System.out.println("onde esta o null"+me.getId_restaurante()+" id re: "+re.getId()+" lo type "+lo.getTipo()+" lo id "+lo.getId()+" re id dono "+me.getId_restaurante());
-						if(me.getId_restaurante().compareTo(re.getId())==0 && lo.getTipo().equals("2") && lo.getId_restaurante().compareTo(re.getId())==0) {
-							//System.out.println("cinco");
-							System.out.println("search "+search);
-							System.out.println("re nome "+lo.getNome() +" me nome "+me.getNome());
-							if(lo.getNome().startsWith(search) && me.getNome().contains(search)) { 
-								System.out.println("BRO TEMOS 2 LOL");
-								return "redirect:/naprocurar?fragment=naprocurar&search="+search; 
-								//break;
-								//return "somewhere";
-								
-							}
-							
-						}
-						//System.out.println("mas vens para aqui ou nao");
+						
 						if(lo.getTipo().equals("2") && lo.getId_restaurante().compareTo(re.getId())==0 && lo.getNome().startsWith(search)) {
 							
 							abcz="a";
-							System.out.println("ayy procurando: "+abcz);
+							allogin.add(lo);
 							
 						}if (me.getNome().contains(search)) {
 							abcz="b";
-							System.out.println("oyy procurando: "+abcz);
+							almenu.add(me);
 						}
 						
 						
@@ -427,6 +454,18 @@ public class Menucontroller {
 			}
 			
 		}
+		
+		for(int i=0;i<allogin.size();i++) {
+			
+			for(int j=0;j<almenu.size();j++) {
+			
+				if(almenu.get(j).getNome().toLowerCase().contains(search.toLowerCase()) && (allogin.get(i).getNome().toLowerCase().startsWith(search.toLowerCase()) ||  allogin.get(i).getNome().toLowerCase().endsWith(search.toLowerCase()))){
+					 return "redirect:/naprocurar?fragment=naprocurar&search="+search; 
+				}
+				
+			}
+		}
+		
 		
 		if(abcz.equals("a")) {
 			return "redirect:/proc_empname?fragment=listar_emp&search="+search; 

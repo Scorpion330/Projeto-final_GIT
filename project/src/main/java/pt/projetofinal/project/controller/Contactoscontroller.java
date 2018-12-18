@@ -60,7 +60,8 @@ public class Contactoscontroller {
 			m.addAttribute("fragment",fragment);
 			return "mainownerprofile.html";
 		}
-			System.out.println("lmao fui aqui ter");
+		
+		System.out.println("lmao fui aqui ter");
 		return "main.html";
 	}
 

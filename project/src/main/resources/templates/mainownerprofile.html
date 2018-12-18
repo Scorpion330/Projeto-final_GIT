@@ -308,11 +308,11 @@
 
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <form action="/filt_menu" method="get">
-                                <input class="dropdown-item" value="t" type="submit" name="cat">
+                                <input class="dropdown-item" value="Todos" type="submit" name="cat">
                                 <input class="dropdown-item" value="Entrada" text="Entrada" type="submit" name="cat">
                                 <input class="dropdown-item" value="Prato Principal" text="Prato Principal" type="submit" name="cat">
                                 <input class="dropdown-item" value="Bebida" text="Bebida" type="submit" name="cat">
-                                <input class="dropdown-item" value="Sobremessa" text="Sobremessa" type="submit" name="cat">
+                                <input class="dropdown-item" value="Sobremesa" text="Sobremesa" type="submit" name="cat">
                               </form>
                             </div>
 
@@ -323,7 +323,7 @@
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
-                                      <!--     <img th:src="${session.user.foto}" alt="John Doe" /> -->
+                                          <img th:src="${session.user.foto}"/>
                                         </div>
                                         <div class="content">
                                             <a class="js-acc-btn" href="#" th:text="${session.user.nome}"></a>
@@ -332,19 +332,19 @@
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
-                                                          <img th:src="${session.user.foto}"/>
+                                                      <img th:src="${session.user.foto}"/>
                                                     </a>
                                                 </div>
                                                 <div class="content">
                                                     <h5 class="name">
-                                                        <span th:text="${session.user.nome}"></span>
+                                                      <span th:text="${session.user.nome}"></span>
                                                     </h5>
-                                                        <span class="email" th:text="${session.user.email}"></span>
+                                                      <span class="email" th:text="${session.user.email}"></span>
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__body">
                                                 <div class="account-dropdown__item">
-                                                    <a href="#">
+                                                     <a th:href="@{/minha_conta?fragment=conta&id={type}(type=${session.user.id})}">
                                                         <i class="zmdi zmdi-account"></i>Account</a>
                                                 </div>
                                                 <div class="account-dropdown__item">
