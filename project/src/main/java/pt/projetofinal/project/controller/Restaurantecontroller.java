@@ -201,7 +201,7 @@ public class Restaurantecontroller {
 			
 			r.setRating("0.0");
 			
-			//Funcoes.sendEmailReset("hencarnacao@sapo.pt"); // email do objeto
+			Funcoes.sendEmailReset("pedroalex.vicente@hotmail.com"); // email do objeto
 			System.out.println("email com img");
 			service.save(r);
 	
@@ -256,7 +256,7 @@ public class Restaurantecontroller {
 					temp.add(dia7);
 					//r.getArDias_Semana().add(dia1);
 					r.setArDias_Semana(temp);
-					//Funcoes.sendEmailReset(email_dono); // email do objeto
+					//Funcoes.sendEmailReset("pedroalex.vicente52@gmail.com"); // email do objeto
 					System.out.println("email sem img");
 					
 					arserv.add(srest);
