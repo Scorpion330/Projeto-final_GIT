@@ -70,7 +70,7 @@ public class Contactoscontroller {
 		
 		Login l = (Login)request.getAttribute("user"); 
 		
-		if(l==null) {return "redirect:/login";}
+		if(l==null || l.getTipo().compareTo("2")==0) {return "redirect:/login";}
 		
 		calendar1.setTime(date);
 

@@ -56,6 +56,7 @@ public class Menucontroller {
 		
 		for(Restaurante re: svrestaurante.findAll()) {
 			System.out.println("estou no for");
+			System.out.println("id dono"+re.getId_dono()+"o id "+u.getId());
 			
 			if(re.getId_dono().compareTo(u.getId())==0) {
 				System.out.println("Estou a adicionar");

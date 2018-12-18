@@ -77,9 +77,9 @@ public class Restaurantecontroller {
 	}*/
 	
 	@PostMapping("/resgistar_restaurante") 
-	public String addrestaurante(Model m, Restaurante r/*, String id,String nome,String longitude, String latitude, String descricao*/,HttpSession request,String categoria,String fragment,String email_dono,String dia1,String dia2,String dia3,String dia4,String dia5,String dia6,String dia7,String srest,String stakeaway,String sencomenda,String sreserva,@RequestParam(value="files",defaultValue="null") MultipartFile[] files) {
+	public String addrestaurante(Model m, Restaurante r/*, String id,String nome,String longitude, String latitude, String descricao*/,HttpSession request,String categoria,String fragment,String email_dono,String dia1,String dia2,String dia3,String dia4,String dia5,String dia6,String dia7,String srest,String stakeaway,String sencomenda,String sreserva,String hora_entrada,String min_entrada, String hora_saida,String min_saida,@RequestParam(value="files",defaultValue="null") MultipartFile[] files) {
 		String imagem,
-		categor,rat;
+		categor,rat,hora_inicio,hora_fim;
 		
 		Login l = (Login)request.getAttribute("user"); //o objeto vai ser igual aos atributos do user que vem do httpsession request (chamar)
 		
@@ -101,7 +101,7 @@ public class Restaurantecontroller {
 			response = filehandler.saveFile(files[0]);
 			
 			r.setPicture(response.getFileDownloadUri());
-
+			
 			
 		for(Restaurante rr:service.findAll()) {//para o editar
 			if(rr.getId().equals(r.getId())) {
@@ -132,6 +132,12 @@ public class Restaurantecontroller {
 				temp.add(dia7);
 				//r.getArDias_Semana().add(dia1);
 				r.setArDias_Semana(temp);
+				
+				hora_inicio=hora_entrada+":"+min_entrada;
+				hora_fim=hora_saida+":"+min_saida;
+				
+				r.setHorario_abrir(hora_inicio);
+				r.setHorario_fechar(hora_fim);
 		
 				/*for(String dias : rr.getArDias_Semana()) {
 					temp.add(dias);
@@ -186,12 +192,16 @@ public class Restaurantecontroller {
 			r.setArServico(arserv);
 			System.out.println("servicos "+arserv);
 			
+			hora_inicio=hora_entrada+":"+min_entrada;
+			hora_fim=hora_saida+":"+min_saida;
 			
+			r.setHorario_abrir(hora_inicio);
+			r.setHorario_fechar(hora_fim);
 			
 			
 			r.setRating("0.0");
 			
-			//Funcoes.sendEmailReset("hencarnacao@sapo.pt"); // email do objeto
+			Funcoes.sendEmailReset("pedroalex.vicente@hotmail.com"); // email do objeto
 			System.out.println("email com img");
 			service.save(r);
 	
@@ -205,6 +215,7 @@ public class Restaurantecontroller {
 						System.out.println("estou aqui");
 						categor=rr.getCategoria();
 						r.setCategoria(categor);
+						System.out.println(categor);
 					}
 					else {
 						System.out.println("categoria "+categoria);
@@ -245,8 +256,25 @@ public class Restaurantecontroller {
 					temp.add(dia7);
 					//r.getArDias_Semana().add(dia1);
 					r.setArDias_Semana(temp);
-					//Funcoes.sendEmailReset("hencarnacao@sapo.pt"); // email do objeto
+					//Funcoes.sendEmailReset("pedroalex.vicente52@gmail.com"); // email do objeto
 					System.out.println("email sem img");
+					
+					arserv.add(srest);
+					arserv.add(stakeaway);
+					arserv.add(sencomenda);
+					arserv.add(sreserva);
+					
+					r.setArServico(arserv);
+					
+					hora_inicio=hora_entrada+":"+min_entrada;
+					hora_fim=hora_saida+":"+min_saida;
+					
+					r.setHorario_abrir(hora_inicio);
+					r.setHorario_fechar(hora_fim);
+					System.out.println(r.getHorario_abrir());
+					System.out.println(r.getHorario_fechar());
+					
+					
 					service.save(r);
 				
 				}
