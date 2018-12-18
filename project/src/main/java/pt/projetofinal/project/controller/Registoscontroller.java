@@ -782,25 +782,15 @@ public class Registoscontroller {
 	}
 	
 	@PostMapping(value="/addemployee")
-	public String adde(Login em, String username2, HttpSession session, @RequestParam(value="files",defaultValue = "null") MultipartFile[] files) {
+	public String adde(Login em, String username2, HttpSession session) {
 		
 		Login u = (Login)session.getAttribute("user");
 		
 		System.out.println("entrei lol");
 		
-		UploadFileResponse response = null;
-		
 		em.setTipo("2");
 		
-		response = filehandler.saveFile(files[0]);
 		
-		em.setFoto(response.getFileDownloadUri());
-		
-		String pic=response.getFileDownloadUri();
-		
-		System.out.println("pic "+pic);
-		
-		em.setFoto(pic);
 		
 		em.setArrestaurante(null);
 		service.save(em); //new Login(em.getId(),em.getUsername(),em.getPassword(),em.getNome(),em.getContacto(),em.getEmail(),username2,"2",null)
