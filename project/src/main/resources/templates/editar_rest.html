@@ -107,6 +107,28 @@
               </select>
             </div>
 
+            <div class="form-inline">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Entrada Horas:</label>
+                <input class="form-control" placeholder="12" name="hora_entrada" type="number" max="23" min="0" required>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Entrada Minutos:</label>
+                <input class="form-control" placeholder="12" name="min_entrada" type="number" max="59" min="0" required>
+              </div>
+            </div>
+
+            <div class="form-inline">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Saida Horas:</label>
+                <input class="form-control" placeholder="12" name="hora_saida" type="number" max="23" min="0" required>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Saida Minutos:</label>
+                <input class="form-control" placeholder="12" name="min_saida" type="number" max="59" min="0" required>
+              </div>
+            </div>
+
           <!-- <div th:each="coisa : ${parametros.arDias_Semana}">
             <input type="text" name="" th:value="${coisa}">
           </div> -->

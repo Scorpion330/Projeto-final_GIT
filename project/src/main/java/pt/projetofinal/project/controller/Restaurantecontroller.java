@@ -132,6 +132,12 @@ public class Restaurantecontroller {
 				temp.add(dia7);
 				//r.getArDias_Semana().add(dia1);
 				r.setArDias_Semana(temp);
+				
+				hora_inicio=hora_entrada+":"+min_entrada;
+				hora_fim=hora_saida+":"+min_saida;
+				
+				r.setHorario_abrir(hora_inicio);
+				r.setHorario_fechar(hora_fim);
 		
 				/*for(String dias : rr.getArDias_Semana()) {
 					temp.add(dias);
@@ -209,6 +215,7 @@ public class Restaurantecontroller {
 						System.out.println("estou aqui");
 						categor=rr.getCategoria();
 						r.setCategoria(categor);
+						System.out.println(categor);
 					}
 					else {
 						System.out.println("categoria "+categoria);
@@ -249,7 +256,7 @@ public class Restaurantecontroller {
 					temp.add(dia7);
 					//r.getArDias_Semana().add(dia1);
 					r.setArDias_Semana(temp);
-					Funcoes.sendEmailReset(email_dono); // email do objeto
+					//Funcoes.sendEmailReset(email_dono); // email do objeto
 					System.out.println("email sem img");
 					
 					arserv.add(srest);
@@ -264,6 +271,9 @@ public class Restaurantecontroller {
 					
 					r.setHorario_abrir(hora_inicio);
 					r.setHorario_fechar(hora_fim);
+					System.out.println(r.getHorario_abrir());
+					System.out.println(r.getHorario_fechar());
+					
 					
 					service.save(r);
 				
