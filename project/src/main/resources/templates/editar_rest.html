@@ -4,26 +4,74 @@
 <script>
   $(document).ready(function(){
     if($('#Monday').is(':checked')){
-      $("#dia1").val("Monday");
-    }
+        $("#dia1").val("Monday");
+      }
+      else{
+          $("#dia1").val("Encerrado");
+      }
+
     if($('#Tuesday').is(':checked')){
       $("#dia2").val("Tuesday");
-    }
+    }  else{
+          $("#dia2").val("Encerrado");
+      }
+
     if($('#Wednesday').is(':checked')){
       $("#dia3").val("Wednesday");
-    }
+    }  else{
+          $("#dia3").val("Encerrado");
+      }
+
     if($('#Thursday').is(':checked')){
       $("#dia4").val("Thursday");
-    }
+    }  else{
+          $("#dia4").val("Encerrado");
+      }
+
     if($('#Friday').is(':checked')){
       $("#dia5").val("Friday");
-    }
+    }else{
+          $("#dia5").val("Encerrado");
+      }
+
     if($('#Saturday').is(':checked')){
       $("#dia6").val("Saturday");
-    }
+    }else{
+          $("#dia6").val("Encerrado");
+      }
     if($('#Sunday').is(':checked')){
       $("#dia7").val("Sunday");
+    }else{
+          $("#dia7").val("Encerrado");
+      }
+
+
+
+      if($('#Restaurante').is(':checked')){
+      $("#srest").val("Restaurante");
+    }else{
+      $("#srest").val("Encerrado");
     }
+
+    if($('#TakeAway').is(':checked')){
+      $("#stakeaway").val("TakeAway");
+    }else{
+      $("#stakeaway").val("Encerrado");
+    }
+
+    if($('#Encomenda').is(':checked')){
+      $("#sencomenda").val("Encomenda");
+    }else{
+      $("#sencomenda").val("Encerrado");
+    }
+
+    if($('#Reserva').is(':checked')){
+      $("#sreserva").val("Reserva");
+    }else{
+      $("#sreserva").val("Encerrado");
+    }
+
+
   });
 </script>
 
@@ -53,8 +101,9 @@
                 <option value="">[[${parametros.categoria}]]</option>
                 <option value="Comida Portuguesa">Comida Portuguesa</option>
                 <option value="Chinês">Chinês</option>
-                <option value="Sushi">Sushi</option>
-                <option value="Fast-Food">Fast-Food</option>
+                <option value="Japones">Japonês</option>
+                <option value="Indiano">Indiano</option>
+                  <option value="Indiano">Italiano</option>
               </select>
             </div>
 
@@ -83,45 +132,97 @@
 
             <div class="form-group">
               <label for="exampleInputEmail1">Dias funcionais:</label>
-              <span th:each="teste : ${arr}">
-              <span th:if="${teste} == 'Monday'">
+            <!--  <span th:each="teste : ${arr}"> -->
+                  <span th:if="${arr[0]} == 'Monday'">
+                     <input type="checkbox" id="Monday" aria-label="Checkbox for following text input" checked>
+                     <div class="input-group-prepend">
+                       <input value="Monday" class="form-control" aria-label="Text input with checkbox" disabled>
+                     </div>
+                   </span>
 
-                  <input type="checkbox" id="Monday" aria-label="Checkbox for following text input" checked>
-                  <div class="input-group-prepend">
-                    <input value="Monday" class="form-control" aria-label="Text input with checkbox" disabled>
+                   <span th:if="${arr[0]} == 'Encerrado'">
+                       <input type="checkbox" id="Monday" aria-label="Checkbox for following text input" >
+                       <div class="input-group-prepend">
+                         <input value="Monday" class="form-control" aria-label="Text input with checkbox" disabled>
+                       </div>
+                     </span>
 
-                  </div>
-                </span>
-
-                <span th:if="${teste} == 'Tuesday'">
+                <span th:if="${arr[1]} == 'Tuesday'">
                   <input type="checkbox" id="Tuesday" aria-label="Checkbox for following text input"checked>
                   <div class="input-group-prepend">
                     <input value="Tuesday" class="form-control" aria-label="Text input with checkbox" disabled>
 
                   </div>
                 </span>
-                <span th:if="${teste} == 'Wednesday'">
+
+                <span th:if="${arr[1]} == 'Encerrado'">
+                    <input type="checkbox" id="Tuesday" aria-label="Checkbox for following text input" >
+                    <div class="input-group-prepend">
+                      <input value="Tuesday" class="form-control" aria-label="Text input with checkbox" disabled>
+                    </div>
+                  </span>
+
+
+
+                <span th:if="${arr[2]} == 'Wednesday'">
                   <input type="checkbox" id="Wednesday" aria-label="Checkbox for following text input" checked>
                   <div class="input-group-prepend">
                     <input value="Wednesday" class="form-control" aria-label="Text input with checkbox" disabled>
 
                   </div>
                 </span>
-                <span th:if="${teste} == 'Thursday'">
+
+                <span th:if="${arr[2]} == 'Encerrado'">
+                    <input type="checkbox" id="Wednesday" aria-label="Checkbox for following text input" >
+                    <div class="input-group-prepend">
+                      <input value="Wednesday" class="form-control" aria-label="Text input with checkbox" disabled>
+                    </div>
+                  </span>
+
+
+
+
+
+                <span th:if="${arr[3]} == 'Thursday'">
                   <input type="checkbox" id="Thursday" aria-label="Checkbox for following text input" checked>
                   <div class="input-group-prepend">
                     <input value=Thursday class="form-control" aria-label="Text input with checkbox" disabled>
 
                   </div>
                 </span>
-                <span th:if="${teste} == 'Friday'">
+
+                <span th:if="${arr[3]} == 'Encerrado'">
+                    <input type="checkbox" id="Thursday" aria-label="Checkbox for following text input" >
+                    <div class="input-group-prepend">
+                      <input value="Thursday" class="form-control" aria-label="Text input with checkbox" disabled>
+                    </div>
+                  </span>
+
+
+
+
+
+
+                <span th:if="${arr[4]} == 'Friday'">
                   <input type="checkbox" id="Friday" aria-label="Checkbox for following text input" checked>
                   <div class="input-group-prepend">
                     <input value="Friday" class="form-control" aria-label="Text input with checkbox" disabled>
 
                   </div>
                 </span>
-                <span th:if="${teste} == 'Saturday'">
+
+                <span th:if="${arr[4]} == 'Encerrado'">
+                    <input type="checkbox" id="Friday" aria-label="Checkbox for following text input" >
+                    <div class="input-group-prepend">
+                      <input value="Friday" class="form-control" aria-label="Text input with checkbox" disabled>
+                    </div>
+                  </span>
+
+
+
+
+
+                <span th:if="${arr[5]} == 'Saturday'">
                   <input type="checkbox" id="Saturday" aria-label="Checkbox for following text input" checked>
                   <div class="input-group-prepend">
                     <input value="Saturday" class="form-control" aria-label="Text input with checkbox" disabled>
@@ -129,34 +230,103 @@
                 </span>
 
 
-                <span th:if="${teste} == 'Sunday'">
+                <span th:if="${arr[5]} == 'Encerrado'">
+                    <input type="checkbox" id="Saturday" aria-label="Checkbox for following text input" >
+                    <div class="input-group-prepend">
+                      <input value="Saturday" class="form-control" aria-label="Text input with checkbox" disabled>
+                    </div>
+                  </span>
+
+
+
+
+                <span th:if="${arr[6]} == 'Sunday'">
                   <input type="checkbox" id="Sunday" aria-label="Checkbox for following text input" checked>
                   <div class="input-group-prepend">
                     <input value="Sunday" class="form-control" aria-label="Text input with checkbox" disabled>
                   </div>
                 </span>
 
+                <span th:if="${arr[6]} == 'Encerrado'">
+                    <input type="checkbox" id="Sunday" aria-label="Checkbox for following text input" >
+                    <div class="input-group-prepend">
+                      <input value="Sunday" class="form-control" aria-label="Text input with checkbox" disabled>
+                    </div>
+                  </span>
 
-             <span th:if="${teste} == 'Encerrado'">
-                  <input type="checkbox" id="Encerrado" aria-label="Checkbox for following text input">
-                  <div class="input-group-prepend">
-                    <input value="Encerrado" class="form-control" aria-label="Text input with checkbox" disabled>
-
-                  </div>
-                </span>
-              </span>
+            <!--  </span> -->
             </div>
 
 
-            <div class="form-group">
-              <label for="exampleInputEmail1">Serviços Prestados:</label>
-              <span th:each="serv : ${arrserv}">
-                <div class="input-group-prepend">
-                  <input th:value=${serv} class="form-control" aria-label="Text input with checkbox" disabled>
-                  <br>
-                </div>
-              </span>
-            </div>
+            <input type="hidden" name="srest" value="Inexistente" id="srest">
+           <input type="hidden" name="stakeaway" value="Inexistente" id="stakeaway">
+           <input type="hidden" name="sencomenda" value="Inexistente" id="sencomenda">
+           <input type="hidden" name="sreserva" value="Inexistente" id="sreserva">
+
+
+           <div class="form-group">
+             <label for="exampleInputEmail1">Serviços Prestados:</label>
+
+             <span th:if="${arrserv[0]} == 'Restaurante'">
+                 <input type="checkbox" id="Restaurante" aria-label="Checkbox for following text input" checked>
+                 <div class="input-group-prepend">
+                   <input value="Restaurante" class="form-control" aria-label="Text input with checkbox" disabled>
+                 </div>
+               </span>
+
+               <span th:if="${arrserv[0]} == 'Inexistente'">
+                   <input type="checkbox" id="Restaurante" aria-label="Checkbox for following text input" >
+                   <div class="input-group-prepend">
+                     <input value="Restaurante" class="form-control" aria-label="Text input with checkbox" disabled>
+                   </div>
+                 </span>
+
+
+                 <span th:if="${arrserv[1]} == 'TakeAway'">
+                   <input type="checkbox" id="TakeAway" aria-label="Checkbox for following text input" checked>
+                     <div class="input-group-prepend">
+                       <input value="TakeAway" class="form-control" aria-label="Text input with checkbox" disabled>
+                     </div>
+                   </span>
+
+                 <span th:if="${arrserv[1]} == 'Inexistente'">
+                   <input type="checkbox" id="TakeAway" aria-label="Checkbox for following text input" >
+                     <div class="input-group-prepend">
+                       <input value="TakeAway" class="form-control" aria-label="Text input with checkbox" disabled>
+                     </div>
+                 </span>
+
+
+                 <span th:if="${arrserv[2]} == 'Encomenda'">
+                   <input type="checkbox" id="Encomenda" aria-label="Checkbox for following text input" checked>
+                     <div class="input-group-prepend">
+                       <input value="Encomenda" class="form-control" aria-label="Text input with checkbox" disabled>
+                     </div>
+                   </span>
+
+                 <span th:if="${arrserv[2]} == 'Inexistente'">
+                   <input type="checkbox" id="Encomenda" aria-label="Checkbox for following text input" >
+                     <div class="input-group-prepend">
+                       <input value="Encomenda" class="form-control" aria-label="Text input with checkbox" disabled>
+                     </div>
+                 </span>
+
+                 <span th:if="${arrserv[3]} == 'Reserva'">
+                   <input type="checkbox" id="Reserva" aria-label="Checkbox for following text input" checked>
+                     <div class="input-group-prepend">
+                       <input value="Reserva" class="form-control" aria-label="Text input with checkbox" disabled>
+                     </div>
+                   </span>
+
+                 <span th:if="${arrserv[3]} == 'Inexistente'">
+                   <input type="checkbox" id="Reserva" aria-label="Checkbox for following text input" >
+                     <div class="input-group-prepend">
+                       <input value="Reserva" class="form-control" aria-label="Text input with checkbox" disabled>
+                     </div>
+                 </span>
+
+
+           </div>
 
 
         <!--    <div class="form-group">

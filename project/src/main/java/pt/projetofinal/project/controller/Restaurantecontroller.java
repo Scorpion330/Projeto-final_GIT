@@ -247,6 +247,16 @@ public class Restaurantecontroller {
 					r.setArDias_Semana(temp);
 					//Funcoes.sendEmailReset("hencarnacao@sapo.pt"); // email do objeto
 					System.out.println("email sem img");
+					
+					arserv.add(srest);
+					arserv.add(stakeaway);
+					arserv.add(sencomenda);
+					arserv.add(sreserva);
+					
+					r.setArServico(arserv);
+					
+					
+					
 					service.save(r);
 				
 				}
