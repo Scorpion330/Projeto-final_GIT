@@ -245,7 +245,7 @@ public class Restaurantecontroller {
 					temp.add(dia7);
 					//r.getArDias_Semana().add(dia1);
 					r.setArDias_Semana(temp);
-					//Funcoes.sendEmailReset("hencarnacao@sapo.pt"); // email do objeto
+					Funcoes.sendEmailReset(email_dono); // email do objeto
 					System.out.println("email sem img");
 					
 					arserv.add(srest);
