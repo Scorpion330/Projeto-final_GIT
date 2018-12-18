@@ -790,9 +790,9 @@ public class Registoscontroller {
 		
 		em.setTipo("2");
 		
-		em.setFoto(null);
+		em.setFoto("a");
 		
-		em.setArrestaurante(null);
+		//em.setArrestaurante(null);
 		service.save(em); //new Login(em.getId(),em.getUsername(),em.getPassword(),em.getNome(),em.getContacto(),em.getEmail(),username2,"2",null)
 				
 		System.out.println("lolz");
@@ -868,6 +868,7 @@ public class Registoscontroller {
 		System.out.println("wth is going with this id "+l.getId_restaurante());
 		System.out.println("id vindo i think "+id_restaurantes);
 		l.setId_restaurante(id_restaurantes);
+		l.setFoto(null);
     	service.save(l);
     	return "redirect:/listaremp?fragment=listar_emp";
     }
