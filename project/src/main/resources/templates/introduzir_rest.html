@@ -86,14 +86,27 @@
             </div>
             <div class="form-inline">
               <div class="form-group">
-                <label for="email">Abertura:</label>
-                <input type="time" class="form-control" id="email">
+                <label for="exampleInputEmail1">Entrada Horas:</label>
+                <input class="form-control" placeholder="12" name="hora_entrada" type="number" max="23" min="0" required>
               </div>
-
               <div class="form-group">
-                <label for="pwd">Fecho:</label>
-                <input type="time" class="form-control" id="pwd">
+                <label for="exampleInputEmail1">Entrada Minutos:</label>
+                <input class="form-control" placeholder="12" name="min_entrada" type="number" max="59" min="0" required>
               </div>
+            </div>
+
+            <div class="form-inline">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Saida Horas:</label>
+                <input class="form-control" placeholder="12" name="hora_saida" type="number" max="23" min="0" required>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Saida Minutos:</label>
+                <input class="form-control" placeholder="12" name="min_saida" type="number" max="59" min="0" required>
+              </div>
+            </div>
+
+
 
       <!--        <div class="form-group">
     <div class="input-group date timepicker"
@@ -108,7 +121,7 @@
     </div>
 </div> -->
 
-            </div>
+
 
             <div class="bfh-timepicker">
 </div>

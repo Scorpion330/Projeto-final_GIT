@@ -77,9 +77,9 @@ public class Restaurantecontroller {
 	}*/
 	
 	@PostMapping("/resgistar_restaurante") 
-	public String addrestaurante(Model m, Restaurante r/*, String id,String nome,String longitude, String latitude, String descricao*/,HttpSession request,String categoria,String fragment,String email_dono,String dia1,String dia2,String dia3,String dia4,String dia5,String dia6,String dia7,String srest,String stakeaway,String sencomenda,String sreserva,@RequestParam(value="files",defaultValue="null") MultipartFile[] files) {
+	public String addrestaurante(Model m, Restaurante r/*, String id,String nome,String longitude, String latitude, String descricao*/,HttpSession request,String categoria,String fragment,String email_dono,String dia1,String dia2,String dia3,String dia4,String dia5,String dia6,String dia7,String srest,String stakeaway,String sencomenda,String sreserva,String hora_entrada,String min_entrada, String hora_saida,String min_saida,@RequestParam(value="files",defaultValue="null") MultipartFile[] files) {
 		String imagem,
-		categor,rat;
+		categor,rat,hora_inicio,hora_fim;
 		
 		Login l = (Login)request.getAttribute("user"); //o objeto vai ser igual aos atributos do user que vem do httpsession request (chamar)
 		
@@ -101,7 +101,7 @@ public class Restaurantecontroller {
 			response = filehandler.saveFile(files[0]);
 			
 			r.setPicture(response.getFileDownloadUri());
-
+			
 			
 		for(Restaurante rr:service.findAll()) {//para o editar
 			if(rr.getId().equals(r.getId())) {
@@ -186,7 +186,11 @@ public class Restaurantecontroller {
 			r.setArServico(arserv);
 			System.out.println("servicos "+arserv);
 			
+			hora_inicio=hora_entrada+":"+min_entrada;
+			hora_fim=hora_saida+":"+min_saida;
 			
+			r.setHorario_abrir(hora_inicio);
+			r.setHorario_fechar(hora_fim);
 			
 			
 			r.setRating("0.0");
@@ -255,7 +259,11 @@ public class Restaurantecontroller {
 					
 					r.setArServico(arserv);
 					
+					hora_inicio=hora_entrada+":"+min_entrada;
+					hora_fim=hora_saida+":"+min_saida;
 					
+					r.setHorario_abrir(hora_inicio);
+					r.setHorario_fechar(hora_fim);
 					
 					service.save(r);
 				
